@@ -1,0 +1,55 @@
+:root {
+    --bg-color: #fcfaf5; /* 玉川屋さんのような温かい白 */
+    --text-color: #333;
+    --accent-color: #8b7d6b; /* 落ち着いたトーン */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Noto Serif JP', serif;
+    line-height: 2.0; /* 行間は広めに */
+    margin: 0;
+}
+
+/* ヒーローエリア */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: url('images/main-visual.jpg') center/cover no-repeat;
+}
+
+.en-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+/* スクロールアニメーション用 */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1.5s ease-out; /* ゆっくり浮かび上がらせる */
+}
+
+.fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* セクションレイアウト（参考サイトのような交互配置） */
+.story-section {
+    display: flex;
+    padding: 10vw;
+    align-items: center;
+    gap: 5vw;
+}
+
+.story-section:nth-child(even) {
+    flex-direction: row-reverse;
+}
