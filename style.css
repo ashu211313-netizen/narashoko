@@ -1,15 +1,20 @@
+/* リセットと基本設定 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 :root {
-    --bg-color: #fcfaf5; /* 玉川屋さんのような温かい白 */
-    --text-color: #333;
-    --accent-color: #8b7d6b; /* 落ち着いたトーン */
+    --bg-color: #fcfaf5;    /* 温かみのある白（玉川屋・PATINA風） */
+    --text-color: #2c2c2c;
+    --accent-color: #a8947b; /* 上品なベージュ */
+    --font-jp: 'Noto Serif JP', serif;
+    --font-en: 'Playfair Display', serif;
 }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: 'Noto Serif JP', serif;
-    line-height: 2.0; /* 行間は広めに */
-    margin: 0;
+    font-family: var(--font-jp);
+    line-height: 1.8;
+    overflow-x: hidden;
 }
 
 /* ヒーローエリア */
@@ -18,23 +23,68 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
+                url('images/hero.jpg') center/cover no-repeat;
+    color: #fff;
     text-align: center;
-    background: url('images/main-visual.jpg') center/cover no-repeat;
 }
 
-.en-title {
-    font-family: 'Playfair Display', serif;
+.en-sub {
+    font-family: var(--font-en);
     font-style: italic;
-    font-size: 1.5rem;
-    display: block;
-    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.2rem;
 }
 
-/* スクロールアニメーション用 */
+.main-title {
+    font-size: 4rem;
+    margin: 1rem 0;
+    font-weight: 600;
+}
+
+/* セクション共通 */
+section {
+    padding: 120px 5%;
+}
+
+.section-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.en-label {
+    font-family: var(--font-en);
+    color: var(--accent-color);
+    display: block;
+    margin-bottom: 20px;
+    letter-spacing: 0.1em;
+}
+
+/* ストーリー項目（交互レイアウト） */
+.story-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.story-item.reverse { flex-direction: row-reverse; }
+
+.story-img { width: 55%; overflow: hidden; }
+.story-img img { width: 100%; transition: transform 0.6s; object-fit: cover; }
+.story-img:hover img { transform: scale(1.05); }
+
+.story-text { width: 40%; }
+.year { font-family: var(--font-en); font-style: italic; color: var(--accent-color); }
+
+/* アニメーション用 */
 .fade-in {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 1.5s ease-out; /* ゆっくり浮かび上がらせる */
+    transform: translateY(50px);
+    transition: all 1.2s ease-out;
 }
 
 .fade-in.is-visible {
@@ -42,14 +92,9 @@ body {
     transform: translateY(0);
 }
 
-/* セクションレイアウト（参考サイトのような交互配置） */
-.story-section {
-    display: flex;
-    padding: 10vw;
-    align-items: center;
-    gap: 5vw;
-}
-
-.story-section:nth-child(even) {
-    flex-direction: row-reverse;
+footer {
+    padding: 60px;
+    text-align: center;
+    font-size: 0.8rem;
+    border-top: 1px solid #ddd;
 }
