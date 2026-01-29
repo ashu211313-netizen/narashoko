@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3年間の軌跡 - 和田学級</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; text-align: center; background: #fafafa; color: #333; margin: 0; }
+        header { background: #333; color: #fff; padding: 40px 20px; }
+        .content { padding: 50px 20px; max-width: 800px; margin: auto; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; margin-top: -30px; }
+        h1 { margin: 0; font-size: 2rem; }
+        .photo-placeholder { border: 2px dashed #ccc; padding: 100px 20px; margin: 20px 0; color: #999; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Thank You, Wada Teacher</h1>
+        <p>情報工学科 32名の軌跡</p>
+    </header>
+    <div class="content">
+        <h2>We are Team Wada!</h2>
+        <p>ここに3年間の思い出の写真や、みんなのサインを並べていきます。</p>
+        <div class="photo-placeholder">
+            【ここに写真が表示されるようになります】
+        </div>
+    </div>
+</body>
+</html>
