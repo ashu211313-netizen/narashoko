@@ -15,7 +15,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ヒーロー */
 .hero {
     height: 100vh;
     display: flex;
@@ -23,61 +22,51 @@ body {
     justify-content: center;
     background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/hero.jpg') center/cover no-repeat;
     color: #fff;
-    text-align: center;
 }
 
-.main-title { font-size: 2.5rem; letter-spacing: 0.2em; }
+.main-title { font-size: 2.2rem; letter-spacing: 0.2em; text-align: center; }
 
-/* 学年ラベル（でっかく表示） */
 .grade-label {
     font-family: var(--font-en);
     font-size: 5rem;
     text-align: center;
-    color: #e8e2d4; /* 薄い色で背景っぽく */
+    color: #e8e2d4;
     margin: 150px 0 50px;
     font-style: italic;
 }
 
-/* 行事セクション */
-.event {
-    margin-bottom: 40vh; /* 行事ごとの大きな余白（動いている感を出す） */
-    padding: 0 20px;
-}
+.event { margin-bottom: 45vh; padding: 0 20px; }
 
-.event-content {
-    display: flex;
-    flex-direction: column; /* モバイルでは縦並び */
-    align-items: center;
-}
+.event-content { display: flex; flex-direction: column; align-items: center; }
 
 .event-text h3 {
-    font-size: 1.2rem;
-    margin: 20px 0;
+    font-size: 1.1rem;
+    margin: 25px 0;
     border-bottom: 1px solid var(--accent-color);
-    display: inline-block;
+    padding-bottom: 5px;
 }
 
-/* 写真のグリッド表示 */
 .event-photos {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2列 */
-    gap: 8px; /* 写真同士の間隔は狭く */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
     width: 100%;
 }
 
 .event-photos img {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 2px;
 }
 
-/* 縦画像用 */
+/* 縦画像の設定：2行分を占有する */
 .event-photos img.portrait {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: auto;
+    grid-row: span 2;
+    height: 100%;
 }
 
-/* アニメーション */
 .fade-in {
     opacity: 0;
     transform: translateY(30px);
@@ -89,21 +78,10 @@ body {
     transform: translateY(0);
 }
 
-footer {
-    padding: 100px 0;
-    text-align: center;
-    font-family: var(--font-en);
-}
+footer { padding: 100px 0; text-align: center; font-family: var(--font-en); opacity: 0.6; }
 
-/* タブレット・PC向けの微調整（もし見る場合） */
 @media (min-width: 768px) {
-    .event-content {
-        flex-direction: row;
-        justify-content: space-around;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
+    .event-content { flex-direction: row; justify-content: center; gap: 80px; }
     .event.reverse .event-content { flex-direction: row-reverse; }
-    .event-photos { width: 50%; }
-    .event-text { width: 30%; }
+    .event-photos { width: 500px; }
 }
