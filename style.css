@@ -23,80 +23,79 @@ body {
     color: #fff;
 }
 
-.main-title { font-size: 2.2rem; letter-spacing: 0.3em; text-align: center; }
+/* 【大文字】メインタイトル */
+.main-title { 
+    font-size: 3.5rem; 
+    letter-spacing: 0.4em; 
+    text-align: center;
+    font-weight: 600;
+}
 
-/* 1st year のスタイル修正 */
+/* 【中文字】学年ラベル */
 .grade-label {
     font-family: var(--font-en);
-    font-size: 3rem;
+    font-size: 2.2rem; 
     text-align: center;
-    color: #e8e2d4;
-    margin: 200px 0 100px; /* 行事との間隔を広く確保 */
+    color: #d1c8b3;
+    margin: 220px 0 120px;
     font-style: italic;
-    text-transform: lowercase; /* 全小文字化 */
+    text-transform: lowercase;
 }
 
 .event { 
-    margin-bottom: 50vh; 
+    margin-bottom: 60vh; 
     width: 100%;
 }
 
-/* 行事名を画像の上・真ん中に配置 */
+/* 行事名を真ん中に固定 */
 .event-text {
     width: 100%;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 60px;
 }
 
+/* 【小文字】行事名 */
 .event-text h3 {
     display: inline-block;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     letter-spacing: 0.2em;
     border-bottom: 1px solid var(--accent-color);
-    padding-bottom: 5px;
+    padding-bottom: 8px;
     font-weight: 300;
 }
 
-/* 画像コンテンツの配置設定 */
-.event-content {
-    display: flex;
-    width: 100%;
-    padding: 0 5%;
-}
-
-/* 左右に配置するクラス */
-.event-content.left { justify-content: flex-start; }
-.event-content.right { justify-content: flex-end; }
-
+/* 画像エリアの設定 */
 .event-photos {
     display: flex;
-    flex-wrap: wrap;
-    gap: 30px; /* 画像間の間隔を広く設定 */
-    max-width: 85%;
+    flex-direction: column; /* 1枚ずつ縦に並べる（交互配置の準備） */
+    align-items: center;
+    gap: 80px; /* 写真同士の縦の間隔を大きく */
+    padding: 0 10%;
 }
-
-/* 左配置の時は左詰め、右配置の時は右詰め */
-.left .event-photos { justify-content: flex-start; }
-.right .event-photos { justify-content: flex-end; }
 
 .event-photos img {
-    max-width: 100%;
+    max-width: 70%; /* 1枚の横幅 */
     height: auto;
     object-fit: contain;
-    border-radius: 2px;
-    /* モバイルで2枚並ぶ時の基本幅 */
-    flex: 0 1 45%; 
+    border-radius: 4px;
+    transition: transform 0.5s ease;
 }
 
-/* 1枚のときは少し大きく */
-.event-photos img:only-child {
-    flex: 0 1 80%;
+/* ★1枚ごとの左右交互配置★ */
+/* 奇数枚目 (1, 3, 5...) は左寄せ */
+.event-photos img:nth-child(odd) {
+    align-self: flex-start;
+}
+
+/* 偶数枚目 (2, 4, 6...) は右寄せ */
+.event-photos img:nth-child(even) {
+    align-self: flex-end;
 }
 
 .fade-in {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 1.5s ease-out;
+    transform: translateY(40px);
+    transition: all 1.8s ease-out;
 }
 
 .fade-in.is-visible {
@@ -104,10 +103,12 @@ body {
     transform: translateY(0);
 }
 
-footer { padding: 100px 0; text-align: center; font-family: var(--font-en); opacity: 0.5; }
+footer { padding: 120px 0; text-align: center; font-family: var(--font-en); opacity: 0.5; }
 
-/* スマホ対応の微調整 */
-@media (max-width: 600px) {
-    .event-photos { max-width: 100%; gap: 15px; }
-    .event-photos img { flex: 0 1 100%; } /* スマホでは縦に並べる */
+/* スマホ用の調整 */
+@media (max-width: 768px) {
+    .main-title { font-size: 2rem; }
+    .grade-label { font-size: 1.8rem; }
+    .event-photos { padding: 0 5%; gap: 50px; }
+    .event-photos img { max-width: 90%; }
 }
