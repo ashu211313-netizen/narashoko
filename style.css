@@ -1,10 +1,9 @@
-/* リセットと基本設定 */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --bg-color: #fcfaf5;    /* 温かみのある白（玉川屋・PATINA風） */
+    --bg-color: #fcfaf5;
     --text-color: #2c2c2c;
-    --accent-color: #a8947b; /* 上品なベージュ */
+    --accent-color: #a8947b;
     --font-jp: 'Noto Serif JP', serif;
     --font-en: 'Playfair Display', serif;
 }
@@ -13,77 +12,75 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-jp);
-    line-height: 1.8;
     overflow-x: hidden;
 }
 
-/* ヒーローエリア */
+/* ヒーロー */
 .hero {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
-                url('images/hero.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('images/hero.jpg') center/cover no-repeat;
     color: #fff;
     text-align: center;
 }
 
-.en-sub {
+.main-title { font-size: 2.5rem; letter-spacing: 0.2em; }
+
+/* 学年ラベル（でっかく表示） */
+.grade-label {
     font-family: var(--font-en);
-    font-style: italic;
-    font-size: 1.2rem;
-    letter-spacing: 0.2rem;
-}
-
-.main-title {
-    font-size: 4rem;
-    margin: 1rem 0;
-    font-weight: 600;
-}
-
-/* セクション共通 */
-section {
-    padding: 120px 5%;
-}
-
-.section-inner {
-    max-width: 800px;
-    margin: 0 auto;
+    font-size: 5rem;
     text-align: center;
+    color: #e8e2d4; /* 薄い色で背景っぽく */
+    margin: 150px 0 50px;
+    font-style: italic;
 }
 
-.en-label {
-    font-family: var(--font-en);
-    color: var(--accent-color);
-    display: block;
-    margin-bottom: 20px;
-    letter-spacing: 0.1em;
+/* 行事セクション */
+.event {
+    margin-bottom: 40vh; /* 行事ごとの大きな余白（動いている感を出す） */
+    padding: 0 20px;
 }
 
-/* ストーリー項目（交互レイアウト） */
-.story-item {
+.event-content {
     display: flex;
+    flex-direction: column; /* モバイルでは縦並び */
     align-items: center;
-    justify-content: space-between;
-    gap: 50px;
-    max-width: 1100px;
-    margin: 0 auto;
 }
 
-.story-item.reverse { flex-direction: row-reverse; }
+.event-text h3 {
+    font-size: 1.2rem;
+    margin: 20px 0;
+    border-bottom: 1px solid var(--accent-color);
+    display: inline-block;
+}
 
-.story-img { width: 55%; overflow: hidden; }
-.story-img img { width: 100%; transition: transform 0.6s; object-fit: cover; }
-.story-img:hover img { transform: scale(1.05); }
+/* 写真のグリッド表示 */
+.event-photos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2列 */
+    gap: 8px; /* 写真同士の間隔は狭く */
+    width: 100%;
+}
 
-.story-text { width: 40%; }
-.year { font-family: var(--font-en); font-style: italic; color: var(--accent-color); }
+.event-photos img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 2px;
+}
 
-/* アニメーション用 */
+/* 縦画像用 */
+.event-photos img.portrait {
+    aspect-ratio: 3 / 4;
+}
+
+/* アニメーション */
 .fade-in {
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(30px);
     transition: all 1.2s ease-out;
 }
 
@@ -93,8 +90,20 @@ section {
 }
 
 footer {
-    padding: 60px;
+    padding: 100px 0;
     text-align: center;
-    font-size: 0.8rem;
-    border-top: 1px solid #ddd;
+    font-family: var(--font-en);
+}
+
+/* タブレット・PC向けの微調整（もし見る場合） */
+@media (min-width: 768px) {
+    .event-content {
+        flex-direction: row;
+        justify-content: space-around;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    .event.reverse .event-content { flex-direction: row-reverse; }
+    .event-photos { width: 50%; }
+    .event-text { width: 30%; }
 }
