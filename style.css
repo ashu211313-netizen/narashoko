@@ -1,9 +1,9 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --bg-color: #fdfdfd;      /* より清潔感のある白 */
+    --bg-color: #fdfdfd;
     --text-color: #333;
-    --accent-color: #d4c4ac;   /* 金色に近い上品なベージュ */
+    --accent-color: #a8947b; /* 濃いめのベージュに変更 */
     --font-jp: 'Noto Serif JP', serif;
     --font-en: 'Playfair Display', serif;
 }
@@ -15,82 +15,62 @@ body {
     line-height: 1.8;
 }
 
-/* ヒーローエリア：提示サイトのようなミニマルな迫力 */
 .hero {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('hero.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('hero.jpg') center/cover no-repeat;
     color: #fff;
     text-align: center;
 }
 
 .sub-line { font-size: 0.9rem; letter-spacing: 0.4em; display: block; margin-bottom: 1rem; font-weight: 200; }
-.main-title { font-size: 3.5rem; letter-spacing: 0.2em; font-weight: 500; margin-bottom: 1rem; }
-.years { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.3em; font-style: italic; opacity: 0.8; }
+.main-title { font-size: 3.5rem; letter-spacing: 0.3em; font-weight: 500; margin-bottom: 1rem; }
+.years { font-family: var(--font-en); font-size: 1.5rem; letter-spacing: 0.3em; font-style: italic; }
 
-/* 学年ラベル：数字と英語を組み合わせたモダンな配置 */
-.grade-section { padding-top: 100px; }
-
+/* 学年ラベル：数字を消し、文字を濃く・大きく */
 .grade-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 150px;
-}
-
-.grade-label .num {
     font-family: var(--font-en);
-    font-size: 1rem;
-    color: var(--accent-color);
-    letter-spacing: 0.3em;
-    margin-bottom: 0.5rem;
-}
-
-.grade-label .txt {
-    font-family: var(--font-en);
-    font-size: 4rem; /* 指定通りの特大サイズ */
+    font-size: 4.5rem; /* 特大サイズ */
+    text-align: center;
+    color: var(--accent-color); /* 薄すぎない色に変更 */
+    margin: 200px 0 150px;
     font-style: italic;
-    color: #eee; /* 背景に馴染む薄い色 */
-    position: relative;
+    text-transform: lowercase;
     letter-spacing: 0.1em;
 }
 
-/* 行事セクション：圧倒的な余白 */
-.event { margin-bottom: 70vh; padding: 0 5%; }
+.event { margin-bottom: 80vh; padding: 0 5%; }
 
-.event-text {
-    text-align: center;
-    margin-bottom: 100px;
-}
+.event-text { text-align: center; margin-bottom: 120px; }
 
+/* 行事名：1.5倍サイズ */
 .event-text h3 {
-    font-size: 1.6rem; /* 指定通りのサイズ感 */
-    letter-spacing: 0.4em;
+    font-size: 1.8rem; 
+    letter-spacing: 0.3em;
     font-weight: 200;
     position: relative;
     display: inline-block;
     padding-bottom: 15px;
 }
 
-/* 下線：提示サイトのような細い線 */
 .event-text h3::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 40px;
+    width: 60px;
     height: 1px;
     background-color: var(--accent-color);
 }
 
-/* 写真配置：左右のゆらぎと余白 */
+/* 写真の交互配置 */
 .event-photos {
     display: flex;
     flex-direction: column;
-    gap: 180px; /* 写真同士を思いっきり離す */
+    gap: 150px; /* 写真同士を離す */
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -98,15 +78,14 @@ body {
 .event-photos img {
     max-width: 65%;
     height: auto;
-    border-radius: 0; /* あえて角を丸めずシャープに */
-    box-shadow: 0 20px 60px rgba(0,0,0,0.03); /* 非常に繊細な影 */
-    transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+    transition: transform 1s ease;
 }
 
+/* 1枚目左、2枚目右、3枚目左... */
 .event-photos img:nth-child(odd) { align-self: flex-start; }
 .event-photos img:nth-child(even) { align-self: flex-end; }
 
-/* フェードインアニメーションをより滑らかに */
 .fade-in {
     opacity: 0;
     transform: translateY(60px);
@@ -118,20 +97,13 @@ body {
     transform: translateY(0);
 }
 
-footer {
-    padding: 150px 0;
-    background-color: #f9f9f9;
-    text-align: center;
-}
+footer { padding: 150px 0; background-color: #f9f9f9; text-align: center; }
+.footer-content p { font-family: var(--font-en); font-style: italic; opacity: 0.6; }
 
-.footer-content p { font-family: var(--font-en); font-style: italic; letter-spacing: 0.1em; opacity: 0.6; }
-.copyright { font-size: 0.7rem; margin-top: 20px; text-transform: uppercase; }
-
-/* スマホ用 */
 @media (max-width: 768px) {
-    .main-title { font-size: 2rem; }
-    .grade-label .txt { font-size: 3rem; }
-    .event-text h3 { font-size: 1.2rem; }
-    .event-photos { gap: 100px; }
+    .main-title { font-size: 2.2rem; }
+    .grade-label { font-size: 3rem; }
+    .event-text h3 { font-size: 1.4rem; }
+    .event-photos { gap: 80px; }
     .event-photos img { max-width: 90%; }
 }
