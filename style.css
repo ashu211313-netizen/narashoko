@@ -2,6 +2,112 @@
 
 :root {
     --bg-color: #fdfdfd;
+    --text-color: #2c2c2c;
+    --accent-color: #8c7b65; /* さらに濃く、視認性の高いベージュに変更 */
+    --font-jp: 'Noto Serif JP', serif;
+    --font-en: 'Playfair Display', serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-jp);
+    line-height: 1.8;
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('hero.jpg') center/cover no-repeat;
+    color: #fff;
+    text-align: center;
+}
+
+.sub-line { font-size: 1.1rem; letter-spacing: 0.5em; display: block; margin-bottom: 1rem; font-weight: 500; }
+.main-title { font-size: 3.5rem; letter-spacing: 0.3em; font-weight: 500; margin-bottom: 1rem; }
+.years { font-family: var(--font-en); font-size: 1.5rem; letter-spacing: 0.3em; font-style: italic; }
+
+/* 学年ラベル：特大サイズかつハッキリした色 */
+.grade-label {
+    font-family: var(--font-en);
+    font-size: 4.5rem;
+    text-align: center;
+    color: var(--accent-color); /* 薄すぎない色 */
+    margin: 200px 0 150px;
+    font-style: italic;
+    text-transform: lowercase;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+}
+
+.event { margin-bottom: 80vh; padding: 0 5%; }
+.event-text { text-align: center; margin-bottom: 120px; }
+
+/* 行事名：1.5倍サイズ */
+.event-text h3 {
+    font-size: 1.8rem; 
+    letter-spacing: 0.3em;
+    font-weight: 500;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+}
+
+.event-text h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background-color: var(--accent-color);
+}
+
+.event-photos {
+    display: flex;
+    flex-direction: column;
+    gap: 150px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.event-photos img {
+    max-width: 65%;
+    height: auto;
+    object-fit: contain; /* 元の画像サイズを維持 */
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    transition: transform 1s ease;
+}
+
+.event-photos img:nth-child(odd) { align-self: flex-start; }
+.event-photos img:nth-child(even) { align-self: flex-end; }
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1.5s ease, transform 1.5s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+footer { padding: 150px 0; background-color: #f9f9f9; text-align: center; }
+
+@media (max-width: 768px) {
+    .main-title { font-size: 2.2rem; }
+    .grade-label { font-size: 3rem; }
+    .event-text h3 { font-size: 1.4rem; }
+    .event-photos { gap: 80px; }
+    .event-photos img { max-width: 95%; }
+}* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg-color: #fdfdfd;
     --text-color: #333;
     --accent-color: #a8947b; /* 濃いめのベージュに変更 */
     --font-jp: 'Noto Serif JP', serif;
