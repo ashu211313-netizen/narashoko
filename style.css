@@ -34,6 +34,8 @@ body {
     visibility: hidden;
 }
 
+.loader-content { text-align: center; }
+
 .loader-text {
     font-family: var(--font-en);
     font-size: 1.2rem;
@@ -88,7 +90,7 @@ body {
 .main-title { font-size: 3.5rem; letter-spacing: 0.3em; font-weight: 500; margin-bottom: 1rem; }
 .years { font-family: var(--font-en); font-size: 1.5rem; letter-spacing: 0.3em; font-style: italic; }
 
-/* 学年ラベル (2倍サイズ・視認性向上) */
+/* 学年ラベル (視認性向上) */
 .grade-label {
     font-family: var(--font-en);
     font-size: 4.5rem;
@@ -103,7 +105,7 @@ body {
 .event { margin-bottom: 80vh; padding: 0 5%; }
 .event-text { text-align: center; margin-bottom: 120px; }
 
-/* 行事名 (1.5倍サイズ) */
+/* 行事名 (1.5倍) */
 .event-text h3 {
     font-size: 1.8rem;
     letter-spacing: 0.3em;
@@ -122,7 +124,7 @@ body {
     background-color: var(--accent-color);
 }
 
-/* 写真配置 (交互・広い余白) */
+/* 写真配置 (交互) */
 .event-photos {
     display: flex;
     flex-direction: column;
@@ -140,7 +142,7 @@ body {
 .event-photos img:nth-child(odd) { align-self: flex-start; }
 .event-photos img:nth-child(even) { align-self: flex-end; }
 
-/* アニメーション */
+/* アニメーション用 */
 .fade-in {
     opacity: 0;
     transform: translateY(60px);
