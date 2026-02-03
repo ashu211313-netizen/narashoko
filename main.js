@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgm = document.getElementById('bgm');
     const audioToggle = document.getElementById('audio-toggle');
     
-    // スクロール時のフェードイン監視
+    // スクロールフェードイン
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -15,15 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // ロード画面解除 & BGM開始
+    // ロード解除 & 再生
     startBtn.addEventListener('click', () => {
         loader.classList.add('loaded');
-        bgm.volume = 0.5; // 音量は適宜調整
-        bgm.play().catch(e => console.log("Audio play blocked"));
+        bgm.volume = 0.5;
+        // mp4ファイルでもplay()で音声が流れます
+        bgm.play().catch(e => console.log("Audio play blocked by browser."));
         audioToggle.textContent = "MUSIC: ON";
     });
 
-    // 音楽のON/OFF切り替え
+    // 音楽切り替え
     audioToggle.addEventListener('click', () => {
         if (bgm.paused) {
             bgm.play();
