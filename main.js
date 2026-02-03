@@ -4,32 +4,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgm = document.getElementById('bgm');
     const audioToggle = document.getElementById('audio-toggle');
     
-    // スクロール時のフェードイン監視
+    // Intersection Observerの設定 (三菱ケミカルのような滑らかな登場)
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -100px 0px" // 画面下から100pxの位置で発動
+    };
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
+                // 一度表示されたら監視を解除（パフォーマンス向上）
+                observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
+    }, observerOptions);
 
+    // 全てのフェードイン要素を監視
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // ロード画面のボタンがクリックされた時
+    // STARTボタンの処理
     startBtn.addEventListener('click', () => {
-        // ロード画面を非表示にする
         loader.classList.add('loaded');
         
-        // 音楽の再生を開始
-        bgm.volume = 0.4; // 音量は好みに合わせて調整（0.0〜1.0）
+        // 音声再生
+        bgm.volume = 0.4;
         bgm.play().then(() => {
             audioToggle.textContent = "MUSIC: ON";
-        }).catch(e => {
-            console.log("再生がブロックされました:", e);
+        }).catch(err => {
+            console.log("Audio play blocked: ", err);
         });
     });
 
-    // 右下のボタンで音楽を個別に切り替え
+    // 音楽切り替え
     audioToggle.addEventListener('click', () => {
         if (bgm.paused) {
             bgm.play();
