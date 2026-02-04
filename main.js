@@ -4,36 +4,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgm = document.getElementById('bgm');
     const audioToggle = document.getElementById('audio-toggle');
     
-    // Intersection Observerの設定 (三菱ケミカルのような滑らかな登場)
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -100px 0px" // 画面下から100pxの位置で発動
-    };
-
+    // スクロール監視の設定
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
-                // 一度表示されたら監視を解除（パフォーマンス向上）
-                observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { 
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    });
 
-    // 全てのフェードイン要素を監視
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // STARTボタンの処理
+    // STARTボタン
     startBtn.addEventListener('click', () => {
         loader.classList.add('loaded');
-        
-        // 音声再生
         bgm.volume = 0.4;
         bgm.play().then(() => {
             audioToggle.textContent = "MUSIC: ON";
-        }).catch(err => {
-            console.log("Audio play blocked: ", err);
-        });
+        }).catch(err => console.log("Audio play blocked"));
     });
 
     // 音楽切り替え
