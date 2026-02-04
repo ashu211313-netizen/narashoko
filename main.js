@@ -1,63 +1,137 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const loader = document.getElementById('loader');
-    const startBtn = document.getElementById('start-btn');
-    const bgm = document.getElementById('bgm');
-    const audioToggle = document.getElementById('audio-toggle');
-    
-    // --- 1. スクロール監視：エレガントな浮き上がり ---
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // 画面に入ったらクラスを付与
-                entry.target.classList.add('is-visible');
-                // 一度表示されたら監視を解除（動作を軽くするため）
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { 
-        threshold: 0.1,
-        rootMargin: "0px 0px -5% 0px" // 画面の下の方で少し早めに検知開始
-    });
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2023-2025 Trajectory | 奈良商工高等学校</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;500&family=Playfair+Display:ital,wght@0,400;1,400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    <div id="loader">
+        <div class="loader-content">
+            <p class="loader-text">Nara Business & Technology</p>
+            <div class="audio-warning">
+                <span class="audio-icon">🔊</span>
+                <p class="warning-txt">音が流れます。音量にご注意ください。</p>
+                <div class="warning-line"></div>
+            </div>
+            <button id="start-btn">START</button>
+        </div>
+    </div>
 
-    // --- 2. STARTボタン：物語の始まり ---
-    startBtn.addEventListener('click', () => {
-        // ロード画面を消す
-        loader.classList.add('loaded');
-        
-        // BGMの設定（音量を徐々に上げる演出はブラウザ制限により簡易化）
-        bgm.volume = 0.4;
-        bgm.play().then(() => {
-            audioToggle.textContent = "MUSIC: ON";
-            audioToggle.style.opacity = "0.8"; // 再生中は少し目立たせる
-        }).catch(err => {
-            console.log("再生がブロックされました。ユーザー操作が必要です。");
-            audioToggle.textContent = "MUSIC: OFF";
-        });
-    });
+    <audio id="bgm" loop>
+        <source src="bgm.mp4" type="audio/mp4">
+    </audio>
+    <div id="audio-toggle">MUSIC: OFF</div>
 
-    // --- 3. 音楽切り替えトグル ---
-    audioToggle.addEventListener('click', () => {
-        if (bgm.paused) {
-            bgm.play();
-            audioToggle.textContent = "MUSIC: ON";
-            audioToggle.style.opacity = "0.8";
-        } else {
-            bgm.pause();
-            audioToggle.textContent = "MUSIC: OFF";
-            audioToggle.style.opacity = "0.4";
-        }
-    });
+    <header class="hero">
+        <div class="hero-content fade-in">
+            <span class="sub-line">奈良商工高等学校</span>
+            <h1 class="main-title">情報工学科</h1>
+            <p class="years">2023 — 2025</p>
+        </div>
+    </header>
 
-    // --- 4. パララックス（おまけ：さらに質感を出すなら） ---
-    // もし背景の「1st year」などを少し動かしたい場合は、以下を有効にしてください。
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const labels = document.querySelectorAll('.grade-label');
-        labels.forEach(label => {
-            // スクロールに合わせてゆっくり上に移動（視差効果）
-            label.style.transform = `translateX(-50%) translateY(${scrolled * 0.1}px)`;
-        });
-    });
-});
+    <main>
+        <div class="grade-section">
+            <div class="grade-label fade-in">1st year</div>
+            <section class="event">
+                <div class="event-text fade-in"><h3>校外学習</h3></div>
+                <div class="event-photos">
+                    <div class="img-wrapper fade-in"><img src="1-1-1.jpg.jpg"></div>
+                    <div class="img-wrapper fade-in"><img src="1-1-2.jpg.jpg"></div>
+                    <div class="img-wrapper fade-in"><img src="1-1-3.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="1-1-4.jpg.jpg"></div>
+                </div>
+            </section>
+            <section class="event">
+                <div class="event-text fade-in"><h3>体育祭</h3></div>
+                <div class="event-photos">
+                    <div class="img-wrapper fade-in"><img src="1-2-1.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="1-2-2.jpg.JPG"></div>
+                </div>
+            </section>
+            <section class="event">
+                <div class="event-text fade-in"><h3>文化祭</h3></div>
+                <div class="event-photos">
+                    <div class="img-wrapper fade-in"><img src="1-3-1.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="images/S__23625741.jpg"></div>
+                </div>
+            </section>
+        </div>
+
+        <div class="grade-section">
+            <div class="grade-label fade-in">2nd year</div>
+            <section class="event">
+                <div class="event-text fade-in"><h3>修学旅行</h3></div>
+                <div class="event-photos">
+                    <div class="img-wrapper fade-in"><img src="2-4-1.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="2-4-2.jpg.JPEG"></div>
+                    <div class="img-wrapper fade-in"><img src="2-4-3.jpg.JPEG"></div>
+                </div>
+            </section>
+            <section class="event">
+                <div class="event-text fade-in"><h3>体育祭</h3></div>
+                <div class="event-photos">
+                    <div class="img-wrapper fade-in"><img src="2-5-1.jpg.jpg"></div>
+                    <div class="img-wrapper fade-in"><img src="2-5-2.jpg.jpg"></div>
+                </div>
+            </section>
+            <section class="event">
+                <div class="event-text fade-in"><h3>文化祭</h3></div>
+                <div class="event-photos">
+                    <div class="img-wrapper fade-in"><img src="2-6-1.jpg.JPG"></div>
+                </div>
+            </section>
+        </div>
+
+        <div class="grade-section">
+            <div class="grade-label fade-in">3rd year</div>
+            <section class="event">
+                <div class="event-text fade-in"><h3>球技大会</h3></div>
+                <div class="event-photos">
+                    <div class="img-wrapper fade-in"><img src="3-7-1.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="3-7-2.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="3-7-3.jpg.JPG"></div>
+                </div>
+            </section>
+            <section class="event">
+                <div class="event-text fade-in"><h3>校外学習</h3></div>
+                <div class="event-photos">
+                    <div class="img-wrapper fade-in"><img src="3-8-1.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="3-8-2.jpg.JPG"></div>
+                </div>
+            </section>
+            <section class="event">
+                <div class="event-text fade-in"><h3>体育祭</h3></div>
+                <div class="event-photos">
+                    <div class="img-wrapper fade-in"><img src="3-9-1.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="3-9-2.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="3-9-3.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="3-9-4.jpg.JPG"></div>
+                </div>
+            </section>
+            <section class="event">
+                <div class="event-text fade-in"><h3>文化祭</h3></div>
+                <div class="event-photos">
+                    <div class="img-wrapper fade-in"><img src="3-10-1.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="3-10-2.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="3-10-3.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="3-10-4.jpg.JPG"></div>
+                    <div class="img-wrapper fade-in"><img src="3-10-5.jpg.JPG"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Thank you for 3 wonderful years.</p>
+            <p class="copyright">2026 情報工学科</p>
+        </div>
+    </footer>
+    <script src="main.js"></script>
+</body>
+</html>
