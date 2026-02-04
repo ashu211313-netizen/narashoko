@@ -1,4 +1,32 @@
-/* --- ロード画面の修正版 --- */
+/* --- 1. 基本設定（変数とフォント） --- */
+:root {
+    --bg-color: #fcfcfc;      /* 温かみのある白 */
+    --text-color: #1a1a1a;    /* 墨色 */
+    --accent-color: #8c7b65;  /* 落ち着いたベージュ */
+    --font-jp: "Noto Serif JP", serif;
+    --font-en: "Playfair Display", serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-jp);
+    overflow-x: hidden; /* 横揺れ防止 */
+    line-height: 1.8;
+}
+
+.italic {
+    font-family: var(--font-en);
+    font-style: italic;
+}
+
+/* --- 2. ロード画面（ユーザー提供の修正版） --- */
 #loader {
     position: fixed;
     top: 0; left: 0;
@@ -13,11 +41,10 @@
 
 #loader.loaded { opacity: 0; visibility: hidden; }
 
-/* 全ての要素を縦に並べて中央に揃える箱 */
 .loader-content { 
     display: flex;
     flex-direction: column;
-    align-items: center; /* これですべてを中央へ */
+    align-items: center;
     justify-content: center;
     text-align: center;
     width: 100%;
@@ -27,15 +54,19 @@
 
 .loader-text {
     font-family: var(--font-en);
-    font-size: clamp(1rem, 4vw, 1.2rem); /* 画面サイズに合わせて調整 */
+    font-size: clamp(1rem, 4vw, 1.2rem);
     letter-spacing: 0.8em;
     color: var(--accent-color);
     margin-bottom: 4rem;
-    text-indent: 0.8em; /* 最後の文字の右側の余白を相殺して真ん中に */
+    text-indent: 0.8em;
     animation: pulse 3s infinite alternate;
 }
 
-/* 音量注意のブロック */
+@keyframes pulse {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
 .audio-warning { 
     margin-bottom: 3rem; 
     opacity: 0.6;
@@ -57,12 +88,11 @@
     margin-bottom: 15px;
 }
 
-/* ズレていた横線の修正 */
 .warning-line { 
     width: 40px; 
     height: 1px; 
     background-color: var(--accent-color); 
-    margin: 0 auto; /* 左右をautoにして中央固定 */
+    margin: 0 auto;
 }
 
 #start-btn {
@@ -74,13 +104,159 @@
     font-size: 0.9rem;
     cursor: pointer;
     letter-spacing: 0.5em;
-    text-indent: 0.5em; /* ボタン内の文字も中央へ */
+    text-indent: 0.5em;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    outline: none;
 }
 
 #start-btn:hover { 
     background: var(--accent-color); 
     color: #fff; 
     letter-spacing: 0.7em; 
+}
+
+/* --- 3. ヒーローセクション --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.sub-line {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.6em;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+}
+
+.main-title {
+    font-size: clamp(2.5rem, 10vw, 5rem);
+    font-weight: 200;
+    letter-spacing: 0.3em;
+    margin-bottom: 1.5rem;
+    text-indent: 0.3em;
+}
+
+.years {
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+    opacity: 0.7;
+}
+
+/* --- 4. コンテンツレイアウト（ここが魔改造の核） --- */
+.grade-section {
+    position: relative;
+    padding: 100px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grade-label {
+    font-family: var(--font-en);
+    font-style: italic;
+    font-size: clamp(5rem, 15vw, 12rem);
+    color: var(--accent-color);
+    opacity: 0.05;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 0;
+}
+
+.event {
+    width: 100%;
+    max-width: 1100px;
+    margin-bottom: 200px;
+    position: relative;
+    z-index: 1;
+}
+
+.event-text {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.event-text h3 {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    text-indent: 0.4em;
+}
+
+/* --- 画像の配置：左右バラバラ魔法 --- */
+.event-photos {
+    display: flex;
+    flex-direction: column;
+    gap: 120px; /* 写真の縦の間隔 */
+    width: 100%;
+}
+
+.img-wrapper {
+    width: 75%; /* 基本のサイズ */
+    box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.img-wrapper img {
+    width: 100%;
+    display: block;
+    transition: transform 1.5s ease;
+}
+
+.img-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+/* クラスによる位置指定（HTML側で設定したクラスと連動） */
+.img-wrapper.left { align-self: flex-start; }
+.img-wrapper.right { align-self: flex-end; width: 65%; }
+.img-wrapper.center { align-self: center; width: 85%; }
+
+/* --- 5. アニメーション --- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.5s ease, transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 6. フッター --- */
+footer {
+    padding: 150px 0 80px;
+    text-align: center;
+}
+
+.footer-msg {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-bottom: 3rem;
+    letter-spacing: 0.1em;
+}
+
+.copyright {
+    font-size: 0.7rem;
+    opacity: 0.4;
+    letter-spacing: 0.3em;
+}
+
+/* --- 音声トグルのシンプルデザイン --- */
+#audio-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0.5;
 }
