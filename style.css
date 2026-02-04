@@ -1,32 +1,23 @@
-/* --- 1. 基本設定（変数とフォント） --- */
-:root {
-    --bg-color: #fcfcfc;      /* 温かみのある白 */
-    --text-color: #1a1a1a;    /* 墨色 */
-    --accent-color: #8c7b65;  /* 落ち着いたベージュ */
-    --font-jp: "Noto Serif JP", serif;
-    --font-en: "Playfair Display", serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --bg-color: #fdfdfd;
+    --text-color: #2c2c2c;
+    --accent-color: #8c7b65; 
+    --font-jp: 'Noto Serif JP', serif;
+    --font-en: 'Playfair Display', serif;
+    --font-sans: 'Noto Sans JP', sans-serif;
 }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-jp);
-    overflow-x: hidden; /* 横揺れ防止 */
     line-height: 1.8;
+    overflow-x: hidden;
 }
 
-.italic {
-    font-family: var(--font-en);
-    font-style: italic;
-}
-
-/* --- 2. ロード画面（ユーザー提供の修正版） --- */
+/* ロード画面 */
 #loader {
     position: fixed;
     top: 0; left: 0;
@@ -36,193 +27,135 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 1.2s ease, visibility 1.2s;
 }
-
 #loader.loaded { opacity: 0; visibility: hidden; }
-
-.loader-content { 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-    max-width: 600px;
-    padding: 0 20px;
-}
-
+.loader-content { text-align: center; }
 .loader-text {
     font-family: var(--font-en);
-    font-size: clamp(1rem, 4vw, 1.2rem);
-    letter-spacing: 0.8em;
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
     color: var(--accent-color);
-    margin-bottom: 4rem;
-    text-indent: 0.8em;
-    animation: pulse 3s infinite alternate;
+    margin-bottom: 3rem;
+    animation: pulse 2.5s infinite alternate;
 }
-
-@keyframes pulse {
-    from { opacity: 0.4; }
-    to { opacity: 1; }
-}
-
-.audio-warning { 
-    margin-bottom: 3rem; 
-    opacity: 0.6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.audio-icon { 
-    display: block; 
-    font-size: 1.2rem; 
-    margin-bottom: 10px; 
-}
-
-.warning-txt { 
-    font-size: 0.75rem; 
-    letter-spacing: 0.15em; 
-    font-weight: 300;
-    margin-bottom: 15px;
-}
-
-.warning-line { 
-    width: 40px; 
-    height: 1px; 
-    background-color: var(--accent-color); 
-    margin: 0 auto;
-}
+.audio-warning { margin-bottom: 2.5rem; opacity: 0.7; }
+.warning-txt { font-size: 0.8rem; letter-spacing: 0.15em; font-weight: 200; }
+.warning-line { width: 30px; height: 1px; background-color: var(--accent-color); margin: 15px auto; }
 
 #start-btn {
     background: none;
     border: 1px solid var(--accent-color);
     color: var(--accent-color);
-    padding: 18px 80px;
+    padding: 15px 60px;
     font-family: var(--font-en);
-    font-size: 0.9rem;
     cursor: pointer;
-    letter-spacing: 0.5em;
-    text-indent: 0.5em;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 0.4em;
+    transition: all 0.5s;
+}
+#start-btn:hover { background: var(--accent-color); color: #fff; letter-spacing: 0.6em; }
+
+#audio-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    font-family: var(--font-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--accent-color);
+    cursor: pointer;
+    border-bottom: 1px solid var(--accent-color);
 }
 
-#start-btn:hover { 
-    background: var(--accent-color); 
-    color: #fff; 
-    letter-spacing: 0.7em; 
-}
-
-/* --- 3. ヒーローセクション --- */
+/* ヒーローエリア */
 .hero {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('hero.jpg') center/cover no-repeat;
+    color: #fff;
     text-align: center;
 }
+.sub-line { font-size: 1.2rem; letter-spacing: 0.5em; display: block; margin-bottom: 1rem; font-weight: 500; }
+.main-title { font-size: 3.5rem; letter-spacing: 0.3em; font-weight: 500; }
+.years { font-family: var(--font-en); font-size: 1.5rem; letter-spacing: 0.3em; font-style: italic; }
 
-.sub-line {
-    display: block;
-    font-size: 0.75rem;
-    letter-spacing: 0.6em;
-    color: var(--accent-color);
-    margin-bottom: 1.5rem;
-}
-
-.main-title {
-    font-size: clamp(2.5rem, 10vw, 5rem);
-    font-weight: 200;
-    letter-spacing: 0.3em;
-    margin-bottom: 1.5rem;
-    text-indent: 0.3em;
-}
-
-.years {
-    font-size: 1.5rem;
-    letter-spacing: 0.2em;
-    opacity: 0.7;
-}
-
-/* --- 4. コンテンツレイアウト（ここが魔改造の核） --- */
-.grade-section {
-    position: relative;
-    padding: 100px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
+/* 学年ラベル (三菱ケミカル・FOLIO風の洗練された巨大文字) */
 .grade-label {
     font-family: var(--font-en);
-    font-style: italic;
-    font-size: clamp(5rem, 15vw, 12rem);
-    color: var(--accent-color);
-    opacity: 0.05;
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    z-index: 0;
-}
-
-.event {
-    width: 100%;
-    max-width: 1100px;
-    margin-bottom: 200px;
-    position: relative;
-    z-index: 1;
-}
-
-.event-text {
+    font-size: 6rem;
     text-align: center;
-    margin-bottom: 80px;
+    color: #efefef;
+    margin: 250px 0 100px;
+    font-style: italic;
+    letter-spacing: -0.02em;
 }
 
+/* 行事セクション */
+.event { margin-bottom: 80vh; padding: 0 5%; }
+
+/* 行事名：中央配置に修正 */
+.event-text { 
+    text-align: center; 
+    margin-bottom: 120px; 
+}
 .event-text h3 {
     font-size: 2rem;
-    font-weight: 300;
     letter-spacing: 0.4em;
-    text-indent: 0.4em;
+    font-weight: 400;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+}
+.event-text h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 40px; height: 1px;
+    background-color: var(--accent-color);
 }
 
-/* --- 画像の配置：左右バラバラ魔法 --- */
+/* 写真の配置：左・右のリズムを強化 */
 .event-photos {
     display: flex;
     flex-direction: column;
-    gap: 120px; /* 写真の縦の間隔 */
     width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
 .img-wrapper {
-    width: 75%; /* 基本のサイズ */
-    box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+    width: 65%;
+    margin-bottom: 12vh;
     overflow: hidden;
-    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 奇数枚目 (1, 3, 5...) は左寄せ */
+.img-wrapper:nth-child(odd) {
+    align-self: flex-start;
+}
+
+/* 偶数枚目 (2, 4...) は右寄せ */
+.img-wrapper:nth-child(even) {
+    align-self: flex-end;
 }
 
 .img-wrapper img {
     width: 100%;
+    height: auto;
     display: block;
-    transition: transform 1.5s ease;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
 }
 
-.img-wrapper:hover img {
-    transform: scale(1.05);
-}
-
-/* クラスによる位置指定（HTML側で設定したクラスと連動） */
-.img-wrapper.left { align-self: flex-start; }
-.img-wrapper.right { align-self: flex-end; width: 65%; }
-.img-wrapper.center { align-self: center; width: 85%; }
-
-/* --- 5. アニメーション --- */
+/* アニメーション：三菱ケミカル風のなめらかな浮き上がり */
 .fade-in {
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1.5s ease, transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(60px);
+    transition: opacity 1.8s cubic-bezier(0.22, 1, 0.36, 1), 
+                transform 1.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .fade-in.is-visible {
@@ -230,33 +163,24 @@ body {
     transform: translateY(0);
 }
 
-/* --- 6. フッター --- */
-footer {
-    padding: 150px 0 80px;
-    text-align: center;
+/* タイトルと写真の出現タイミングをずらす */
+.img-wrapper.is-visible {
+    transition-delay: 0.4s;
+}
+.img-wrapper:nth-child(2).is-visible { transition-delay: 0.6s; }
+.img-wrapper:nth-child(3).is-visible { transition-delay: 0.8s; }
+
+@keyframes pulse {
+    from { opacity: 0.3; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-.footer-msg {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    margin-bottom: 3rem;
-    letter-spacing: 0.1em;
-}
+footer { padding: 150px 0; background-color: #f9f9f9; text-align: center; }
+.copyright { font-size: 0.9rem; letter-spacing: 0.2em; margin-top: 10px; opacity: 0.8; }
 
-.copyright {
-    font-size: 0.7rem;
-    opacity: 0.4;
-    letter-spacing: 0.3em;
-}
-
-/* --- 音声トグルのシンプルデザイン --- */
-#audio-toggle {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    cursor: pointer;
-    z-index: 1000;
-    opacity: 0.5;
+@media (max-width: 768px) {
+    .main-title { font-size: 2.2rem; }
+    .grade-label { font-size: 3.5rem; }
+    .event-text h3 { font-size: 1.5rem; }
+    .img-wrapper { width: 100% !important; margin-bottom: 5vh; }
 }
