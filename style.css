@@ -1,23 +1,4 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-    --bg-color: #fcfcfc;
-    --text-color: #1a1a1a;
-    --accent-color: #8c7b65; 
-    --font-jp: 'Noto Serif JP', serif;
-    --font-en: 'Playfair Display', serif;
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-jp);
-    line-height: 2;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* ロード画面 */
+/* --- ロード画面の修正版 --- */
 #loader {
     position: fixed;
     top: 0; left: 0;
@@ -27,165 +8,79 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    transition: opacity 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 #loader.loaded { opacity: 0; visibility: hidden; }
+
+/* 全ての要素を縦に並べて中央に揃える箱 */
+.loader-content { 
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* これですべてを中央へ */
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 0 20px;
+}
 
 .loader-text {
     font-family: var(--font-en);
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 4vw, 1.2rem); /* 画面サイズに合わせて調整 */
     letter-spacing: 0.8em;
     color: var(--accent-color);
-    margin-bottom: 3.5rem;
-    animation: pulse 2.5s infinite alternate;
+    margin-bottom: 4rem;
+    text-indent: 0.8em; /* 最後の文字の右側の余白を相殺して真ん中に */
+    animation: pulse 3s infinite alternate;
 }
-.audio-warning { margin-bottom: 2.5rem; opacity: 0.7; }
-.warning-txt { font-size: 0.75rem; letter-spacing: 0.15em; font-weight: 200; }
-.warning-line { width: 30px; height: 1px; background-color: var(--accent-color); margin: 20px auto; }
+
+/* 音量注意のブロック */
+.audio-warning { 
+    margin-bottom: 3rem; 
+    opacity: 0.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.audio-icon { 
+    display: block; 
+    font-size: 1.2rem; 
+    margin-bottom: 10px; 
+}
+
+.warning-txt { 
+    font-size: 0.75rem; 
+    letter-spacing: 0.15em; 
+    font-weight: 300;
+    margin-bottom: 15px;
+}
+
+/* ズレていた横線の修正 */
+.warning-line { 
+    width: 40px; 
+    height: 1px; 
+    background-color: var(--accent-color); 
+    margin: 0 auto; /* 左右をautoにして中央固定 */
+}
 
 #start-btn {
     background: none;
     border: 1px solid var(--accent-color);
     color: var(--accent-color);
-    padding: 16px 70px;
+    padding: 18px 80px;
     font-family: var(--font-en);
+    font-size: 0.9rem;
     cursor: pointer;
     letter-spacing: 0.5em;
+    text-indent: 0.5em; /* ボタン内の文字も中央へ */
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-#start-btn:hover { background: var(--accent-color); color: #fff; letter-spacing: 0.7em; }
-
-#audio-toggle {
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-    z-index: 1000;
-    font-family: var(--font-en);
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    color: var(--accent-color);
-    cursor: pointer;
-    border-bottom: 1px solid var(--accent-color);
+    outline: none;
 }
 
-/* ヒーローエリア */
-.hero {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('hero.jpg') center/cover no-repeat;
-    color: #fff;
-    text-align: center;
-}
-.sub-line { font-family: var(--font-en); font-size: 0.9rem; letter-spacing: 0.6em; margin-bottom: 1.5rem; opacity: 0.9; }
-.main-title { font-size: 3.8rem; letter-spacing: 0.4em; font-weight: 400; }
-.years { font-family: var(--font-en); font-size: 1.4rem; letter-spacing: 0.4em; margin-top: 1.5rem; font-style: italic; }
-
-/* 学年ラベル (エディトリアルな背景文字) */
-.grade-label {
-    font-family: var(--font-en);
-    font-size: clamp(5rem, 15vw, 10rem);
-    text-align: center;
-    color: #f2f2f2;
-    margin: 300px 0 150px;
-    font-style: italic;
-    line-height: 1;
-}
-
-/* 行事セクション */
-.event { margin-bottom: 90vh; padding: 0 8%; }
-
-.event-text { 
-    text-align: center; 
-    margin-bottom: 140px; 
-}
-.event-text h3 {
-    font-size: 2.2rem;
-    letter-spacing: 0.4em;
-    font-weight: 400;
-    display: inline-block;
-    padding-bottom: 25px;
-    position: relative;
-}
-.event-text h3::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 30px; height: 1px;
-    background-color: var(--accent-color);
-}
-
-/* 写真の配置：洗練された非対称レイアウト */
-.event-photos {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.img-wrapper {
-    width: 65%;
-    margin-bottom: 15vh;
-    overflow: hidden;
-    background-color: #eee;
-}
-
-.img-wrapper img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* 奇数枚目：左寄せ */
-.img-wrapper:nth-child(odd) {
-    align-self: flex-start;
-}
-
-/* 偶数枚目：右寄せ + 少しサイズを小さく */
-.img-wrapper:nth-child(even) {
-    align-self: flex-end;
-    width: 55%;
-    margin-top: -5vh; /* 前の画像と少し重ねるようなリズム */
-}
-
-.img-wrapper:hover img {
-    transform: scale(1.08);
-}
-
-/* フェードインアニメーション */
-.fade-in {
-    opacity: 0;
-    transform: translateY(80px);
-    transition: opacity 2s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.fade-in.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* 出現ディレイの調整 */
-.img-wrapper.is-visible { transition-delay: 0.4s; }
-.img-wrapper:nth-child(2).is-visible { transition-delay: 0.6s; }
-.img-wrapper:nth-child(3).is-visible { transition-delay: 0.8s; }
-
-@keyframes pulse {
-    from { opacity: 0.3; letter-spacing: 0.7em; }
-    to { opacity: 1; letter-spacing: 0.9em; }
-}
-
-footer { padding: 200px 0 100px; background-color: #f9f9f9; text-align: center; }
-.footer-msg { font-size: 1.1rem; letter-spacing: 0.3em; margin-bottom: 2rem; color: var(--accent-color); }
-.copyright { font-size: 0.8rem; letter-spacing: 0.2em; opacity: 0.6; }
-
-@media (max-width: 768px) {
-    .main-title { font-size: 2.2rem; }
-    .grade-label { font-size: 4rem; }
-    .event-text h3 { font-size: 1.6rem; }
-    .img-wrapper { width: 100% !important; margin-bottom: 8vh; }
-    #audio-toggle { bottom: 20px; right: 20px; }
+#start-btn:hover { 
+    background: var(--accent-color); 
+    color: #fff; 
+    letter-spacing: 0.7em; 
 }
