@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgm = document.getElementById('bgm');
     const audioToggle = document.getElementById('audio-toggle');
     
-    // スクロール監視の設定
+    // スクロール監視
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { 
         threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
+        rootMargin: "0px 0px -80px 0px"
     });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bgm.volume = 0.4;
         bgm.play().then(() => {
             audioToggle.textContent = "MUSIC: ON";
-        }).catch(err => console.log("Audio play blocked"));
+        }).catch(err => console.log("Play blocked"));
     });
 
     // 音楽切り替え
