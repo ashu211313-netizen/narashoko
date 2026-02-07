@@ -1,230 +1,96 @@
-/* =========================
-   RESET & VARIABLES
-========================= */
+/* RESET */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --bg-color: #fdfdfd;
-    --text-color: #2c2c2c;
-    --accent-color: #8c7b65; 
-    --font-jp: 'Noto Serif JP', serif;
-    --font-en: 'Playfair Display', serif;
-    --font-sans: 'Noto Sans JP', sans-serif;
-}
-
-html {
-    scroll-behavior: smooth;
+  --bg: #fdfdfd;
+  --text: #2c2c2c;
+  --accent: #8c7b65;
+  --font-jp: 'Noto Serif JP', serif;
+  --font-en: 'Playfair Display', serif;
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-jp);
-    line-height: 1.9;
-    overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-jp);
+  line-height: 1.9;
+  overflow-x: hidden;
 }
 
-/* =========================
-   FILM GRAIN（空気）
-========================= */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    opacity: 0.06;
-    pointer-events: none;
-    z-index: 9999;
-}
-
-/* =========================
-   LOADER
-========================= */
+/* LOADER */
 #loader {
-    position: fixed;
-    inset: 0;
-    background-color: var(--bg-color);
-    display: grid;
-    place-content: center;
-    z-index: 9999;
-    transition: opacity 1.4s ease, visibility 1.4s;
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  background: var(--bg);
+  z-index: 9999;
+  transition: opacity 1.4s, visibility 1.4s;
 }
-
-#loader.loaded {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.loader-content { text-align: center; }
+#loader.loaded { opacity: 0; visibility: hidden; }
 
 .loader-text {
-    font-family: var(--font-en);
-    font-size: 1.3rem;
-    letter-spacing: 0.6em;
-    color: var(--accent-color);
-    margin-bottom: 3rem;
-    animation: pulse 3s infinite alternate;
+  font-family: var(--font-en);
+  letter-spacing: .6em;
+  color: var(--accent);
+  margin-bottom: 2rem;
 }
 
-.audio-warning { margin-bottom: 2.5rem; opacity: 0.65; }
-
-.warning-txt {
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    font-weight: 300;
-}
-
-.warning-line {
-    width: 36px;
-    height: 1px;
-    background-color: var(--accent-color);
-    margin: 14px auto;
-}
-
-#start-btn {
-    background: none;
-    border: 1px solid var(--accent-color);
-    color: var(--accent-color);
-    padding: 16px 64px;
-    font-family: var(--font-en);
-    cursor: pointer;
-    letter-spacing: 0.45em;
-    transition: all 0.6s ease;
-}
-
-#start-btn:hover {
-    background: var(--accent-color);
-    color: #fff;
-    letter-spacing: 0.65em;
-}
-
-/* =========================
-   AUDIO TOGGLE
-========================= */
-#audio-toggle {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    font-family: var(--font-en);
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    color: var(--accent-color);
-    cursor: pointer;
-    background: rgba(255,255,255,0.75);
-    padding: 6px 12px;
-    backdrop-filter: blur(6px);
-    z-index: 1000;
-}
-
-/* =========================
-   HERO
-========================= */
+/* HERO */
 .hero {
-    height: 100vh;
-    display: grid;
-    place-content: center;
-    text-align: center;
-    background:
-        linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
-        url('hero.jpg') center / cover no-repeat;
-    color: #fff;
-}
-
-.sub-line {
-    font-size: 0.9rem;
-    letter-spacing: 0.6em;
-    margin-bottom: 1.2rem;
+  height: 100vh;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  color: #fff;
+  background:
+    linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3)),
+    url(hero.jpg) center/cover;
 }
 
 .main-title {
-    font-size: clamp(2.8rem, 8vw, 4.8rem);
-    letter-spacing: 0.35em;
-    font-weight: 500;
-    margin-bottom: 0.8rem;
+  font-size: clamp(3rem, 8vw, 5rem);
+  letter-spacing: .35em;
 }
 
-.years {
-    font-family: var(--font-en);
-    font-size: 1.4rem;
-    letter-spacing: 0.3em;
-    font-style: italic;
-    opacity: 0.85;
-}
-
-/* =========================
-   SECTIONS
-========================= */
+/* SECTIONS */
 .grade-section {
-    padding: 140px 0;
-    position: relative;
+  padding: 140px 0;
+  position: relative;
 }
 
-/* 背景文字として完全に沈める */
 .grade-label {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: var(--font-en);
-    font-size: clamp(6rem, 22vw, 18rem);
-    color: var(--accent-color);
-    opacity: 0.035;
-    font-style: italic;
-    letter-spacing: -0.04em;
-    pointer-events: none;
-    white-space: nowrap;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-en);
+  font-size: clamp(6rem, 20vw, 16rem);
+  opacity: .04;
 }
 
 .event {
-    margin-bottom: 45vh;
-    padding: 0 6%;
-    max-width: 1200px;
-    margin-inline: auto;
+  max-width: 1200px;
+  margin: 0 auto 45vh;
+  padding: 0 6%;
 }
 
 .event-text {
-    text-align: center;
-    margin-bottom: 120px;
+  text-align: center;
+  margin-bottom: 120px;
 }
 
-.event-text h3 {
-    font-size: 2rem;
-    letter-spacing: 0.45em;
-    font-weight: 400;
-    position: relative;
-    padding-bottom: 18px;
-}
-
-.event-text h3::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 42px;
-    height: 1px;
-    background-color: var(--accent-color);
-}
-
-/* =========================
-   PHOTOS（奥行き）
-========================= */
 .event-photos {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .img-wrapper {
-    width: 70%;
-    margin-bottom: 18vh;
-    overflow: hidden;
-    box-shadow:
-        0 30px 80px rgba(0,0,0,0.08),
-        0 10px 30px rgba(0,0,0,0.04);
-    transition:
-        transform 1.6s cubic-bezier(0.22,1,0.36,1),
-        box-shadow 1.6s ease;
-    will-change: transform;
+  width: 70%;
+  margin-bottom: 18vh;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,.08);
+  transition: transform 1.4s cubic-bezier(.22,1,.36,1);
 }
 
 .img-wrapper.left { align-self: flex-start; }
@@ -232,81 +98,27 @@ body::after {
 .img-wrapper.center { align-self: center; width: 85%; }
 
 .img-wrapper img {
-    width: 100%;
-    display: block;
-    transition: transform 2s ease;
+  width: 100%;
+  display: block;
+  transition: transform 2s ease;
 }
 
-/* hover = 重心が動く */
-.img-wrapper:hover {
-    transform: translateY(-12px);
-    box-shadow:
-        0 60px 120px rgba(0,0,0,0.12),
-        0 20px 50px rgba(0,0,0,0.08);
-}
+.img-wrapper:hover img { transform: scale(1.06); }
 
-.img-wrapper:hover img {
-    transform: scale(1.06);
-}
-
-/* =========================
-   FADE IN
-========================= */
+/* FADE IN */
 .fade-in {
-    opacity: 0;
-    transform: translateY(60px);
-    transition:
-        opacity 2s cubic-bezier(0.22,1,0.36,1),
-        transform 2s cubic-bezier(0.22,1,0.36,1);
+  opacity: 0;
+  transform: translateY(60px);
+  transition: 2s cubic-bezier(.22,1,.36,1);
 }
-
 .fade-in.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* 時間差 */
-.img-wrapper:nth-child(2) { transition-delay: 0.2s; }
-.img-wrapper:nth-child(3) { transition-delay: 0.4s; }
-.img-wrapper:nth-child(4) { transition-delay: 0.6s; }
-
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 footer {
-    padding: 180px 0;
-    background-color: #f9f9f9;
-    text-align: center;
-}
-
-.footer-msg {
-    font-size: 1.6rem;
-    color: var(--accent-color);
-    margin-bottom: 2rem;
-    letter-spacing: 0.1em;
-}
-
-.copyright {
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
-    opacity: 0.6;
-}
-
-/* =========================
-   ANIMATIONS
-========================= */
-@keyframes pulse {
-    from { opacity: 0.35; transform: scale(0.98); }
-    to   { opacity: 0.85; transform: scale(1); }
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-@media (max-width: 768px) {
-    .main-title { font-size: 2.2rem; }
-    .grade-label { font-size: 5rem; }
-    .event-text h3 { font-size: 1.4rem; }
-    .img-wrapper { width: 100% !important; margin-bottom: 10vh; }
-    .hero { background-attachment: scroll; }
+  padding: 180px 0;
+  text-align: center;
+  background: #f9f9f9;
 }
