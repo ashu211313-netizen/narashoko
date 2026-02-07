@@ -1,41 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const loader = document.querySelector('.loader');
-  const startBtn = document.querySelector('#start-btn');
-  const bgm = document.querySelector('#bgm');
-  const audioToggle = document.querySelector('#audio-toggle');
+  const loader = document.getElementById('loader');
+  const startBtn = document.getElementById('start-btn');
+  const bgm = document.getElementById('bgm');
+  const audioToggle = document.getElementById('audio-toggle');
 
-  // フェードイン監視（位置は一切変更しない）
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        }
-      });
-    },
-    {
-      threshold: 0.15
-    }
-  );
-
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-  // スタート
   startBtn.addEventListener('click', () => {
     loader.classList.add('loaded');
-
-    if (bgm) {
-      bgm.volume = 0.4;
-      bgm.play().catch(() => {});
-    }
-
+    bgm.volume = 0.4;
+    bgm.play().catch(() => {});
     audioToggle.textContent = 'MUSIC: ON';
   });
 
-  // 音楽ON/OFF
   audioToggle.addEventListener('click', () => {
-    if (!bgm) return;
-
     if (bgm.paused) {
       bgm.play();
       audioToggle.textContent = 'MUSIC: ON';
@@ -44,4 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
       audioToggle.textContent = 'MUSIC: OFF';
     }
   });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('is-visible');
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in')
+    .forEach(el => observer.observe(el));
 });
