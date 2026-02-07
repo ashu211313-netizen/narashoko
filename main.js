@@ -1,32 +1,56 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const loader = document.getElementById('loader');
-  const startBtn = document.getElementById('start-btn');
-  const bgm = document.getElementById('bgm');
-  const audioToggle = document.getElementById('audio-toggle');
+    const loader = document.getElementById('loader');
+    const startBtn = document.getElementById('start-btn');
+    const bgm = document.getElementById('bgm');
+    const audioToggle = document.getElementById('audio-toggle');
 
-  startBtn.addEventListener('click', () => {
-    loader.classList.add('loaded');
-    bgm.volume = 0.4;
-    bgm.play().catch(() => {});
-    audioToggle.textContent = 'MUSIC: ON';
-  });
-
-  audioToggle.addEventListener('click', () => {
-    if (bgm.paused) {
-      bgm.play();
-      audioToggle.textContent = 'MUSIC: ON';
-    } else {
-      bgm.pause();
-      audioToggle.textContent = 'MUSIC: OFF';
-    }
-  });
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('is-visible');
+    // --- 1. STARTボタン：ロード解除と音楽再生 ---
+    startBtn.addEventListener('click', () => {
+        loader.classList.add('loaded');
+        bgm.volume = 0.4;
+        bgm.play().then(() => {
+            audioToggle.textContent = 'MUSIC: ON';
+        }).catch(() => {
+            console.log("Audio playback blocked by browser.");
+            audioToggle.textContent = 'MUSIC: OFF';
+        });
     });
-  }, { threshold: 0.15 });
 
-  document.querySelectorAll('.fade-in')
-    .forEach(el => observer.observe(el));
+    // --- 2. 音楽切り替えトグル ---
+    audioToggle.addEventListener('click', () => {
+        if (bgm.paused) {
+            bgm.play();
+            audioToggle.textContent = 'MUSIC: ON';
+        } else {
+            bgm.pause();
+            audioToggle.textContent = 'MUSIC: OFF';
+        }
+    });
+
+    // --- 3. スクロール監視：フェードイン（Intersection Observer） ---
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                // 一度表示されたら監視を終了して負荷を軽減
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { 
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px" // 画面端ギリギリではなく少し手前で発火
+    });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // --- 4. 視差効果（おまけ）：学年ラベルをゆっくり動かす ---
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const labels = document.querySelectorAll('.grade-label');
+        labels.forEach(label => {
+            // スクロール量に合わせて微妙に位置をずらす
+            const speed = 0.15;
+            label.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    });
 });
