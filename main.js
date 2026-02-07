@@ -4,19 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgm = document.getElementById('bgm');
     const audioToggle = document.getElementById('audio-toggle');
 
-    // --- 1. STARTボタン：ロード解除と音楽再生 ---
+    // 1. STARTボタン：ロード画面を消して音楽を再生
     startBtn.addEventListener('click', () => {
         loader.classList.add('loaded');
         bgm.volume = 0.4;
-        bgm.play().then(() => {
-            audioToggle.textContent = 'MUSIC: ON';
-        }).catch(() => {
-            console.log("Audio playback blocked by browser.");
-            audioToggle.textContent = 'MUSIC: OFF';
+        bgm.play().catch(() => {
+            console.log("ブラウザにより再生がブロックされました");
         });
+        audioToggle.textContent = 'MUSIC: ON';
     });
 
-    // --- 2. 音楽切り替えトグル ---
+    // 2. 音楽のON/OFF切り替え
     audioToggle.addEventListener('click', () => {
         if (bgm.paused) {
             bgm.play();
@@ -27,30 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 3. スクロール監視：フェードイン（Intersection Observer） ---
+    // 3. スクロール監視：写真や文字をふわっと出す
     const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                // 一度表示されたら監視を終了して負荷を軽減
-                observer.unobserve(entry.target);
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
             }
         });
-    }, { 
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px" 
-    });
+    }, { threshold: 0.15 });
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-    // --- 4. 視差効果：学年ラベルをゆっくり動かす ---
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const labels = document.querySelectorAll('.grade-label');
-        labels.forEach(label => {
-            // CSSの translateX(-50%) を維持しながら translateY を適用
-            const speed = 0.15;
-            label.style.transform = `translateX(-50%) translateY(${scrolled * speed}px)`;
-        });
+    // 全ての .fade-in 要素を監視対象にする
+    document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
     });
 });
