@@ -4,19 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgm = document.getElementById('bgm');
     const audioToggle = document.getElementById('audio-toggle');
 
-    // --- 1. STARTボタン：ロード解除と音楽再生 ---
+    // 1. STARTボタン
     startBtn.addEventListener('click', () => {
         loader.classList.add('loaded');
         bgm.volume = 0.4;
-        bgm.play().then(() => {
-            audioToggle.textContent = 'MUSIC: ON';
-        }).catch(() => {
-            console.log("Audio playback blocked by browser.");
-            audioToggle.textContent = 'MUSIC: OFF';
-        });
+        bgm.play().catch(() => {});
+        audioToggle.textContent = 'MUSIC: ON';
     });
 
-    // --- 2. 音楽切り替えトグル ---
+    // 2. 音楽トグル
     audioToggle.addEventListener('click', () => {
         if (bgm.paused) {
             bgm.play();
@@ -27,30 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 3. スクロール監視：フェードイン（Intersection Observer） ---
+    // 3. スクロールでふわっと出す
     const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                // 一度表示されたら監視を終了して負荷を軽減
-                observer.unobserve(entry.target);
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
             }
         });
-    }, { 
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px" // 画面端ギリギリではなく少し手前で発火
-    });
+    }, { threshold: 0.1 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-    // --- 4. 視差効果（おまけ）：学年ラベルをゆっくり動かす ---
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const labels = document.querySelectorAll('.grade-label');
-        labels.forEach(label => {
-            // スクロール量に合わせて微妙に位置をずらす
-            const speed = 0.15;
-            label.style.transform = `translateY(${scrolled * speed}px)`;
-        });
-    });
 });
