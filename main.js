@@ -38,19 +38,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { 
         threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px" // 画面端ギリギリではなく少し手前で発火
+        rootMargin: "0px 0px -50px 0px" 
     });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // --- 4. 視差効果（おまけ）：学年ラベルをゆっくり動かす ---
+    // --- 4. 視差効果：学年ラベルをゆっくり動かす ---
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         const labels = document.querySelectorAll('.grade-label');
         labels.forEach(label => {
-            // スクロール量に合わせて微妙に位置をずらす
+            // CSSの translateX(-50%) を維持しながら translateY を適用
             const speed = 0.15;
-            label.style.transform = `translateY(${scrolled * speed}px)`;
+            label.style.transform = `translateX(-50%) translateY(${scrolled * speed}px)`;
         });
     });
 });
