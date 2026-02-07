@@ -1,9 +1,4 @@
-/* --- 1. 基本のリセットと変数 --- */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
     --bg-color: #fdfdfd;
@@ -21,164 +16,80 @@ body {
     overflow-x: hidden;
 }
 
-/* --- 2. ロード画面（JSで .loaded が付くと消える） --- */
+/* ロード画面 */
 #loader {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     background-color: var(--bg-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     z-index: 9999;
-    transition: opacity 1.2s ease, visibility 1.2s;
+    transition: opacity 1s ease, visibility 1s;
 }
-
-#loader.loaded { 
-    opacity: 0; 
-    visibility: hidden; 
-}
-
-.loader-content { text-align: center; }
+#loader.loaded { opacity: 0; visibility: hidden; }
 
 .loader-text {
     font-family: var(--font-en);
     font-size: 1.2rem;
     letter-spacing: 0.5em;
     color: var(--accent-color);
-    margin-bottom: 3rem;
-    animation: pulse 2.5s infinite alternate;
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
 #start-btn {
     background: none;
     border: 1px solid var(--accent-color);
     color: var(--accent-color);
-    padding: 15px 60px;
-    font-family: var(--font-en);
+    padding: 12px 50px;
     cursor: pointer;
-    letter-spacing: 0.4em;
-    transition: all 0.5s;
-    text-indent: 0.4em;
+    letter-spacing: 0.3em;
+    transition: 0.3s;
 }
+#start-btn:hover { background: var(--accent-color); color: #fff; }
 
-#start-btn:hover { 
-    background: var(--accent-color); 
-    color: #fff; 
-    letter-spacing: 0.6em; 
-}
-
-/* --- 3. ヒーローエリア --- */
+/* ヒーロー */
 .hero {
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('hero.jpg') center/cover no-repeat;
-    color: #fff;
+    display: flex; align-items: center; justify-content: center;
     text-align: center;
 }
+.main-title { font-size: clamp(2rem, 6vw, 4rem); letter-spacing: 0.2em; }
 
-.main-title { 
-    font-size: clamp(2.5rem, 8vw, 4.5rem); 
-    letter-spacing: 0.3em; 
-    font-weight: 500; 
-}
-
-.italic { font-style: italic; }
-
-/* --- 4. レイアウト構造 --- */
-.grade-section {
-    padding: 100px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
+/* 学年ラベル（中央固定・動かない） */
 .grade-label {
     font-family: var(--font-en);
-    font-size: clamp(5rem, 20vw, 15rem);
+    font-size: clamp(4rem, 15vw, 12rem);
     color: var(--accent-color);
-    opacity: 0.05;
-    margin: 150px 0 50px;
-    font-style: italic;
-    letter-spacing: -0.02em;
-    pointer-events: none;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-}
-
-.event { 
-    margin-bottom: 40vh; 
-    padding: 0 5%; 
+    opacity: 0.08;
+    text-align: center;
     width: 100%;
-    max-width: 1200px;
+    margin: 100px 0;
+    font-style: italic;
+    pointer-events: none;
+    display: block;
 }
 
-.event-text { text-align: center; margin-bottom: 100px; }
-.event-text h3 {
-    font-size: 2rem;
-    letter-spacing: 0.4em;
-    font-weight: 400;
-    display: inline-block;
-    border-bottom: 1px solid var(--accent-color);
-    padding-bottom: 15px;
-}
+/* 行事・写真 */
+.event { margin-bottom: 30vh; width: 100%; max-width: 1100px; margin-left: auto; margin-right: auto; padding: 0 5%; }
+.event-text { text-align: center; margin-bottom: 60px; }
+.event-text h3 { font-size: 1.8rem; letter-spacing: 0.3em; font-weight: 400; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 10px; }
 
-/* --- 5. 写真の黄金バランス（左右・中央配置） --- */
-.event-photos { display: flex; flex-direction: column; width: 100%; }
-
-.img-wrapper {
-    width: 70%;
-    margin-bottom: 15vh;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-}
-
+.event-photos { display: flex; flex-direction: column; }
+.img-wrapper { width: 75%; margin-bottom: 10vh; box-shadow: 0 15px 45px rgba(0,0,0,0.05); }
 .img-wrapper.left { align-self: flex-start; }
-.img-wrapper.right { align-self: flex-end; width: 65%; }
-.img-wrapper.center { align-self: center; width: 85%; }
+.img-wrapper.right { align-self: flex-end; width: 70%; }
+.img-wrapper.center { align-self: center; width: 90%; }
+.img-wrapper img { width: 100%; display: block; }
 
-.img-wrapper img { width: 100%; height: auto; display: block; }
-
-/* --- 6. アニメーション（JSの .is-visible と連動） --- */
+/* アニメーション */
 .fade-in {
     opacity: 0;
-    transform: translateY(60px);
-    transition: opacity 1.8s cubic-bezier(0.22, 1, 0.36, 1), 
-                transform 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(40px);
+    transition: opacity 1.5s ease, transform 1.5s ease;
 }
+.fade-in.is-visible { opacity: 1; transform: translateY(0); }
 
-.fade-in.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+#audio-toggle { position: fixed; bottom: 20px; right: 20px; z-index: 1000; font-family: var(--font-en); font-size: 0.7rem; color: var(--accent-color); cursor: pointer; }
 
-/* --- 7. その他 UI --- */
-#audio-toggle {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 1000;
-    font-family: var(--font-en);
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    color: var(--accent-color);
-    cursor: pointer;
-    background: rgba(255,255,255,0.7);
-    padding: 10px;
-    border-bottom: 1px solid var(--accent-color);
-}
-
-footer { padding: 150px 0; text-align: center; background: #f9f9f9; }
-
-@media (max-width: 768px) {
-    .img-wrapper { width: 100% !important; margin-bottom: 8vh; }
-    .grade-label { font-size: 5rem; }
-}
-
-@keyframes pulse {
-    from { opacity: 0.3; transform: scale(0.98); }
-    to { opacity: 0.8; transform: scale(1); }
-}
+footer { padding: 100px 0; text-align: center; font-family: var(--font-en); color: var(--accent-color); }
