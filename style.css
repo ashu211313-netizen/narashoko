@@ -1,95 +1,72 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* --- モバイルでのレイアウト崩れを修正 --- */
 
-:root {
-    --bg-color: #fdfdfd;
-    --text-color: #2c2c2c;
-    --accent-color: #8c7b65; 
-    --font-jp: 'Noto Serif JP', serif;
-    --font-en: 'Playfair Display', serif;
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-jp);
-    line-height: 1.8;
-    overflow-x: hidden;
-}
-
-/* ロード画面 */
+/* 1. ローダー全体を中央に固める */
 #loader {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: var(--bg-color);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 9999;
-    transition: opacity 1s ease, visibility 1s;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center;
+    width: 100%;
+    height: 100vh;
 }
-#loader.loaded { opacity: 0; visibility: hidden; }
 
-.loader-text {
-    font-family: var(--font-en);
-    font-size: 1.2rem;
-    letter-spacing: 0.5em;
-    color: var(--accent-color);
-    margin-bottom: 2rem;
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* 2. 音声注意テキストの中央揃え */
+.audio-warning {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.warning-txt {
+    font-size: 0.8rem;
+    margin-top: 5px;
     text-align: center;
 }
 
+/* 3. STARTボタンをモバイルでもおしゃれに */
 #start-btn {
+    -webkit-appearance: none; /* iPhone独自のボタンデザインを無効化 */
+    appearance: none;
     background: none;
     border: 1px solid var(--accent-color);
     color: var(--accent-color);
-    padding: 12px 50px;
-    cursor: pointer;
+    padding: 12px 60px;
+    font-size: 1rem;
     letter-spacing: 0.3em;
-    transition: 0.3s;
+    cursor: pointer;
+    border-radius: 0; /* 四角いデザインを維持 */
+    width: auto;
 }
-#start-btn:hover { background: var(--accent-color); color: #fff; }
 
-/* ヒーロー */
-.hero {
-    height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center;
-}
-.main-title { font-size: clamp(2rem, 6vw, 4rem); letter-spacing: 0.2em; }
-
-/* 学年ラベル（中央固定・動かない） */
+/* 4. 学年ラベル（1st yearなど）の中央固定 */
 .grade-label {
-    font-family: var(--font-en);
-    font-size: clamp(4rem, 15vw, 12rem);
-    color: var(--accent-color);
-    opacity: 0.08;
-    text-align: center;
-    width: 100%;
-    margin: 100px 0;
-    font-style: italic;
-    pointer-events: none;
-    display: block;
+    text-align: center !important;
+    width: 100% !important;
+    left: 0 !important;
+    transform: none !important;
+    margin: 60px 0 !important;
 }
 
-/* 行事・写真 */
-.event { margin-bottom: 30vh; width: 100%; max-width: 1100px; margin-left: auto; margin-right: auto; padding: 0 5%; }
-.event-text { text-align: center; margin-bottom: 60px; }
-.event-text h3 { font-size: 1.8rem; letter-spacing: 0.3em; font-weight: 400; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 10px; }
-
-.event-photos { display: flex; flex-direction: column; }
-.img-wrapper { width: 75%; margin-bottom: 10vh; box-shadow: 0 15px 45px rgba(0,0,0,0.05); }
-.img-wrapper.left { align-self: flex-start; }
-.img-wrapper.right { align-self: flex-end; width: 70%; }
-.img-wrapper.center { align-self: center; width: 90%; }
-.img-wrapper img { width: 100%; display: block; }
-
-/* アニメーション */
-.fade-in {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1.5s ease, transform 1.5s ease;
+/* 5. モバイルでの写真サイズ調整 */
+@media (max-width: 768px) {
+    .img-wrapper {
+        width: 90% !important; /* 横幅いっぱいに近く */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        align-self: center !important; /* 全て中央揃え */
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
 }
-.fade-in.is-visible { opacity: 1; transform: translateY(0); }
-
-#audio-toggle { position: fixed; bottom: 20px; right: 20px; z-index: 1000; font-family: var(--font-en); font-size: 0.7rem; color: var(--accent-color); cursor: pointer; }
-
-footer { padding: 100px 0; text-align: center; font-family: var(--font-en); color: var(--accent-color); }
