@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgm = document.getElementById('bgm');
     const audioToggle = document.getElementById('audio-toggle');
 
-    // 1. STARTボタン
     startBtn.addEventListener('click', () => {
         loader.classList.add('loaded');
         bgm.volume = 0.4;
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
         audioToggle.textContent = 'MUSIC: ON';
     });
 
-    // 2. 音楽トグル
     audioToggle.addEventListener('click', () => {
         if (bgm.paused) {
             bgm.play();
@@ -23,12 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. スクロールでふわっと出す
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('is-visible');
-            }
+            if (e.isIntersecting) e.target.classList.add('is-visible');
         });
     }, { threshold: 0.1 });
 
