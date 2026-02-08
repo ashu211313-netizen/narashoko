@@ -1,5 +1,4 @@
-/* --- 全体リセット --- */
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
     --bg-color: #fdfdfd;
@@ -13,15 +12,14 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-jp);
-    width: 100%;
     overflow-x: hidden;
 }
 
-/* --- ロード画面（スマホ完全中央） --- */
+/* ロード画面（スマホ完全中央） */
 #loader {
     position: fixed;
     top: 0; left: 0;
-    width: 100%; height: 100%;
+    width: 100%; height: 100dvh;
     background-color: var(--bg-color);
     display: flex; align-items: center; justify-content: center;
     z-index: 9999;
@@ -29,36 +27,38 @@ body {
 }
 #loader.loaded { opacity: 0; visibility: hidden; }
 
-.loader-content { text-align: center; width: 100%; padding: 20px; }
+.loader-content { text-align: center; padding: 20px; }
 .loader-text { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.3em; color: var(--accent-color); margin-bottom: 2rem; }
-.audio-warning { margin-bottom: 2rem; font-size: 0.8rem; color: #888; }
+.warning-txt { font-size: 0.7rem; color: #888; margin-top: 10px; }
 
 #start-btn {
     appearance: none; -webkit-appearance: none;
     background: none; border: 1px solid var(--accent-color);
-    color: var(--accent-color); padding: 15px 60px;
-    font-size: 1rem; cursor: pointer; border-radius: 0;
+    color: var(--accent-color); padding: 15px 50px; cursor: pointer;
+    font-family: var(--font-en); letter-spacing: 0.2em;
 }
 
-/* --- レイアウト --- */
+/* ヒーロー */
 .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
 .main-title { font-size: clamp(2rem, 8vw, 4rem); letter-spacing: 0.2em; }
 
+/* 学年ラベル（中央固定） */
 .grade-label {
-    font-family: var(--font-en); font-size: clamp(3.5rem, 15vw, 10rem);
-    color: var(--accent-color); opacity: 0.1;
-    text-align: center; margin: 60px 0; font-style: italic;
+    font-family: var(--font-en); font-size: clamp(3rem, 15vw, 10rem);
+    color: var(--accent-color); opacity: 0.08; text-align: center;
+    margin: 100px 0; font-style: italic; width: 100%;
 }
 
-.event { width: 100%; max-width: 1100px; margin: 0 auto 20vh; padding: 0 20px; }
-.event-text { text-align: center; margin-bottom: 40px; }
-.event-text h3 { font-weight: 400; border-bottom: 1px solid var(--accent-color); padding-bottom: 5px; }
+/* レイアウト */
+.event { width: 100%; max-width: 1000px; margin: 0 auto 20vh; padding: 0 20px; }
+.event-text { text-align: center; margin-bottom: 50px; }
+.event-text h3 { font-weight: 400; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
 
-/* --- 写真：スマホでは全画面、PCではバラす --- */
-.event-photos { display: flex; flex-direction: column; width: 100%; }
-.img-wrapper { width: 100%; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.event-photos { display: flex; flex-direction: column; align-items: center; }
+.img-wrapper { width: 100%; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 .img-wrapper img { width: 100%; display: block; height: auto; }
 
+/* PC用の配置調整 */
 @media (min-width: 769px) {
     .img-wrapper { width: 70%; }
     .img-wrapper.left { align-self: flex-start; }
@@ -66,9 +66,9 @@ body {
     .img-wrapper.center { align-self: center; width: 85%; }
 }
 
-/* --- アニメーション --- */
+/* アニメーション */
 .fade-in { opacity: 0; transform: translateY(30px); transition: 1.5s ease; }
 .fade-in.is-visible { opacity: 1; transform: translateY(0); }
 
 #audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; color: var(--accent-color); cursor: pointer; z-index: 100; }
-footer { padding: 80px 0; text-align: center; opacity: 0.6; font-size: 0.8rem; }
+footer { padding: 80px 0; text-align: center; font-size: 0.8rem; color: var(--accent-color); }
