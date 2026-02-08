@@ -15,7 +15,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ロード画面（スマホ完全中央） */
 #loader {
     position: fixed;
     top: 0; left: 0;
@@ -23,42 +22,36 @@ body {
     background-color: var(--bg-color);
     display: flex; align-items: center; justify-content: center;
     z-index: 9999;
-    transition: opacity 0.8s;
 }
-#loader.loaded { opacity: 0; visibility: hidden; }
+#loader.loaded { opacity: 0; visibility: hidden; transition: 0.8s; }
 
 .loader-content { text-align: center; padding: 20px; }
 .loader-text { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.3em; color: var(--accent-color); margin-bottom: 2rem; }
-.warning-txt { font-size: 0.7rem; color: #888; margin-top: 10px; }
-
 #start-btn {
     appearance: none; -webkit-appearance: none;
     background: none; border: 1px solid var(--accent-color);
     color: var(--accent-color); padding: 15px 50px; cursor: pointer;
-    font-family: var(--font-en); letter-spacing: 0.2em;
+    font-family: var(--font-en); letter-spacing: 0.2em; border-radius: 0;
 }
 
-/* ヒーロー */
 .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
 .main-title { font-size: clamp(2rem, 8vw, 4rem); letter-spacing: 0.2em; }
 
-/* 学年ラベル（中央固定） */
 .grade-label {
     font-family: var(--font-en); font-size: clamp(3rem, 15vw, 10rem);
     color: var(--accent-color); opacity: 0.08; text-align: center;
-    margin: 100px 0; font-style: italic; width: 100%;
+    margin: 80px 0; font-style: italic; width: 100%;
 }
 
-/* レイアウト */
-.event { width: 100%; max-width: 1000px; margin: 0 auto 20vh; padding: 0 20px; }
-.event-text { text-align: center; margin-bottom: 50px; }
+.event { width: 100%; max-width: 1000px; margin: 0 auto 15vh; padding: 0 20px; }
+.event-text { text-align: center; margin-bottom: 40px; }
 .event-text h3 { font-weight: 400; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
 
 .event-photos { display: flex; flex-direction: column; align-items: center; }
-.img-wrapper { width: 100%; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.img-wrapper { width: 100%; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 .img-wrapper img { width: 100%; display: block; height: auto; }
 
-/* PC用の配置調整 */
+/* PC用の左右配置 */
 @media (min-width: 769px) {
     .img-wrapper { width: 70%; }
     .img-wrapper.left { align-self: flex-start; }
@@ -66,9 +59,8 @@ body {
     .img-wrapper.center { align-self: center; width: 85%; }
 }
 
-/* アニメーション */
-.fade-in { opacity: 0; transform: translateY(30px); transition: 1.5s ease; }
+.fade-in { opacity: 0; transform: translateY(20px); transition: 1.2s ease; }
 .fade-in.is-visible { opacity: 1; transform: translateY(0); }
 
 #audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; color: var(--accent-color); cursor: pointer; z-index: 100; }
-footer { padding: 80px 0; text-align: center; font-size: 0.8rem; color: var(--accent-color); }
+footer { padding: 60px 0; text-align: center; font-size: 0.8rem; color: var(--accent-color); }
