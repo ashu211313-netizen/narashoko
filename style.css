@@ -1,51 +1,190 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const loader = document.getElementById('loader');
-    const startBtn = document.getElementById('start-btn');
-    const bgm = document.getElementById('bgm');
-    const audioToggle = document.getElementById('audio-toggle');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    // ---- Entrance ----
-    startBtn.addEventListener('click', () => {
-        loader.classList.add('loaded');
-        bgm.volume = 0.35;
-        bgm.play().catch(() => {});
-        audioToggle.textContent = 'MUSIC: ON';
-    });
+:root {
+    --bg-color: #fdfdfd;
+    --text-color: #2c2c2c;
+    --accent-color: #8c7b65;
+    --font-jp: 'Noto Serif JP', serif;
+    --font-en: 'Playfair Display', serif;
+}
 
-    audioToggle.addEventListener('click', () => {
-        if (bgm.paused) {
-            bgm.play();
-            audioToggle.textContent = 'MUSIC: ON';
-        } else {
-            bgm.pause();
-            audioToggle.textContent = 'MUSIC: OFF';
-        }
-    });
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-jp);
+    overflow-x: hidden;
+}
 
-    // ---- 呼吸する可視化 ----
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
+/* ======================
+   Entrance
+====================== */
 
-            const el = entry.target;
+#loader {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
 
-            // 主役は遅れて深く
-            if (el.classList.contains('primary')) {
-                setTimeout(() => {
-                    el.classList.add('is-visible');
-                }, 400);
-            } else {
-                el.classList.add('is-visible');
-            }
+#loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+    transition: 1s ease;
+}
 
-            observer.unobserve(el);
-        });
-    }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -10% 0px'
-    });
+.loader-content {
+    text-align: center;
+}
 
-    document
-        .querySelectorAll('.event, .time-mark, .main-title')
-        .forEach(el => observer.observe(el));
-});
+.loader-text {
+    font-family: var(--font-en);
+    letter-spacing: 0.35em;
+    color: var(--accent-color);
+    margin-bottom: 2rem;
+}
+
+#start-btn {
+    background: none;
+    border: 1px solid var(--accent-color);
+    padding: 14px 48px;
+    color: var(--accent-color);
+    letter-spacing: 0.2em;
+    cursor: pointer;
+}
+
+/* ======================
+   Hero
+====================== */
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-title {
+    font-family: var(--font-en);
+    font-size: clamp(2.5rem, 9vw, 5rem);
+    letter-spacing: 0.25em;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 2s ease;
+}
+
+.main-title.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ======================
+   Time Layers
+====================== */
+
+.time-layer {
+    margin-bottom: 25vh;
+}
+
+.time-mark {
+    font-family: var(--font-en);
+    font-style: italic;
+    color: var(--accent-color);
+    opacity: 0;
+    text-align: center;
+    margin: 120px 0;
+    transition: 1.5s ease;
+}
+
+.time-mark.is-visible {
+    opacity: 0.25;
+}
+
+/* ======================
+   Events
+====================== */
+
+.event {
+    max-width: 1100px;
+    margin: 0 auto 18vh;
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 1.4s ease;
+}
+
+.event.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 主役 */
+.event.primary {
+    transform: translateY(60px) scale(0.98);
+}
+
+.event.primary.is-visible {
+    transform: translateY(0) scale(1);
+}
+
+/* ======================
+   Photos
+====================== */
+
+.event-photos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.img-wrapper {
+    width: 100%;
+    margin-bottom: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+}
+
+.img-wrapper img {
+    width: 100%;
+    display: block;
+}
+
+/* PC構成 */
+@media (min-width: 769px) {
+    .img-wrapper { width: 70%; }
+    .img-wrapper.left { align-self: flex-start; }
+    .img-wrapper.right { align-self: flex-end; width: 60%; }
+    .img-wrapper.center { align-self: center; width: 85%; }
+}
+
+/* ======================
+   Footer
+====================== */
+
+footer {
+    padding: 120px 0;
+    text-align: center;
+    font-family: var(--font-en);
+    letter-spacing: 0.15em;
+    color: var(--accent-color);
+    opacity: 0.6;
+}
+
+/* ======================
+   Audio Toggle
+====================== */
+
+#audio-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 0.7rem;
+    color: var(--accent-color);
+    cursor: pointer;
+    z-index: 100;
+}
