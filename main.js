@@ -4,9 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgm = document.getElementById('bgm');
     const audioToggle = document.getElementById('audio-toggle');
 
+    // ---- Entrance ----
     startBtn.addEventListener('click', () => {
         loader.classList.add('loaded');
-        bgm.volume = 0.4;
+        bgm.volume = 0.35;
         bgm.play().catch(() => {});
         audioToggle.textContent = 'MUSIC: ON';
     });
@@ -21,13 +22,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ---- 呼吸する可視化 ----
     const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('is-visible');
-            }
-        });
-    }, { threshold: 0.1 });
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            const el = entry.target;
+
+            // 主役は遅れて深く
+            if (el.classList.contains('primary')) {
+                setTimeout(() => {
+                    el.classList.add('is-visible');
+                }, 400);
+            } else {
+                el.classList.add('is-visible');
+            }
+
+            observer.unobserve(el);
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -10% 0px'
+    });
+
+    document
+        .querySelectorAll('.event, .time-mark, .main-title')
+        .forEach(el => observer.observe(el));
 });
