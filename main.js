@@ -2,50 +2,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('loader');
     const startBtn = document.getElementById('start-btn');
     const bgm = document.getElementById('bgm');
-    const audioToggle = document.getElementById('audio-toggle');
 
-    // ---- Entrance ----
     startBtn.addEventListener('click', () => {
-        loader.classList.add('loaded');
-        bgm.volume = 0.35;
+        bgm.volume = 0.3;
         bgm.play().catch(() => {});
-        audioToggle.textContent = 'MUSIC: ON';
+        
+        loader.classList.add('loaded');
+        
+        // 起動の余韻
+        setTimeout(() => {
+            document.querySelector('.years').classList.add('is-visible');
+        }, 500);
     });
 
-    audioToggle.addEventListener('click', () => {
-        if (bgm.paused) {
-            bgm.play();
-            audioToggle.textContent = 'MUSIC: ON';
-        } else {
-            bgm.pause();
-            audioToggle.textContent = 'MUSIC: OFF';
-        }
-    });
+    // 呼吸するような監視設定
+    const observerOptions = {
+        threshold: 0.05, // わずかに入ったら始動
+        rootMargin: '0px 0px -50px 0px'
+    };
 
-    // ---- 呼吸する可視化 ----
     const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-
-            const el = entry.target;
-
-            // 主役は遅れて深く
-            if (el.classList.contains('primary')) {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                // 少しだけランダムな遅延を入れて「均一さ」を殺す
+                const delay = Math.random() * 300;
                 setTimeout(() => {
-                    el.classList.add('is-visible');
-                }, 400);
-            } else {
-                el.classList.add('is-visible');
+                    e.target.classList.add('is-visible');
+                }, delay);
             }
-
-            observer.unobserve(el);
         });
-    }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -10% 0px'
-    });
+    }, observerOptions);
 
-    document
-        .querySelectorAll('.event, .time-mark, .main-title')
-        .forEach(el => observer.observe(el));
+    document.querySelectorAll('.fade-in, .fade-in-special').forEach(el => observer.observe(el));
+
+    // 音声トグルは最小限に
+    document.getElementById('audio-toggle').addEventListener('click', (e) => {
+        if (bgm.paused) { bgm.play(); e.target.style.opacity = "0.8"; }
+        else { bgm.pause(); e.target.style.opacity = "0.3"; }
+    });
 });
