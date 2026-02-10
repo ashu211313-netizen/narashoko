@@ -8,7 +8,6 @@
     --font-en: 'Playfair Display', serif;
 }
 
-/* --- 全体背景：動くグラデーション --- */
 body.animated-bg {
     color: var(--text-color);
     font-family: var(--font-jp);
@@ -24,7 +23,6 @@ body.animated-bg {
     100% { background-position: 0% 50%; }
 }
 
-/* --- ロード画面 --- */
 #loader {
     position: fixed;
     top: 0; left: 0;
@@ -41,10 +39,10 @@ body.animated-bg {
     transition: 1.5s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* --- 背景文字のレイヤー化設定 --- */
+/* --- 背景文字：1方向無限ループ設定 --- */
 .loader-bg-text {
     position: absolute;
-    width: 200%;
+    width: 200%; /* ループのために2倍幅 */
     white-space: nowrap;
     font-family: var(--font-en);
     font-weight: 900;
@@ -56,22 +54,27 @@ body.animated-bg {
 .line-1 { top: 2%; }
 .line-2 { bottom: 2%; }
 
-/* 各レイヤーの透明度とアニメーション速度を個別に設定 */
-.layer-a { opacity: 0.02; }
-.layer-b { opacity: 0.04; }
-.layer-c { opacity: 0.06; }
+/* レイヤー別透明度 */
+.layer-a { opacity: 0.03; }
+.layer-b { opacity: 0.05; }
+.layer-c { opacity: 0.07; }
 
-.line-1.layer-a { animation: scrollRight 90s linear infinite; }
-.line-2.layer-a { animation: scrollLeft 90s linear infinite; }
-.line-1.layer-b { animation: scrollRight 65s linear infinite; }
-.line-2.layer-b { animation: scrollLeft 65s linear infinite; }
-.line-1.layer-c { animation: scrollRight 45s linear infinite; }
-.line-2.layer-c { animation: scrollLeft 45s linear infinite; }
+/* アニメーション割り当て（すべて別々の時間） */
+.line-1.layer-a { animation: scrollRight 110s linear infinite; }
+.line-2.layer-a { animation: scrollLeft 110s linear infinite; }
 
+.line-1.layer-b { animation: scrollRight 85s linear infinite; }
+.line-2.layer-b { animation: scrollLeft 85s linear infinite; }
+
+.line-1.layer-c { animation: scrollRight 60s linear infinite; }
+.line-2.layer-c { animation: scrollLeft 60s linear infinite; }
+
+/* 1方向無限ループのアニメーション定義 */
 @keyframes scrollRight {
     0% { transform: translateX(-50%); }
     100% { transform: translateX(0%); }
 }
+
 @keyframes scrollLeft {
     0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
@@ -83,73 +86,44 @@ body.animated-bg {
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 120vw; height: 120vh;
-    /* ボタン周囲だけをほんのり明るくする */
     background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 60%);
     pointer-events: none;
     z-index: 5;
     transition: opacity 1s ease;
 }
 
-/* STARTボタンホバー時にスポットライトを強調 */
 #loader:has(#start-btn:hover) .spotlight {
     opacity: 1;
     background: radial-gradient(circle at center, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 50%);
 }
 
+/* 以下、タイトルのスタイル等 (構成維持) */
 .loader-content { position: relative; z-index: 10; text-align: center; padding: 20px; width: 100%; }
-
-/* タイトルのスタイル */
 .loader-text { margin-bottom: 2rem; }
-.txt-nara, .txt-tech {
-    font-family: var(--font-en); font-size: 1.8rem; 
-    letter-spacing: 0.2em; color: var(--accent-color); line-height: 1;
-}
-.ampersand { 
-    font-family: var(--font-en); font-style: italic; font-size: 1.5rem; 
-    color: var(--accent-color); margin: 5px 0;
-}
-
-/* 注意文とボタン */
+.txt-nara, .txt-tech { font-family: var(--font-en); font-size: 1.8rem; letter-spacing: 0.2em; color: var(--accent-color); line-height: 1; }
+.ampersand { font-family: var(--font-en); font-style: italic; font-size: 1.5rem; color: var(--accent-color); margin: 5px 0; }
 .audio-warning { margin-bottom: 4rem; }
 .warning-txt { font-size: 0.85rem; letter-spacing: 0.05em; color: var(--accent-color); opacity: 0.7; }
 
 #start-btn {
     appearance: none; -webkit-appearance: none;
-    background: rgba(255, 255, 255, 0.8); /* わずかに背景を透かしてスポットライトと馴染ませる */
+    background: rgba(255, 255, 255, 0.8);
     border: 1px solid var(--accent-color);
     color: var(--accent-color); padding: 18px 70px; cursor: pointer;
     font-family: var(--font-en); letter-spacing: 0.3em;
     transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
     border-radius: 0;
 }
-#start-btn:hover { 
-    background: var(--accent-color); color: white;
-    transform: scale(1.02);
-    box-shadow: 0 0 30px rgba(140, 123, 101, 0.2);
-}
+#start-btn:hover { background: var(--accent-color); color: white; transform: scale(1.02); box-shadow: 0 0 30px rgba(140, 123, 101, 0.2); }
 
-/* --- Hero・写真レイアウト等（変更なし） --- */
+/* Hero・フェードイン演出 (構成維持) */
 .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
-.transition-target {
-    opacity: 0 !important;
-    transform: scale(1.1);
-    filter: blur(8px);
-    transition: 2.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-body.is-started .transition-target {
-    opacity: 1 !important;
-    transform: scale(1);
-    filter: blur(0);
-}
+.transition-target { opacity: 0 !important; transform: scale(1.1); filter: blur(8px); transition: 2.5s cubic-bezier(0.22, 1, 0.36, 1); }
+body.is-started .transition-target { opacity: 1 !important; transform: scale(1); filter: blur(0); }
 .main-title { font-size: clamp(2rem, 8vw, 4rem); letter-spacing: 0.2em; margin: 10px 0; }
 .sub-line { display: block; font-size: 0.9rem; letter-spacing: 0.4em; color: var(--accent-color); }
 .years { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.2em; }
-
-.grade-label {
-    font-family: var(--font-en); font-size: clamp(3rem, 15vw, 10rem);
-    color: var(--accent-color); opacity: 0.08; text-align: center;
-    margin: 100px 0; font-style: italic; width: 100%;
-}
+.grade-label { font-family: var(--font-en); font-size: clamp(3rem, 15vw, 10rem); color: var(--accent-color); opacity: 0.08; text-align: center; margin: 100px 0; font-style: italic; width: 100%; }
 .event { width: 100%; max-width: 1000px; margin: 0 auto 15vh; padding: 0 20px; }
 .event-text { text-align: center; margin-bottom: 40px; }
 .event-text h3 { font-weight: 400; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
@@ -159,12 +133,7 @@ body.is-started .transition-target {
 .img-wrapper.right { align-self: flex-end !important; }
 .img-wrapper.center { align-self: center !important; width: 95%; }
 .img-wrapper img { width: 100%; display: block; height: auto; }
-
-@media (min-width: 769px) {
-    .img-wrapper { width: 70%; }
-    .img-wrapper.left, .img-wrapper.right { width: 55%; }
-    .img-wrapper.center { width: 85%; }
-}
+@media (min-width: 769px) { .img-wrapper { width: 70%; } .img-wrapper.left, .img-wrapper.right { width: 55%; } .img-wrapper.center { width: 85%; } }
 .fade-in { opacity: 0; transform: translateY(30px); transition: 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
 .fade-in.is-visible { opacity: 1 !important; transform: translateY(0); }
 #audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; color: var(--accent-color); cursor: pointer; z-index: 100; }
