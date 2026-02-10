@@ -2,7 +2,7 @@
 
 :root {
     --bg-color: #fdfdfd;
-    --text-color: #1a1a1a;
+    --text-color: #2c2c2c;
     --accent-color: #8c7b65; 
     --font-jp: 'Noto Serif JP', serif;
     --font-en: 'Playfair Display', serif;
@@ -15,69 +15,52 @@ body {
     overflow-x: hidden;
 }
 
-/* ロード画面を儀式化 */
 #loader {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100dvh;
     background-color: var(--bg-color);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     z-index: 9999;
 }
-#loader.loaded { opacity: 0; visibility: hidden; transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+#loader.loaded { opacity: 0; visibility: hidden; transition: 0.8s; }
 
+.loader-content { text-align: center; padding: 20px; }
+.loader-text { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.3em; color: var(--accent-color); margin-bottom: 2rem; }
 #start-btn {
     appearance: none; -webkit-appearance: none;
     background: none; border: 1px solid var(--accent-color);
-    color: var(--accent-color); padding: 20px 80px; cursor: pointer;
-    font-family: var(--font-en); letter-spacing: 0.5em; font-size: 0.8rem;
-    margin-top: 40px; transition: 0.5s;
+    color: var(--accent-color); padding: 15px 50px; cursor: pointer;
+    font-family: var(--font-en); letter-spacing: 0.2em; border-radius: 0;
 }
 
-/* Hero: 沈黙 */
-.hero { height: 100vh; display: flex; align-items: center; justify-content: center; }
-.years { font-family: var(--font-en); font-size: 1.5rem; letter-spacing: 0.4em; opacity: 0.4; }
+.hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+.main-title { font-size: clamp(2rem, 8vw, 4rem); letter-spacing: 0.2em; }
 
-/* Intro: 名刺を遅らせる */
-.intro-section { height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; }
-.main-title { font-size: 2.5rem; letter-spacing: 0.5em; font-weight: 200; margin-top: 10px; }
-.sub-line { font-size: 0.8rem; letter-spacing: 0.3em; color: var(--accent-color); }
-
-/* 学年ラベル：アニメーションをさせない（静かに佇む） */
 .grade-label {
-    font-family: var(--font-en); font-size: clamp(4rem, 18vw, 15rem);
-    color: var(--accent-color); opacity: 0.05; text-align: center;
-    margin: 15vh 0; font-style: italic; pointer-events: none;
+    font-family: var(--font-en); font-size: clamp(3rem, 15vw, 10rem);
+    color: var(--accent-color); opacity: 0.08; text-align: center;
+    margin: 80px 0; font-style: italic; width: 100%;
 }
 
-/* 行事・写真 */
-.event { width: 100%; max-width: 1200px; margin: 0 auto 40vh; padding: 0 4%; }
-.event-text { text-align: center; margin-bottom: 100px; }
-.event-text h3 { font-weight: 400; letter-spacing: 0.4em; font-size: 1.2rem; }
+.event { width: 100%; max-width: 1000px; margin: 0 auto 15vh; padding: 0 20px; }
+.event-text { text-align: center; margin-bottom: 40px; }
+.event-text h3 { font-weight: 400; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
 
 .event-photos { display: flex; flex-direction: column; align-items: center; }
-.img-wrapper { width: 100%; margin-bottom: 80px; }
-.img-wrapper img { width: 100%; display: block; filter: grayscale(20%); transition: 1s; }
-.img-wrapper img:hover { filter: grayscale(0%); }
+.img-wrapper { width: 100%; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.img-wrapper img { width: 100%; display: block; height: auto; }
 
-/* PCでの主役と脇役の強弱 */
+/* PC用の左右配置 */
 @media (min-width: 769px) {
-    .img-wrapper.center { width: 90%; margin: 15vh 0; } /* 主役は大きく */
-    .img-wrapper.left { align-self: flex-start; width: 45%; }
-    .img-wrapper.right { align-self: flex-end; width: 45%; }
+    .img-wrapper { width: 70%; }
+    .img-wrapper.left { align-self: flex-start; }
+    .img-wrapper.right { align-self: flex-end; width: 60%; }
+    .img-wrapper.center { align-self: center; width: 85%; }
 }
 
-/* アニメーションの「呼吸」 */
-.fade-in { opacity: 0; transform: translateY(20px); transition: 2s cubic-bezier(0.16, 1, 0.3, 1); }
+.fade-in { opacity: 0; transform: translateY(20px); transition: 1.2s ease; }
 .fade-in.is-visible { opacity: 1; transform: translateY(0); }
 
-.fade-in-special { opacity: 0; transform: scale(1.02); transition: 3s cubic-bezier(0.16, 1, 0.3, 1); }
-.fade-in-special.is-visible { opacity: 1; transform: scale(1); }
-
-/* 制作ノート（デバッグの跡を思想に変える） */
-.dev-note { margin-top: 40px; cursor: pointer; color: #ccc; font-size: 0.7rem; }
-.note-content { margin-top: 15px; line-height: 2; color: #999; }
-
-#audio-toggle { position: fixed; bottom: 30px; left: 30px; font-family: var(--font-en); font-size: 0.6rem; letter-spacing: 0.2em; cursor: pointer; opacity: 0.3; }
-footer { padding: 15vh 0; text-align: center; opacity: 0.6; }
+#audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; color: var(--accent-color); cursor: pointer; z-index: 100; }
+footer { padding: 60px 0; text-align: center; font-size: 0.8rem; color: var(--accent-color); }
