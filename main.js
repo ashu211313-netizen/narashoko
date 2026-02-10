@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startBtn.addEventListener('click', () => {
         loader.classList.add('loaded');
-        document.body.classList.add('is-started'); // 演出開始の合図
+        document.body.classList.add('is-started'); // これがCSSのトリガーになります
         bgm.volume = 0.4;
         bgm.play().catch(() => {});
         audioToggle.textContent = 'MUSIC: ON';
