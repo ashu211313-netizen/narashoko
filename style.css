@@ -41,7 +41,7 @@ body.animated-bg {
     transition: 1.5s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* 背景文字：上下ギリギリに固定 */
+/* 背景文字：上下端ギリギリ */
 .loader-bg-text {
     position: absolute;
     width: 200%;
@@ -67,23 +67,23 @@ body.animated-bg {
 
 .loader-content { position: relative; z-index: 10; text-align: center; padding: 20px; width: 100%; }
 
-/* タイトルのスタイルと間隔調整 */
+/* タイトルの配置調整（間隔を詰める） */
 .loader-text { 
+    margin-bottom: 2rem; 
+}
+.txt-nara, .txt-tech {
     font-family: var(--font-en); 
     font-size: 1.8rem; 
     letter-spacing: 0.2em; 
     color: var(--accent-color); 
-    line-height: 1.2; /* 行間を詰めました */
-    margin-bottom: 2.5rem; 
+    line-height: 1;
 }
-
-/* ＆を少し近づける */
 .ampersand { 
     font-family: var(--font-en); 
     font-style: italic; 
     font-size: 1.5rem; 
-    display: block; 
-    margin: 5px 0; /* 余白をさらに小さく調整 */
+    color: var(--accent-color);
+    margin: 5px 0; /* ＆の上下余白をさらに詰めました */
 }
 
 /* 注意文とボタンの隙間 */
@@ -100,7 +100,7 @@ body.animated-bg {
 }
 #start-btn:hover { background: var(--accent-color); color: white; }
 
-/* --- Hero演出 --- */
+/* --- 以降、Hero・写真レイアウト等（変更なし） --- */
 .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
 .transition-target {
     opacity: 0 !important;
@@ -113,39 +113,31 @@ body.is-started .transition-target {
     transform: scale(1);
     filter: blur(0);
 }
-
 .main-title { font-size: clamp(2rem, 8vw, 4rem); letter-spacing: 0.2em; margin: 10px 0; }
 .sub-line { display: block; font-size: 0.9rem; letter-spacing: 0.4em; color: var(--accent-color); }
 .years { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.2em; }
 
-/* --- 写真の配置 --- */
 .grade-label {
     font-family: var(--font-en); font-size: clamp(3rem, 15vw, 10rem);
     color: var(--accent-color); opacity: 0.08; text-align: center;
     margin: 100px 0; font-style: italic; width: 100%;
 }
-
 .event { width: 100%; max-width: 1000px; margin: 0 auto 15vh; padding: 0 20px; }
 .event-text { text-align: center; margin-bottom: 40px; }
 .event-text h3 { font-weight: 400; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
-
 .event-photos { display: flex; flex-direction: column; width: 100%; align-items: flex-start; }
 .img-wrapper { width: 85%; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-
-.img-wrapper.left { align-self: flex-start !important; margin-right: auto; }
-.img-wrapper.right { align-self: flex-end !important; margin-left: auto; }
-.img-wrapper.center { align-self: center !important; width: 95%; margin-left: auto; margin-right: auto; }
+.img-wrapper.left { align-self: flex-start !important; }
+.img-wrapper.right { align-self: flex-end !important; }
+.img-wrapper.center { align-self: center !important; width: 95%; }
 .img-wrapper img { width: 100%; display: block; height: auto; }
 
 @media (min-width: 769px) {
     .img-wrapper { width: 70%; }
-    .img-wrapper.left { width: 55%; }
-    .img-wrapper.right { width: 55%; }
+    .img-wrapper.left, .img-wrapper.right { width: 55%; }
     .img-wrapper.center { width: 85%; }
 }
-
 .fade-in { opacity: 0; transform: translateY(30px); transition: 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
 .fade-in.is-visible { opacity: 1 !important; transform: translateY(0); }
-
 #audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; color: var(--accent-color); cursor: pointer; z-index: 100; }
 footer { padding: 80px 0; text-align: center; font-size: 0.8rem; color: var(--accent-color); }
