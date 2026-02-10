@@ -5,11 +5,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioToggle = document.getElementById('audio-toggle');
 
     startBtn.addEventListener('click', () => {
-        loader.classList.add('loaded');
-        document.body.classList.add('is-started'); 
-        bgm.volume = 0.4;
+        // 1. ズームアニメーション開始用のクラス付与
+        startBtn.classList.add('zoom-active');
+        loader.classList.add('is-zooming');
+
+        // 2. 音の同期（低音が入るイメージで少し遅れてメインボリュームへ）
+        bgm.volume = 0;
         bgm.play().catch(() => {});
+        
+        // 徐々にボリュームアップ（フェードイン）
+        let vol = 0;
+        const fadeAudio = setInterval(() => {
+            if (vol < 0.4) {
+                vol += 0.05;
+                bgm.volume = vol;
+            } else {
+                clearInterval(fadeAudio);
+            }
+        }, 150);
+
         audioToggle.textContent = 'MUSIC: ON';
+
+        // 3. ズーム完了のタイミング（1.1秒）でロード画面を完全に消し、本編を開始
+        setTimeout(() => {
+            loader.style.display = 'none';
+            document.body.classList.add('is-started'); 
+        }, 1100);
     });
 
     audioToggle.addEventListener('click', () => {
@@ -22,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // スクロール監視
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) {
