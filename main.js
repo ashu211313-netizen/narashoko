@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioToggle = document.getElementById('audio-toggle');
 
     startBtn.addEventListener('click', () => {
-        // 1. 全体ズーム開始（コンテナとローダーにクラス付与）
+        // 1. ズーム発動（コンテナとボタンにクラスを付与）
         startBtn.classList.add('zoom-active');
         loader.classList.add('is-zooming');
 
@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 150);
         audioToggle.textContent = 'MUSIC: ON';
 
-        // 3. ズームの勢いが最大になるタイミングで本編を表示
+        // 3. 画面切り替え：ズームが視界を白く染め上げた瞬間に実行
         setTimeout(() => {
-            loader.style.display = 'none';
-            document.body.classList.add('is-started'); 
-        }, 1200); // 1.2秒で切り替え
+            loader.style.display = 'none'; // ロード画面を物理的に消す
+            document.body.classList.add('is-started'); // 本編タイトルを浮上させる
+        }, 1200); // 1.2秒後
     });
 
     audioToggle.addEventListener('click', () => {
@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // スクロール時のフェードイン監視
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) {
