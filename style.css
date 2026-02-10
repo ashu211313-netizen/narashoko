@@ -41,54 +41,40 @@ body.animated-bg {
     transition: 1.5s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* --- 背景文字：呼吸と揺らぎ (移動させず、位置を固定) --- */
+/* --- 背景文字のレイヤー化設定 --- */
 .loader-bg-text {
     position: absolute;
-    width: 100%;
-    text-align: center;
+    width: 200%;
     white-space: nowrap;
     font-family: var(--font-en);
     font-weight: 900;
     font-size: 12vh;
     text-transform: uppercase;
     pointer-events: none;
-    left: 0;
 }
 
 .line-1 { top: 2%; }
 .line-2 { bottom: 2%; }
 
-/* Layer A: ほぼ静止。空間の「芯」 */
-.layer-static {
-    opacity: 0.03;
-}
+/* 各レイヤーの透明度とアニメーション速度を個別に設定 */
+.layer-a { opacity: 0.02; }
+.layer-b { opacity: 0.04; }
+.layer-c { opacity: 0.06; }
 
-/* Layer B: 水平方向の往復運動（カーテンの揺れ） */
-.layer-sway-slow {
-    opacity: 0.02;
-    animation: swayHorizontal 12s ease-in-out infinite;
-}
+.line-1.layer-a { animation: scrollRight 90s linear infinite; }
+.line-2.layer-a { animation: scrollLeft 90s linear infinite; }
+.line-1.layer-b { animation: scrollRight 65s linear infinite; }
+.line-2.layer-b { animation: scrollLeft 65s linear infinite; }
+.line-1.layer-c { animation: scrollRight 45s linear infinite; }
+.line-2.layer-c { animation: scrollLeft 45s linear infinite; }
 
-/* Layer C: 垂直方向と不透明度の呼吸 */
-.layer-breath {
-    opacity: 0.01;
-    animation: breathVertical 8s ease-in-out infinite;
+@keyframes scrollRight {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
 }
-
-@keyframes swayHorizontal {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(15px); }
-}
-
-@keyframes breathVertical {
-    0%, 100% { 
-        transform: translateY(0);
-        opacity: 0.01;
-    }
-    50% { 
-        transform: translateY(-8px);
-        opacity: 0.04;
-    }
+@keyframes scrollLeft {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
 }
 
 /* --- 中央のスポットライト演出 --- */
@@ -97,6 +83,7 @@ body.animated-bg {
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 120vw; height: 120vh;
+    /* ボタン周囲だけをほんのり明るくする */
     background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 60%);
     pointer-events: none;
     z-index: 5;
@@ -128,7 +115,7 @@ body.animated-bg {
 
 #start-btn {
     appearance: none; -webkit-appearance: none;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.8); /* わずかに背景を透かしてスポットライトと馴染ませる */
     border: 1px solid var(--accent-color);
     color: var(--accent-color); padding: 18px 70px; cursor: pointer;
     font-family: var(--font-en); letter-spacing: 0.3em;
@@ -141,7 +128,7 @@ body.animated-bg {
     box-shadow: 0 0 30px rgba(140, 123, 101, 0.2);
 }
 
-/* --- Hero・写真レイアウト --- */
+/* --- Hero・写真レイアウト等（変更なし） --- */
 .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
 .transition-target {
     opacity: 0 !important;
