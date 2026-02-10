@@ -5,29 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioToggle = document.getElementById('audio-toggle');
 
     startBtn.addEventListener('click', () => {
-        // 1. 全体ズーム開始（コンテナとローダーにクラス付与）
-        startBtn.classList.add('zoom-active');
-        loader.classList.add('is-zooming');
-
-        // 2. 音の同期：ズーム開始とともにフェードイン
-        bgm.volume = 0;
-        bgm.play().catch(() => {});
-        let vol = 0;
-        const fadeAudio = setInterval(() => {
-            if (vol < 0.4) {
-                vol += 0.05;
-                bgm.volume = vol;
-            } else {
-                clearInterval(fadeAudio);
-            }
-        }, 150);
+        loader.classList.add('loaded');
+        document.body.classList.add('is-started'); 
+        
+        // 音声を再生
+        bgm.volume = 0.4;
+        bgm.play().catch(() => {
+            console.log("Audio play blocked by browser");
+        });
         audioToggle.textContent = 'MUSIC: ON';
-
-        // 3. ズームの勢いが最大になるタイミングで本編を表示
-        setTimeout(() => {
-            loader.style.display = 'none';
-            document.body.classList.add('is-started'); 
-        }, 1200); // 1.2秒で切り替え
     });
 
     audioToggle.addEventListener('click', () => {
@@ -40,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // スクロールでふわっと表示させる
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) {
