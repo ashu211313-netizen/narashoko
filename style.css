@@ -24,7 +24,7 @@ body.animated-bg {
     100% { background-position: 0% 50%; }
 }
 
-/* --- ロード画面：流れる巨大文字 --- */
+/* --- ロード画面 --- */
 #loader {
     position: fixed;
     top: 0; left: 0;
@@ -41,6 +41,7 @@ body.animated-bg {
     transition: 1.5s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
+/* 背景文字：上下の間隔を広げる (10% → 5% / 95% → 95%) */
 .loader-bg-text {
     position: absolute;
     width: 200%;
@@ -52,9 +53,8 @@ body.animated-bg {
     opacity: 0.04;
     pointer-events: none;
 }
-
-.line-1 { top: 20%; animation: scrollRight 40s linear infinite; }
-.line-2 { bottom: 20%; animation: scrollLeft 40s linear infinite; }
+.line-1 { top: 5%; animation: scrollRight 40s linear infinite; }
+.line-2 { bottom: 5%; animation: scrollLeft 40s linear infinite; }
 
 @keyframes scrollRight {
     0% { transform: translateX(-50%); }
@@ -65,15 +65,30 @@ body.animated-bg {
     100% { transform: translateX(-50%); }
 }
 
-.loader-content { position: relative; z-index: 10; text-align: center; padding: 20px; }
-.loader-text { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.3em; color: var(--accent-color); margin-bottom: 2rem; }
+.loader-content { position: relative; z-index: 10; text-align: center; padding: 20px; width: 100%; }
+
+/* タイトルを2行+中央の＆に */
+.loader-text { 
+    font-family: var(--font-en); 
+    font-size: 1.8rem; 
+    letter-spacing: 0.2em; 
+    color: var(--accent-color); 
+    line-height: 1.5;
+    margin-bottom: 3rem; 
+}
+.loader-text span { font-size: 1.2rem; display: block; margin: 5px 0; }
+
+/* 注意文とボタンの隙間を広げる */
+.audio-warning { margin-bottom: 3.5rem; }
+.warning-txt { font-size: 0.85rem; letter-spacing: 0.05em; color: var(--accent-color); opacity: 0.8; }
 
 #start-btn {
     appearance: none; -webkit-appearance: none;
     background: white; border: 1px solid var(--accent-color);
-    color: var(--accent-color); padding: 18px 60px; cursor: pointer;
+    color: var(--accent-color); padding: 18px 70px; cursor: pointer;
     font-family: var(--font-en); letter-spacing: 0.3em;
     transition: 0.4s;
+    border-radius: 0;
 }
 #start-btn:hover { background: var(--accent-color); color: white; }
 
@@ -95,7 +110,7 @@ body.is-started .transition-target {
 .sub-line { display: block; font-size: 0.9rem; letter-spacing: 0.4em; color: var(--accent-color); }
 .years { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.2em; }
 
-/* --- 写真の配置 (iPhone Safari 鉄壁版) --- */
+/* --- 写真の配置 --- */
 .grade-label {
     font-family: var(--font-en); font-size: clamp(3rem, 15vw, 10rem);
     color: var(--accent-color); opacity: 0.08; text-align: center;
@@ -121,7 +136,6 @@ body.is-started .transition-target {
     .img-wrapper.center { width: 85%; }
 }
 
-/* フェードイン設定（!importantで確実に出現させる） */
 .fade-in { opacity: 0; transform: translateY(30px); transition: 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
 .fade-in.is-visible { opacity: 1 !important; transform: translateY(0); }
 
