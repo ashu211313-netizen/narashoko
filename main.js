@@ -1,38 +1,131 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const loader = document.getElementById('loader');
-    const startBtn = document.getElementById('start-btn');
-    const bgm = document.getElementById('bgm');
-    const audioToggle = document.getElementById('audio-toggle');
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    startBtn.addEventListener('click', () => {
-        startBtn.classList.add('zoom-active');
-        loader.classList.add('is-zooming');
+:root {
+    --bg-color: #fdfdfd;
+    --text-color: #2c2c2c;
+    --accent-color: #8c7b65; 
+    --font-jp: 'Noto Serif JP', serif;
+    --font-en: 'Playfair Display', serif;
+}
 
-        bgm.volume = 0;
-        bgm.play().catch(() => {});
-        let vol = 0;
-        const fadeAudio = setInterval(() => {
-            if (vol < 0.3) { vol += 0.05; bgm.volume = vol; }
-            else { clearInterval(fadeAudio); }
-        }, 150);
+body.animated-bg {
+    color: var(--text-color); font-family: var(--font-jp); overflow-x: hidden;
+    background: linear-gradient(125deg, #fdfdfd, #f7f3ee, #fdfdfd, #eeeae4);
+    background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+}
+@keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        setTimeout(() => {
-            loader.style.display = 'none';
-            document.body.classList.add('is-started'); 
-            window.scrollTo(0, 0); // 切り替え時に最上部へ
-        }, 1200);
-    });
+/* --- ロード画面 --- */
+#loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+    background-color: var(--bg-color);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999; overflow: hidden;
+}
 
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) e.target.classList.add('is-visible');
-        });
-    }, { threshold: 0.1 });
+/* ズーム中の背景文字とスポットライトの消え方 */
+#loader.is-zooming .loader-bg-text,
+#loader.is-zooming .spotlight {
+    opacity: 0; transform: scale(1.5);
+    transition: 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+/* 背景文字設定 */
+.loader-bg-text {
+    position: absolute; width: 200%; white-space: nowrap;
+    font-family: var(--font-en); font-weight: 900; font-size: 12vh;
+    text-transform: uppercase; pointer-events: none;
+}
+.line-1 { top: 2%; } .line-2 { bottom: 2%; }
+.layer-a { opacity: 0.03; } .layer-b { opacity: 0.05; } .layer-c { opacity: 0.07; }
+.line-1.layer-a { animation: scrollRight 110s linear infinite; }
+.line-2.layer-a { animation: scrollLeft 110s linear infinite; }
+.line-1.layer-b { animation: scrollRight 85s linear infinite; }
+.line-2.layer-b { animation: scrollLeft 85s linear infinite; }
+.line-1.layer-c { animation: scrollRight 60s linear infinite; }
+.line-2.layer-c { animation: scrollLeft 60s linear infinite; }
+@keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0%); } }
+@keyframes scrollLeft { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
 
-    audioToggle.addEventListener('click', () => {
-        if (bgm.paused) { bgm.play(); audioToggle.textContent = 'MUSIC: ON'; }
-        else { bgm.pause(); audioToggle.textContent = 'MUSIC: OFF'; }
-    });
-});
+/* --- スポットライト --- */
+.spotlight {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 120vw; height: 120vh;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 60%);
+    pointer-events: none; z-index: 5; transition: 0.8s;
+}
+
+/* --- 【重要】ズームコンテナ：ボタンの中心を基点にする --- */
+.loader-content {
+    position: relative; z-index: 10; text-align: center;
+    width: 100%; display: flex; flex-direction: column; align-items: center;
+    transform-origin: center bottom; /* ボタンが下部にあるため調整 */
+    transition: transform 1.2s cubic-bezier(0.64, 0, 0.78, 0), opacity 0.5s ease;
+}
+
+/* ズーム発動時：コンテナごと巨大化 */
+#loader.is-zooming .loader-content {
+    transform: scale(40); /* コンテナごと拡大して「穴」に吸い込む */
+}
+
+/* コンテンツ内の文字の消え方 */
+.loader-text-wrapper { transition: 0.3s ease; }
+#loader.is-zooming .loader-text-wrapper {
+    opacity: 0; filter: blur(10px);
+}
+
+.loader-text { margin-bottom: 2rem; }
+.txt-nara, .txt-tech { font-family: var(--font-en); font-size: 1.8rem; letter-spacing: 0.2em; color: var(--accent-color); line-height: 1; }
+.ampersand { font-family: var(--font-en); font-style: italic; font-size: 1.5rem; color: var(--accent-color); margin: 5px 0; }
+.audio-warning { margin-bottom: 4rem; }
+.warning-txt { font-size: 0.85rem; letter-spacing: 0.05em; color: var(--accent-color); opacity: 0.7; }
+
+/* --- スタートボタン --- */
+#start-btn {
+    appearance: none; -webkit-appearance: none;
+    background: white; border: 1px solid var(--accent-color);
+    color: var(--accent-color); padding: 18px 70px; cursor: pointer;
+    font-family: var(--font-en); letter-spacing: 0.3em;
+    border-radius: 0; position: relative; z-index: 100;
+    transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#start-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(140, 123, 101, 0.1);
+}
+
+/* ズーム中のボタン自体の変化 */
+#start-btn.zoom-active {
+    color: transparent;
+    border: 0px solid transparent;
+    background: var(--bg-color); /* 次画面の背景色と合流 */
+    transition: color 0.2s ease, border 0.3s ease, background 0.4s ease;
+}
+
+/* --- コンテンツフェード --- */
+.hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+.transition-target {
+    opacity: 0 !important; transform: scale(1.1); filter: blur(10px);
+    transition: 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s;
+}
+body.is-started .transition-target { opacity: 1 !important; transform: scale(1); filter: blur(0); }
+
+.main-title { font-size: clamp(2rem, 8vw, 4rem); letter-spacing: 0.2em; margin: 10px 0; }
+.sub-line { display: block; font-size: 0.9rem; letter-spacing: 0.4em; color: var(--accent-color); }
+.years { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.2em; }
+.grade-label { font-family: var(--font-en); font-size: clamp(3rem, 15vw, 10rem); color: var(--accent-color); opacity: 0.08; text-align: center; margin: 100px 0; font-style: italic; width: 100%; }
+.event { width: 100%; max-width: 1000px; margin: 0 auto 15vh; padding: 0 20px; }
+.event-text { text-align: center; margin-bottom: 40px; }
+.event-text h3 { font-weight: 400; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
+.event-photos { display: flex; flex-direction: column; width: 100%; align-items: flex-start; }
+.img-wrapper { width: 85%; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.img-wrapper.left { align-self: flex-start !important; }
+.img-wrapper.right { align-self: flex-end !important; }
+.img-wrapper.center { align-self: center !important; width: 95%; }
+.img-wrapper img { width: 100%; display: block; height: auto; }
+@media (min-width: 769px) { .img-wrapper { width: 70%; } .img-wrapper.left, .img-wrapper.right { width: 55%; } .img-wrapper.center { width: 85%; } }
+.fade-in { opacity: 0; transform: translateY(30px); transition: 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
+.fade-in.is-visible { opacity: 1 !important; transform: translateY(0); }
+#audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; color: var(--accent-color); cursor: pointer; z-index: 100; }
+footer { padding: 80px 0; text-align: center; font-size: 0.8rem; color: var(--accent-color); }
