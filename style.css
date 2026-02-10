@@ -15,7 +15,7 @@ body {
     overflow-x: hidden;
 }
 
-/* --- ロード演出 --- */
+/* --- ロード画面 --- */
 #loader {
     position: fixed;
     top: 0; left: 0;
@@ -27,11 +27,12 @@ body {
 #loader.loaded { 
     opacity: 0; 
     visibility: hidden; 
-    transition: 1.5s cubic-bezier(0.65, 0, 0.35, 1); /* 移行を滑らかに */
+    transition: 1.5s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .loader-content { text-align: center; padding: 20px; }
 .loader-text { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.3em; color: var(--accent-color); margin-bottom: 2rem; }
+
 #start-btn {
     appearance: none; -webkit-appearance: none;
     background: none; border: 1px solid var(--accent-color);
@@ -39,27 +40,29 @@ body {
     font-family: var(--font-en); letter-spacing: 0.2em; border-radius: 0;
 }
 
-/* --- Hero演出 (ズームアウト・フェード) --- */
+/* --- Heroセクションのタイトル表示設定 --- */
 .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
 
+/* 修正：初期状態を「見えない」＋「少し大きく」＋「ボケ」に設定 */
 .transition-target {
-    opacity: 0;
-    transform: scale(1.15); /* 最初は少し大きく寄っておく */
-    filter: blur(8px);      /* 霧がかかった状態 */
-    transition: 2.5s cubic-bezier(0.22, 1, 0.36, 1); /* START後の動き */
+    opacity: 0 !important;
+    transform: scale(1.1);
+    filter: blur(8px);
+    transition: 2.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ロード完了後にこのクラスをJSで制御（またはbody.is-started経由） */
-.is-started .transition-target {
-    opacity: 1;
+/* 修正：STARTボタン押下後（is-started付与時）に「見える」ようにする */
+body.is-started .transition-target {
+    opacity: 1 !important;
     transform: scale(1);
     filter: blur(0);
 }
 
-.main-title { font-size: clamp(2rem, 8vw, 4rem); letter-spacing: 0.2em; }
-.sub-line { display: block; font-size: 0.9rem; letter-spacing: 0.4em; color: var(--accent-color); margin-bottom: 10px; }
+.main-title { font-size: clamp(2rem, 8vw, 4rem); letter-spacing: 0.2em; margin: 10px 0; }
+.sub-line { display: block; font-size: 0.9rem; letter-spacing: 0.4em; color: var(--accent-color); }
+.years { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.2em; }
 
-/* --- コンテンツ配置 --- */
+/* --- 写真の左右配置 (iPhone Safari 鉄壁版) --- */
 .grade-label {
     font-family: var(--font-en); font-size: clamp(3rem, 15vw, 10rem);
     color: var(--accent-color); opacity: 0.08; text-align: center;
@@ -70,25 +73,29 @@ body {
 .event-text { text-align: center; margin-bottom: 40px; }
 .event-text h3 { font-weight: 400; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
 
-.event-photos { display: flex; flex-direction: column; width: 100%; }
-
-.img-wrapper { 
-    width: 80%; 
-    margin-bottom: 35px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+.event-photos { 
+    display: flex; 
+    flex-direction: column; 
+    width: 100%;
+    align-items: flex-start; 
 }
 
-/* iPhoneでも左右・中央を維持 */
-.img-wrapper.left { align-self: flex-start; }
-.img-wrapper.right { align-self: flex-end; }
-.img-wrapper.center { align-self: center; width: 95%; }
+.img-wrapper { 
+    width: 85%; 
+    margin-bottom: 40px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.img-wrapper.left { align-self: flex-start !important; margin-right: auto; }
+.img-wrapper.right { align-self: flex-end !important; margin-left: auto; }
+.img-wrapper.center { align-self: center !important; width: 95%; margin-left: auto; margin-right: auto; }
 
 .img-wrapper img { width: 100%; display: block; height: auto; }
 
 @media (min-width: 769px) {
     .img-wrapper { width: 70%; }
-    .img-wrapper.left { width: 60%; }
-    .img-wrapper.right { width: 60%; }
+    .img-wrapper.left { width: 55%; }
+    .img-wrapper.right { width: 55%; }
     .img-wrapper.center { width: 85%; }
 }
 
