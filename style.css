@@ -47,16 +47,32 @@ body {
 .event-text { text-align: center; margin-bottom: 40px; }
 .event-text h3 { font-weight: 400; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
 
-.event-photos { display: flex; flex-direction: column; align-items: center; }
-.img-wrapper { width: 100%; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+/* 修正ポイント：スマホでもflex配置を有効にする */
+.event-photos { 
+    display: flex; 
+    flex-direction: column; 
+    width: 100%;
+}
+
+.img-wrapper { 
+    width: 80%; /* スマホでの基本幅 */
+    margin-bottom: 30px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+}
+
+/* スマホでも左右・中央を分ける設定 */
+.img-wrapper.left { align-self: flex-start; }
+.img-wrapper.right { align-self: flex-end; }
+.img-wrapper.center { align-self: center; width: 90%; }
+
 .img-wrapper img { width: 100%; display: block; height: auto; }
 
-/* PC用の左右配置 */
+/* PC用の調整（画面が広い時） */
 @media (min-width: 769px) {
     .img-wrapper { width: 70%; }
-    .img-wrapper.left { align-self: flex-start; }
-    .img-wrapper.right { align-self: flex-end; width: 60%; }
-    .img-wrapper.center { align-self: center; width: 85%; }
+    .img-wrapper.left { width: 60%; }
+    .img-wrapper.right { width: 60%; }
+    .img-wrapper.center { width: 85%; }
 }
 
 .fade-in { opacity: 0; transform: translateY(20px); transition: 1.2s ease; }
