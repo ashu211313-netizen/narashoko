@@ -41,7 +41,7 @@ body.animated-bg {
     transition: 1.5s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* 背景文字：上下端ギリギリ */
+/* --- 背景文字のレイヤー化設定 --- */
 .loader-bg-text {
     position: absolute;
     width: 200%;
@@ -50,11 +50,23 @@ body.animated-bg {
     font-weight: 900;
     font-size: 12vh;
     text-transform: uppercase;
-    opacity: 0.04;
     pointer-events: none;
 }
-.line-1 { top: 2%; animation: scrollRight 45s linear infinite; }
-.line-2 { bottom: 2%; animation: scrollLeft 45s linear infinite; }
+
+.line-1 { top: 2%; }
+.line-2 { bottom: 2%; }
+
+/* 各レイヤーの透明度とアニメーション速度を個別に設定 */
+.layer-a { opacity: 0.02; }
+.layer-b { opacity: 0.04; }
+.layer-c { opacity: 0.06; }
+
+.line-1.layer-a { animation: scrollRight 90s linear infinite; }
+.line-2.layer-a { animation: scrollLeft 90s linear infinite; }
+.line-1.layer-b { animation: scrollRight 65s linear infinite; }
+.line-2.layer-b { animation: scrollLeft 65s linear infinite; }
+.line-1.layer-c { animation: scrollRight 45s linear infinite; }
+.line-2.layer-c { animation: scrollLeft 45s linear infinite; }
 
 @keyframes scrollRight {
     0% { transform: translateX(-50%); }
@@ -65,42 +77,58 @@ body.animated-bg {
     100% { transform: translateX(-50%); }
 }
 
+/* --- 中央のスポットライト演出 --- */
+.spotlight {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120vw; height: 120vh;
+    /* ボタン周囲だけをほんのり明るくする */
+    background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 60%);
+    pointer-events: none;
+    z-index: 5;
+    transition: opacity 1s ease;
+}
+
+/* STARTボタンホバー時にスポットライトを強調 */
+#loader:has(#start-btn:hover) .spotlight {
+    opacity: 1;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 50%);
+}
+
 .loader-content { position: relative; z-index: 10; text-align: center; padding: 20px; width: 100%; }
 
-/* タイトルの配置調整（間隔を詰める） */
-.loader-text { 
-    margin-bottom: 2rem; 
-}
+/* タイトルのスタイル */
+.loader-text { margin-bottom: 2rem; }
 .txt-nara, .txt-tech {
-    font-family: var(--font-en); 
-    font-size: 1.8rem; 
-    letter-spacing: 0.2em; 
-    color: var(--accent-color); 
-    line-height: 1;
+    font-family: var(--font-en); font-size: 1.8rem; 
+    letter-spacing: 0.2em; color: var(--accent-color); line-height: 1;
 }
 .ampersand { 
-    font-family: var(--font-en); 
-    font-style: italic; 
-    font-size: 1.5rem; 
-    color: var(--accent-color);
-    margin: 5px 0; /* ＆の上下余白をさらに詰めました */
+    font-family: var(--font-en); font-style: italic; font-size: 1.5rem; 
+    color: var(--accent-color); margin: 5px 0;
 }
 
-/* 注意文とボタンの隙間 */
+/* 注意文とボタン */
 .audio-warning { margin-bottom: 4rem; }
 .warning-txt { font-size: 0.85rem; letter-spacing: 0.05em; color: var(--accent-color); opacity: 0.7; }
 
 #start-btn {
     appearance: none; -webkit-appearance: none;
-    background: white; border: 1px solid var(--accent-color);
+    background: rgba(255, 255, 255, 0.8); /* わずかに背景を透かしてスポットライトと馴染ませる */
+    border: 1px solid var(--accent-color);
     color: var(--accent-color); padding: 18px 70px; cursor: pointer;
     font-family: var(--font-en); letter-spacing: 0.3em;
-    transition: 0.4s;
+    transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
     border-radius: 0;
 }
-#start-btn:hover { background: var(--accent-color); color: white; }
+#start-btn:hover { 
+    background: var(--accent-color); color: white;
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(140, 123, 101, 0.2);
+}
 
-/* --- 以降、Hero・写真レイアウト等（変更なし） --- */
+/* --- Hero・写真レイアウト等（変更なし） --- */
 .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
 .transition-target {
     opacity: 0 !important;
