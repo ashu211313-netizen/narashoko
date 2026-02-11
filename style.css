@@ -12,17 +12,10 @@ body.animated-bg {
     color: var(--text-color);
     font-family: var(--font-jp);
     overflow-x: hidden;
-    background: linear-gradient(125deg, #fdfdfd, #f7f3ee, #fdfdfd, #eeeae4);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background-color: var(--bg-color);
 }
 
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
+/* ロード画面をすっきりと */
 #loader {
     position: fixed;
     top: 0; left: 0;
@@ -30,110 +23,64 @@ body.animated-bg {
     background-color: var(--bg-color);
     display: flex; align-items: center; justify-content: center;
     z-index: 9999;
-    overflow: hidden;
 }
 
 #loader.loaded { 
     opacity: 0; 
     visibility: hidden; 
-    transition: 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+    transition: 1s ease-out;
 }
 
-/* --- 背景文字：演出を残しつつスマホで邪魔しない設定 --- */
-.loader-bg-text {
-    position: absolute;
-    width: 200%;
-    white-space: nowrap;
-    font-family: var(--font-en);
-    font-weight: 900;
-    font-size: 8vh; /* 12vhから少し小さくして圧迫感を軽減 */
-    text-transform: uppercase;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.line-1 { top: 5%; }
-.line-2 { bottom: 5%; }
-.layer-a { opacity: 0.03; }
-.layer-b { opacity: 0.05; }
-.layer-c { opacity: 0.07; }
-
-.line-1.layer-a { animation: scrollRight 110s linear infinite; }
-.line-2.layer-a { animation: scrollLeft 110s linear infinite; }
-.line-1.layer-b { animation: scrollRight 85s linear infinite; }
-.line-2.layer-b { animation: scrollLeft 85s linear infinite; }
-.line-1.layer-c { animation: scrollRight 60s linear infinite; }
-.line-2.layer-c { animation: scrollLeft 60s linear infinite; }
-
-@keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0%); } }
-@keyframes scrollLeft { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
-
-.spotlight {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 120vw; height: 120vh;
-    background: radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 60%);
-    pointer-events: none;
-    z-index: 5;
-}
-
-.loader-content { position: relative; z-index: 10; text-align: center; padding: 20px; width: 100%; }
-.loader-text { margin-bottom: 2rem; }
-.txt-nara, .txt-tech { font-family: var(--font-en); font-size: 1.8rem; letter-spacing: 0.2em; color: var(--accent-color); line-height: 1.2; }
-.ampersand { font-family: var(--font-en); font-style: italic; font-size: 1.5rem; color: var(--accent-color); margin: 10px 0; }
-.warning-txt { font-size: 0.8rem; letter-spacing: 0.05em; color: var(--accent-color); opacity: 0.7; margin-bottom: 2rem; }
+.loader-content { text-align: center; padding: 20px; }
+.txt-nara, .txt-tech { font-family: var(--font-en); font-size: 1.8rem; color: var(--accent-color); letter-spacing: 0.1em; }
+.ampersand { font-style: italic; font-size: 1.5rem; margin: 10px 0; color: var(--accent-color); }
+.warning-txt { font-size: 0.8rem; opacity: 0.6; margin-bottom: 30px; }
 
 #start-btn {
-    appearance: none;
-    background: rgba(255, 255, 255, 0.9);
+    padding: 15px 60px;
+    background: white;
     border: 1px solid var(--accent-color);
-    color: var(--accent-color); padding: 18px 70px; cursor: pointer;
-    font-family: var(--font-en); letter-spacing: 0.3em;
-    transition: 0.4s;
+    color: var(--accent-color);
+    cursor: pointer;
+    font-family: var(--font-en);
+    letter-spacing: 0.2em;
+    transition: 0.3s;
 }
+#start-btn:hover { background: var(--accent-color); color: white; }
 
-/* --- メインコンテンツ：ここを最も安定させています --- */
+/* メインコンテンツ */
 .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
-.transition-target { opacity: 0 !important; transform: translateY(20px); filter: blur(5px); transition: 2s ease-out; }
-body.is-started .transition-target { opacity: 1 !important; transform: translateY(0); filter: blur(0); }
+.main-title { font-size: 2.5rem; letter-spacing: 0.2em; margin: 10px 0; }
+.sub-line { font-size: 0.9rem; color: var(--accent-color); letter-spacing: 0.3em; }
 
-.main-title { font-size: clamp(2rem, 8vw, 3.5rem); letter-spacing: 0.2em; margin: 10px 0; }
-.sub-line { display: block; font-size: 0.9rem; letter-spacing: 0.4em; color: var(--accent-color); }
-.years { font-family: var(--font-en); font-size: 1.2rem; letter-spacing: 0.2em; }
-
-/* 巨大化崩れを解決：サイズを調整 */
+/* 学年ラベルを控えめに */
 .grade-label { 
     font-family: var(--font-en); 
-    font-size: clamp(3.5rem, 15vw, 6rem); 
+    font-size: 3rem; 
     color: var(--accent-color); 
-    opacity: 0.12; 
+    opacity: 0.2; 
     text-align: center; 
-    margin: 80px 0 40px; 
+    margin: 60px 0; 
     font-style: italic; 
-    width: 100%; 
 }
 
-.event { width: 100%; max-width: 900px; margin: 0 auto 12vh; padding: 0 20px; }
-.event-text { text-align: center; margin-bottom: 30px; }
-.event-text h3 { font-weight: 500; font-size: 1.2rem; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
+.event { width: 90%; max-width: 800px; margin: 0 auto 100px; }
+.event-text h3 { font-weight: 500; margin-bottom: 30px; border-bottom: 1px solid #eee; display: inline-block; }
 
-/* 写真の配置：重ならないようにflexで制御 */
-.event-photos { display: flex; flex-direction: column; width: 100%; gap: 60px; }
-.img-wrapper { width: 100%; position: relative; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
-.img-wrapper img { width: 100%; display: block; height: auto; }
+.event-photos { display: flex; flex-direction: column; gap: 40px; }
+.img-wrapper { width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.img-wrapper img { width: 100%; height: auto; display: block; }
 
-/* PCでのみ左右に散らす（スマホでは縦一列で安定させる） */
-@media (min-width: 769px) {
-    .event-photos { gap: 80px; }
-    .img-wrapper { width: 65%; }
+/* スマホでも見やすく */
+@media (min-width: 768px) {
+    .img-wrapper { width: 70%; }
     .img-wrapper.left { align-self: flex-start; }
     .img-wrapper.right { align-self: flex-end; }
-    .img-wrapper.center { align-self: center; width: 85%; }
+    .img-wrapper.center { align-self: center; width: 90%; }
 }
 
-.fade-in { opacity: 0; transform: translateY(30px); transition: 1.2s ease-out; }
-.fade-in.is-visible { opacity: 1 !important; transform: translateY(0); }
+.fade-in { opacity: 0; transform: translateY(20px); transition: 1s ease-out; }
+.fade-in.is-visible { opacity: 1; transform: translateY(0); }
 
-#audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; color: var(--accent-color); cursor: pointer; z-index: 10000; }
-footer { padding: 60px 0; text-align: center; font-size: 0.8rem; color: var(--accent-color); opacity: 0.6; }
+#audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; z-index: 100; cursor: pointer; }
+footer { padding: 50px; text-align: center; font-size: 0.8rem; opacity: 0.5; }
