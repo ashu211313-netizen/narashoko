@@ -23,30 +23,23 @@ body.animated-bg {
     z-index: 9999; overflow: hidden;
 }
 
-/* ズーム中の背景文字とスポットライトの消え方 */
-#loader.is-zooming .loader-bg-text,
-#loader.is-zooming .spotlight {
-    opacity: 0; transform: scale(1.5);
-    transition: 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* 背景文字設定：指定の英字フォントを適用 */
+/* 背景文字：太く濃く調整 */
 .loader-bg-text {
     position: absolute; width: 250%; white-space: nowrap;
     font-family: var(--font-en); 
-    font-weight: 900; /* 画像に合わせた太めの設定 */
-    font-size: 15vh; /* 存在感のあるサイズ */
+    font-weight: 900; 
+    font-size: 15vh; 
     text-transform: uppercase; pointer-events: none;
     letter-spacing: 0.05em;
+    color: #888; /* ベースを濃いめのグレーに */
 }
 
+/* 濃度を上げたレイヤー設定 */
+.layer-a { opacity: 0.12; } 
+.layer-b { opacity: 0.08; font-style: italic; color: var(--accent-color); } 
+.layer-c { opacity: 0.15; color: #999; }
+
 .line-1 { top: 2%; } .line-2 { bottom: 2%; }
-
-/* レイヤーの色味調整：太めのフォントに合わせて不透明度を微調整 */
-.layer-a { opacity: 0.04; color: #aaa; } 
-.layer-b { opacity: 0.03; font-style: italic; color: var(--accent-color); } 
-.layer-c { opacity: 0.05; color: #ccc; }
-
 .line-1.layer-a { animation: scrollRight 110s linear infinite; }
 .line-2.layer-a { animation: scrollLeft 110s linear infinite; }
 .line-1.layer-b { animation: scrollRight 85s linear infinite; }
@@ -57,7 +50,13 @@ body.animated-bg {
 @keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0%); } }
 @keyframes scrollLeft { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
 
-/* --- スポットライト --- */
+/* ズームアニメーション設定 */
+#loader.is-zooming .loader-bg-text,
+#loader.is-zooming .spotlight {
+    opacity: 0; transform: scale(1.5);
+    transition: 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .spotlight {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     width: 120vw; height: 120vh;
@@ -65,11 +64,10 @@ body.animated-bg {
     pointer-events: none; z-index: 5; transition: 0.8s;
 }
 
-/* --- ズームコンテナ --- */
 .loader-content {
     position: relative; z-index: 10; text-align: center;
     width: 100%; display: flex; flex-direction: column; align-items: center;
-    transform-origin: center center; 
+    transform-origin: center center;
     transition: transform 1.2s cubic-bezier(0.64, 0, 0.78, 0), opacity 0.5s ease;
 }
 
@@ -83,20 +81,17 @@ body.animated-bg {
 .audio-warning { margin-bottom: 4rem; }
 .warning-txt { font-size: 0.85rem; letter-spacing: 0.05em; color: var(--accent-color); opacity: 0.7; }
 
-/* --- スタートボタン --- */
 #start-btn {
-    appearance: none; -webkit-appearance: none;
-    background: white; border: 1px solid var(--accent-color);
+    appearance: none; background: white; border: 1px solid var(--accent-color);
     color: var(--accent-color); padding: 18px 70px; cursor: pointer;
     font-family: var(--font-en); letter-spacing: 0.3em;
     border-radius: 0; position: relative; z-index: 100;
     transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
 #start-btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(140, 123, 101, 0.1); }
 #start-btn.zoom-active { color: transparent; border: 0px solid transparent; background: var(--bg-color); }
 
-/* --- コンテンツフェード --- */
+/* --- メインコンテンツ --- */
 .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
 .transition-target { opacity: 0 !important; transform: scale(1.1); filter: blur(10px); transition: 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s; }
 body.is-started .transition-target { opacity: 1 !important; transform: scale(1); filter: blur(0); }
