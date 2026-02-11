@@ -3,29 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trajectory | 奈良商工高等学校</title>
+    <title>2023-2025 Trajectory | 奈良商工高等学校</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;500&family=Playfair+Display:ital,wght@0,400;0,900;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;500&family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body class="animated-bg">
 
     <div id="loader">
-        <div class="loader-bg-text line-1 layer-a">Nara Business & Technology • Nara Business & Technology</div>
-        <div class="loader-bg-text line-2 layer-a">Nara Business & Technology • Nara Business & Technology</div>
-        <div class="loader-bg-text line-1 layer-b">Information Technology • Information Technology</div>
-        <div class="loader-bg-text line-2 layer-b">Information Technology • Information Technology</div>
+        <div class="loader-bg-text line-1 layer-a">Nara Business & Technology • Nara Business & Technology • Nara Business & Technology • </div>
+        <div class="loader-bg-text line-2 layer-a">Nara Business & Technology • Nara Business & Technology • Nara Business & Technology • </div>
         
+        <div class="loader-bg-text line-1 layer-b">Nara Business & Technology • Nara Business & Technology • Nara Business & Technology • </div>
+        <div class="loader-bg-text line-2 layer-b">Nara Business & Technology • Nara Business & Technology • Nara Business & Technology • </div>
+
+        <div class="loader-bg-text line-1 layer-c">Nara Business & Technology • Nara Business & Technology • Nara Business & Technology • </div>
+        <div class="loader-bg-text line-2 layer-c">Nara Business & Technology • Nara Business & Technology • Nara Business & Technology • </div>
+
         <div class="spotlight"></div>
 
-        <div class="loader-content">
-            <div class="loader-text">
-                <p class="txt-nara">Nara Business</p>
-                <p class="ampersand">&</p>
-                <p class="txt-tech">Technology</p>
+        <div class="loader-content" id="zoom-container">
+            <div class="loader-text-wrapper">
+                <div class="loader-text">
+                    <p class="txt-nara">Nara Business</p>
+                    <p class="ampersand">&</p>
+                    <p class="txt-tech">Technology</p>
+                </div>
+                <div class="audio-warning">
+                    <p class="warning-txt">音が流れます。音量にご注意ください。</p>
+                </div>
             </div>
-            <p class="warning-txt">音が流れます。音量にご注意ください。</p>
             <button id="start-btn">START</button>
         </div>
     </div>
@@ -34,7 +42,7 @@
     <div id="audio-toggle">MUSIC: OFF</div>
 
     <header class="hero">
-        <div class="hero-content">
+        <div class="hero-content transition-target">
             <span class="sub-line">奈良商工高等学校</span>
             <h1 class="main-title">情報工学科</h1>
             <p class="years italic">2023 — 2025</p>
