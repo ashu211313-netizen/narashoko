@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startBtn) {
         startBtn.onclick = () => {
-            // ローダーのフェードアウト開始
+            // ローダーのフェードアウト
             loader.classList.add('is-fadeout');
 
             // BGMのフェードイン再生
@@ -15,44 +15,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 bgm.play().then(() => {
                     let vol = 0;
                     const fade = setInterval(() => {
-                        if (vol < 0.4) { 
-                            vol += 0.05; 
-                            bgm.volume = Math.min(vol, 0.4); 
+                        if (vol < 0.35) { 
+                            vol += 0.02; 
+                            bgm.volume = Math.min(vol, 0.35); 
                         } else { 
                             clearInterval(fade); 
                         }
-                    }, 200);
+                    }, 150);
                     audioToggle.textContent = 'MUSIC: ON';
-                }).catch(err => console.log("Audio play blocked by browser."));
+                }).catch(err => console.log("Audio interaction required."));
             }
 
-            // 本編（ヒーローセクション・メインコンテンツ）を時間差で表示
+            // 本編のフェードイン
             setTimeout(() => {
                 document.body.classList.add('is-started');
-                // アニメーション完了後にDOMから削除して負荷を軽減
                 setTimeout(() => { 
                     loader.style.display = 'none'; 
-                }, 1000);
-            }, 600);
+                }, 1500);
+            }, 800);
         };
     }
 
-    // スクロールに応じたふわっとした表示（Intersection Observer）
-    const observerOptions = {
-        threshold: 0.1
-    };
-
+    // スクロール検知（画像ふわっと表示）
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // ミュージックトグル機能（任意）
+    // 音声制御
     if (audioToggle && bgm) {
         audioToggle.onclick = () => {
             if (bgm.paused) {
