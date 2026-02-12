@@ -6,10 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startBtn) {
         startBtn.onclick = () => {
-            // ローダーを非表示にするクラスを追加
             loader.classList.add('is-fadeout');
 
-            // BGMの処理
             if (bgm) {
                 bgm.volume = 0;
                 bgm.play().then(() => {
@@ -18,25 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (vol < 0.3) { 
                             vol += 0.05; 
                             bgm.volume = Math.min(vol, 0.3); 
-                        } else { 
-                            clearInterval(fade); 
-                        }
+                        } else { clearInterval(fade); }
                     }, 200);
                     audioToggle.textContent = 'MUSIC: ON';
-                }).catch(err => console.log("Safari requirements: User gesture needed for audio."));
+                }).catch(() => {
+                    audioToggle.textContent = 'MUSIC: OFF';
+                });
             }
 
-            // 本編のフェードインクラスを付与
             document.body.classList.add('is-started');
 
-            // 完全に隠れたらDOMから消去
             setTimeout(() => { 
                 loader.style.display = 'none'; 
             }, 1100);
         };
     }
 
-    // スクロール時のアニメーション
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) {
@@ -47,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // ミュージックトグル
     if (audioToggle && bgm) {
         audioToggle.onclick = () => {
             if (bgm.paused) {
