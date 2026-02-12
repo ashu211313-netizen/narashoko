@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startBtn) {
         startBtn.onclick = () => {
+            // フェードアウト開始
             loader.classList.add('is-fadeout');
+
+            // 音声再生
             if (bgm) {
                 bgm.volume = 0;
                 bgm.play().then(() => {
@@ -16,15 +19,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         else { clearInterval(fade); }
                     }, 200);
                     audioToggle.textContent = 'MUSIC: ON';
-                }).catch(() => {});
+                }).catch(err => console.log("Audio play blocked"));
             }
+
+            // 本編のフェードインタイミング
             setTimeout(() => {
                 document.body.classList.add('is-started');
-                setTimeout(() => { loader.style.display = 'none'; }, 1200);
-            }, 800);
+                // ローダーを完全に消す
+                setTimeout(() => { loader.style.display = 'none'; }, 1000);
+            }, 600);
         };
     }
 
+    // 画像のふわっと表示
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) e.target.classList.add('is-visible');
