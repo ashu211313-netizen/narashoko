@@ -6,37 +6,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startBtn) {
         startBtn.onclick = () => {
-            // フェードアウト開始
+            // ローダーのフェードアウト開始
             loader.classList.add('is-fadeout');
 
-            // 音声再生
+            // BGMのフェードイン再生
             if (bgm) {
                 bgm.volume = 0;
                 bgm.play().then(() => {
                     let vol = 0;
                     const fade = setInterval(() => {
-                        if (vol < 0.4) { vol += 0.05; bgm.volume = vol; }
-                        else { clearInterval(fade); }
+                        if (vol < 0.4) { 
+                            vol += 0.05; 
+                            bgm.volume = Math.min(vol, 0.4); 
+                        } else { 
+                            clearInterval(fade); 
+                        }
                     }, 200);
                     audioToggle.textContent = 'MUSIC: ON';
-                }).catch(err => console.log("Audio play blocked"));
+                }).catch(err => console.log("Audio play blocked by browser."));
             }
 
-            // 本編のフェードインタイミング
+            // 本編（ヒーローセクション・メインコンテンツ）を時間差で表示
             setTimeout(() => {
                 document.body.classList.add('is-started');
-                // ローダーを完全に消す
-                setTimeout(() => { loader.style.display = 'none'; }, 1000);
+                // アニメーション完了後にDOMから削除して負荷を軽減
+                setTimeout(() => { 
+                    loader.style.display = 'none'; 
+                }, 1000);
             }, 600);
         };
     }
 
-    // 画像のふわっと表示
+    // スクロールに応じたふわっとした表示（Intersection Observer）
+    const observerOptions = {
+        threshold: 0.1
+    };
+
     const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) e.target.classList.add('is-visible');
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            }
         });
-    }, { threshold: 0.1 });
+    }, observerOptions);
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ミュージックトグル機能（任意）
+    if (audioToggle && bgm) {
+        audioToggle.onclick = () => {
+            if (bgm.paused) {
+                bgm.play();
+                audioToggle.textContent = 'MUSIC: ON';
+            } else {
+                bgm.pause();
+                audioToggle.textContent = 'MUSIC: OFF';
+            }
+        };
+    }
 });
