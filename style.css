@@ -1,22 +1,29 @@
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+/* iPhone/Safari 対策 */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    -webkit-text-size-adjust: 100%; /* iPhoneでの勝手な文字サイズ変更を防止 */
+    font-style: normal !important; /* 斜体をすべて無効化 */
+}
 
 :root {
     --bg-color: #fdfdfd;
     --text-color: #2c2c2c;
     --accent-color: #8c7b65; 
-    --font-en: 'Playfair Display', serif;
+    --main-font: 'Noto Serif JP', serif;
 }
 
 body { 
     color: var(--text-color); 
-    font-family: 'Noto Serif JP', serif; 
+    font-family: var(--main-font); 
     overflow-x: hidden; 
     background: var(--bg-color);
 }
 
 /* --- スタート画面（ローダー） --- */
 #loader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100dvh; /* iPhoneのツールバー考慮 */
     background-color: var(--bg-color);
     display: flex; align-items: center; justify-content: center;
     z-index: 9999; 
@@ -41,81 +48,88 @@ body {
 .moving-text {
     position: absolute;
     white-space: nowrap;
-    font-family: var(--font-en);
+    font-family: var(--main-font);
     font-weight: 900;
-    /* Safariの表示崩れ防止のためサイズを微調整 */
-    font-size: min(30vh, 25vw); 
+    /* iPhoneで見切れない程度の巨大サイズ */
+    font-size: 25vh; 
     text-transform: uppercase;
     pointer-events: none;
     line-height: 1;
     left: 0;
-    /* Safari用：3Dレンダリングを強制してチラつきを抑える */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+    /* 最初からきっちり重ねるための設定 */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 
-/* アニメーション：0%（重なり状態）から開始 */
+/* アニメーション：最初からきっちり重なった状態 (0) から開始 */
 @keyframes scrollLeft {
-    0% { -webkit-transform: translateX(0); transform: translateX(0); }
-    100% { -webkit-transform: translateX(-50%); transform: translateX(-50%); }
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
 }
 
 .speed-fast { 
     animation: scrollLeft 180s linear infinite; 
-    opacity: 0.1; color: #888; z-index: 3;
+    opacity: 0.12; color: #888; z-index: 3;
 }
 .speed-mid { 
     animation: scrollLeft 240s linear infinite; 
-    opacity: 0.06; color: var(--accent-color); 
-    font-style: italic; z-index: 2;
+    opacity: 0.08; color: var(--accent-color); z-index: 2;
     filter: blur(2px); -webkit-filter: blur(2px);
 }
 .speed-slow { 
     animation: scrollLeft 360s linear infinite; 
-    opacity: 0.03; color: #aaa; z-index: 1;
+    opacity: 0.04; color: #aaa; z-index: 1;
     filter: blur(4px); -webkit-filter: blur(4px);
 }
 
 .spotlight {
     position: absolute; top: 50%; left: 50%; 
-    -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     width: 150vw; height: 150vh;
     background: radial-gradient(circle at center, 
         rgba(253,253,253,1) 0%, 
-        rgba(253,253,253,0.9) 25%, 
+        rgba(253,253,253,0.9) 30%, 
         rgba(253,253,253,0) 60%);
-    z-index: 5; /* 背景より上、コンテンツより下 */
+    z-index: 5;
     pointer-events: none;
 }
 
 .loader-content { 
     position: relative; 
-    z-index: 10; /* 最前面 */
+    z-index: 10; 
     text-align: center; 
 }
-.txt-nara, .txt-tech { font-family: var(--font-en); font-size: 2.2rem; letter-spacing: 0.2em; color: var(--accent-color); margin: 0; }
-.ampersand { font-family: var(--font-en); font-style: italic; font-size: 2rem; color: var(--accent-color); margin: 5px 0; }
-.warning-txt { font-size: 0.75rem; color: var(--accent-color); opacity: 0.6; margin-top: 2rem; }
+.txt-nara, .txt-tech { font-size: 1.8rem; letter-spacing: 0.2em; color: var(--accent-color); margin: 0; font-weight: 500; }
+.ampersand { font-size: 1.8rem; color: var(--accent-color); margin: 5px 0; }
+.warning-txt { font-size: 0.7rem; color: var(--accent-color); opacity: 0.6; margin-top: 2rem; }
 
 #start-btn {
     background: #fff; border: 1px solid var(--accent-color);
-    color: var(--accent-color); padding: 15px 50px; cursor: pointer;
-    font-family: var(--font-en); letter-spacing: 0.3em; margin-top: 30px; 
-    transition: 0.4s;
+    color: var(--accent-color); padding: 12px 40px; cursor: pointer;
+    font-family: var(--main-font); letter-spacing: 0.3em; margin-top: 25px; 
+    font-size: 0.9rem;
 }
-#start-btn:hover { background: var(--accent-color); color: white; }
 
-/* --- 本編（初期は非表示） --- */
+/* --- 本編演出 --- */
 .hero, #main-content, footer { opacity: 0; transition: opacity 2s ease; }
 body.is-started .hero, body.is-started #main-content, body.is-started footer { opacity: 1; }
 
-.hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
-.main-title { font-size: clamp(2.2rem, 8vw, 4rem); letter-spacing: 0.2em; font-weight: 500; }
-.sub-line { font-size: 0.8rem; letter-spacing: 0.4em; color: var(--accent-color); display: block; margin-bottom: 10px; }
+.hero { height: 100dvh; display: flex; align-items: center; justify-content: center; text-align: center; }
+.main-title { font-size: 2.2rem; letter-spacing: 0.15em; font-weight: 500; }
+.sub-line { font-size: 0.75rem; letter-spacing: 0.3em; color: var(--accent-color); display: block; margin-bottom: 8px; }
 
-.fade-in { opacity: 0; transform: translateY(20px); transition: 1.2s ease-out; }
+.grade-section { padding: 5vh 0; }
+.grade-label { font-size: 4rem; color: var(--accent-color); opacity: 0.1; text-align: center; margin-bottom: 20px; font-weight: 900; }
+
+.event { padding: 0 20px 10vh; }
+.event-title-box h3 { font-size: 1.1rem; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 5px; margin-bottom: 30px; }
+
+.photo-grid { display: flex; flex-direction: column; gap: 40px; }
+.img-wrapper { background: #fff; padding: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; }
+.img-wrapper img { width: 100%; height: auto; display: block; }
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: 1s ease-out; }
 .fade-in.is-visible { opacity: 1; transform: translateY(0); }
 
-#audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; color: var(--accent-color); cursor: pointer; z-index: 100; }
-footer { padding: 60px 0; text-align: center; font-size: 0.8rem; color: var(--accent-color); }
-.italic { font-family: var(--font-en); font-style: italic; }
+#audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.65rem; color: var(--accent-color); z-index: 100; padding: 10px; }
+footer { padding: 50px 0; text-align: center; font-size: 0.75rem; color: var(--accent-color); }
