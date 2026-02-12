@@ -1,36 +1,68 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const loader = document.getElementById('loader');
-    const startBtn = document.getElementById('start-btn');
-    const bgm = document.getElementById('bgm');
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>2023-2025 Trajectory | 奈良商工高等学校</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;900&display=swap" rel="stylesheet">
+</head>
+<body>
 
-    if (startBtn) {
-        startBtn.onclick = () => {
-            loader.classList.add('is-fadeout');
-            document.body.classList.add('is-started');
+    <div id="loader">
+        <div class="loader-bg-container">
+            <div class="layer-group top-area">
+                <div class="moving-text speed-fast">TECHNOLOGY TECHNOLOGY</div>
+                <div class="moving-text speed-mid">TECHNOLOGY TECHNOLOGY</div>
+                <div class="moving-text speed-slow">TECHNOLOGY TECHNOLOGY</div>
+            </div>
+            
+            <div class="layer-group bottom-area">
+                <div class="moving-text speed-fast">TECHNOLOGY TECHNOLOGY</div>
+                <div class="moving-text speed-mid">TECHNOLOGY TECHNOLOGY</div>
+                <div class="moving-text speed-slow">TECHNOLOGY TECHNOLOGY</div>
+            </div>
+        </div>
 
-            if (bgm) {
-                bgm.volume = 0;
-                bgm.play().then(() => {
-                    let vol = 0;
-                    const fade = setInterval(() => {
-                        if (vol < 0.3) { 
-                            vol += 0.05; 
-                            bgm.volume = Math.min(vol, 0.3); 
-                        } else { clearInterval(fade); }
-                    }, 200);
-                }).catch(() => {});
-            }
+        <div class="spotlight"></div>
 
-            setTimeout(() => { loader.style.display = 'none'; }, 1100);
-        };
-    }
+        <div class="loader-content">
+            <div class="loader-text-wrapper">
+                <p class="txt-nara">Nara Business</p>
+                <p class="ampersand">&</p>
+                <p class="txt-tech">Technology</p>
+                <button id="start-btn">START</button>
+                <p class="warning-txt">音が流れます。音量にご注意ください。</p>
+            </div>
+        </div>
+    </div>
 
-    // スクロール監視
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) e.target.classList.add('is-visible');
-        });
-    }, { threshold: 0.1 });
+    <audio id="bgm" loop preload="auto"><source src="bgm.mp4" type="audio/mp4"></audio>
+    <div id="audio-toggle">MUSIC: OFF</div>
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-});
+    <header class="hero">
+        <div class="hero-content">
+            <span class="sub-line">奈良商工高等学校</span>
+            <h1 class="main-title">情報工学科</h1>
+            <p class="years">2023 — 2025</p>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <div class="grade-section">
+            <div class="grade-header"><div class="grade-label fade-in">1st year</div></div>
+            <section class="event">
+                <div class="event-title-box fade-in"><h3>校外学習</h3></div>
+                <div class="photo-grid">
+                    <div class="img-wrapper fade-in"><img src="1-1-1.jpg.jpg"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+</html>
