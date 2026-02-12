@@ -6,37 +6,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startBtn) {
         startBtn.onclick = () => {
-            // ローダーのフェードアウト
+            // ローダーを非表示にするクラスを追加
             loader.classList.add('is-fadeout');
 
-            // BGMの音量を0から上げて再生
+            // BGMの処理
             if (bgm) {
                 bgm.volume = 0;
                 bgm.play().then(() => {
                     let vol = 0;
                     const fade = setInterval(() => {
-                        if (vol < 0.4) { 
+                        if (vol < 0.3) { 
                             vol += 0.05; 
-                            bgm.volume = Math.min(vol, 0.4); 
+                            bgm.volume = Math.min(vol, 0.3); 
                         } else { 
                             clearInterval(fade); 
                         }
                     }, 200);
                     audioToggle.textContent = 'MUSIC: ON';
-                }).catch(err => console.log("User interaction required for audio"));
+                }).catch(err => console.log("Safari requirements: User gesture needed for audio."));
             }
 
-            // 本編のフェードイン開始
+            // 本編のフェードインクラスを付与
             document.body.classList.add('is-started');
 
-            // フェードアウト完了後にDOMから削除
+            // 完全に隠れたらDOMから消去
             setTimeout(() => { 
                 loader.style.display = 'none'; 
-            }, 1500);
+            }, 1100);
         };
     }
 
-    // スクロール時のふわっと表示
+    // スクロール時のアニメーション
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    // 音声トグル
+    // ミュージックトグル
     if (audioToggle && bgm) {
         audioToggle.onclick = () => {
             if (bgm.paused) {
