@@ -1,137 +1,75 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2023-2025 Trajectory | 奈良商工高等学校</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;500&family=Playfair+Display:ital,wght@0,400;0,900;1,400&display=swap" rel="stylesheet">
+</head>
+<body class="animated-bg">
 
-:root {
-    --bg-color: #fdfdfd;
-    --text-color: #2c2c2c;
-    --accent-color: #8c7b65; 
-    --font-en: 'Playfair Display', serif;
-}
+    <div id="loader">
+        <div class="loader-bg-container">
+            <div class="layer-group top-area">
+                <div class="moving-text speed-fast">TECHNOLOGY TECHNOLOGY TECHNOLOGY</div>
+                <div class="moving-text speed-mid">TECHNOLOGY TECHNOLOGY TECHNOLOGY</div>
+                <div class="moving-text speed-slow">TECHNOLOGY TECHNOLOGY TECHNOLOGY</div>
+            </div>
+            
+            <div class="layer-group bottom-area">
+                <div class="moving-text speed-fast">TECHNOLOGY TECHNOLOGY TECHNOLOGY</div>
+                <div class="moving-text speed-mid">TECHNOLOGY TECHNOLOGY TECHNOLOGY</div>
+                <div class="moving-text speed-slow">TECHNOLOGY TECHNOLOGY TECHNOLOGY</div>
+            </div>
+        </div>
 
-body { 
-    color: var(--text-color); 
-    font-family: 'Noto Serif JP', serif; 
-    overflow-x: hidden; 
-    background: var(--bg-color); 
-}
+        <div class="spotlight"></div>
 
-/* --- スタート画面（ローダー） --- */
-#loader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
-    background-color: var(--bg-color);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 9999; transition: opacity 1s ease;
-}
-#loader.is-fadeout { opacity: 0; visibility: hidden; pointer-events: none; }
+        <div class="loader-content">
+            <div class="loader-text-wrapper">
+                <div class="loader-text">
+                    <p class="txt-nara">Nara Business</p>
+                    <p class="ampersand">&</p>
+                    <p class="txt-tech">Technology</p>
+                </div>
+                <button id="start-btn">START</button>
+                <p class="warning-txt">音が流れます。音量にご注意ください。</p>
+            </div>
+        </div>
+    </div>
 
-.loader-bg-container { 
-    position: absolute; 
-    top: 0; left: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: hidden; 
-}
+    <audio id="bgm" loop preload="auto"><source src="bgm.mp4" type="audio/mp4"></audio>
+    <div id="audio-toggle">MUSIC: OFF</div>
 
-.layer-group {
-    position: absolute;
-    width: 100%;
-    height: 35vh;
-}
-.top-area { top: -2vh; }
-.bottom-area { bottom: -2vh; }
+    <header class="hero">
+        <div class="hero-content">
+            <span class="sub-line">奈良商工高等学校</span>
+            <h1 class="main-title">情報工学科</h1>
+            <p class="years italic">2023 — 2025</p>
+        </div>
+    </header>
 
-.moving-text {
-    position: absolute;
-    width: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    text-align: center;
-    font-family: var(--font-en);
-    font-weight: 900;
-    font-size: clamp(20vh, 35vh, 45vh); /* 巨大なサイズ */
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    pointer-events: none;
-    line-height: 0.8;
-}
+    <main id="main-content">
+        <div class="grade-section">
+            <div class="grade-header"><div class="grade-label fade-in">1st year</div></div>
+            <section class="event">
+                <div class="event-title-box fade-in"><h3>校外学習</h3></div>
+                <div class="photo-grid">
+                    <div class="img-wrapper left fade-in"><img src="1-1-1.jpg.jpg"></div>
+                    <div class="img-wrapper right fade-in"><img src="1-1-2.jpg.jpg"></div>
+                </div>
+            </section>
+        </div>
+        </main>
 
-/* アニメーション：初期位置を揃え、超低速でわずかにずらす */
-.speed-fast { 
-    animation: slowDrift 180s linear infinite; 
-    opacity: 0.12; 
-    color: #eee; 
-    z-index: 3; 
-}
-.speed-mid { 
-    animation: slowDrift 220s linear infinite; 
-    opacity: 0.08; 
-    color: #e0e0e0; 
-    font-style: italic; 
-    z-index: 2; 
-    filter: blur(2px);
-}
-.speed-slow { 
-    animation: slowDrift 260s linear infinite; 
-    opacity: 0.04; 
-    color: #d0d0d0; 
-    z-index: 1; 
-    filter: blur(5px);
-}
+    <footer>
+        <p class="italic">Thank you for 3 wonderful years.</p>
+        <p>© 2026 情報工学科</p>
+    </footer>
 
-@keyframes slowDrift {
-    0% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-49%) translateY(10px); }
-    100% { transform: translateX(-50%) translateY(0); }
-}
-
-.spotlight {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 140vw; height: 140vh;
-    background: radial-gradient(circle at center, 
-        rgba(253,253,253,1) 0%, 
-        rgba(253,253,253,0.9) 25%, 
-        rgba(253,253,253,0) 60%);
-    z-index: 5;
-}
-
-.loader-content { position: relative; z-index: 10; text-align: center; }
-.txt-nara, .txt-tech { font-family: var(--font-en); font-size: 2.2rem; letter-spacing: 0.2em; color: var(--accent-color); margin: 0; }
-.ampersand { font-family: var(--font-en); font-style: italic; font-size: 2rem; color: var(--accent-color); margin: 5px 0; }
-.warning-txt { font-size: 0.75rem; color: var(--accent-color); opacity: 0.6; margin-top: 2rem; }
-
-#start-btn {
-    background: white; border: 1px solid var(--accent-color);
-    color: var(--accent-color); padding: 15px 50px; cursor: pointer;
-    font-family: var(--font-en); letter-spacing: 0.3em; margin-top: 30px; transition: 0.3s;
-}
-#start-btn:hover { background: var(--accent-color); color: white; }
-
-/* --- 本編（表示切り替え） --- */
-.hero, #main-content, footer { opacity: 0; transition: opacity 2s ease; }
-body.is-started .hero, body.is-started #main-content, body.is-started footer { opacity: 1; }
-
-.hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
-.main-title { font-size: clamp(2.5rem, 8vw, 4.5rem); letter-spacing: 0.2em; font-weight: 500; }
-.sub-line { font-size: 0.9rem; letter-spacing: 0.4em; color: var(--accent-color); display: block; margin-bottom: 10px; }
-
-.grade-section { padding: 10vh 0; }
-.grade-header { text-align: center; margin-bottom: 8vh; }
-.grade-label { font-family: var(--font-en); font-size: clamp(3.5rem, 15vw, 10rem); color: var(--accent-color); opacity: 0.1; font-style: italic; }
-
-.event { max-width: 1000px; margin: 0 auto 15vh; padding: 0 30px; }
-.event-title-box { text-align: center; margin-bottom: 50px; }
-.event-title-box h3 { font-size: 1.3rem; border-bottom: 1px solid var(--accent-color); display: inline-block; padding-bottom: 8px; }
-
-.photo-grid { display: flex; flex-direction: column; gap: 60px; }
-.img-wrapper { background: #fff; padding: 12px; box-shadow: 0 15px 45px rgba(0,0,0,0.06); }
-.img-wrapper img { width: 100%; height: auto; display: block; }
-.img-wrapper.left { width: 85%; align-self: flex-start; transform: rotate(-1deg); }
-.img-wrapper.right { width: 85%; align-self: flex-end; transform: rotate(1deg); }
-.img-wrapper.center { width: 100%; align-self: center; }
-
-.fade-in { opacity: 0; transform: translateY(30px); transition: 1.5s ease-out; }
-.fade-in.is-visible { opacity: 1; transform: translateY(0); }
-
-#audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; color: var(--accent-color); cursor: pointer; z-index: 100; }
-footer { padding: 80px 0; text-align: center; font-size: 0.8rem; color: var(--accent-color); }
-.italic { font-family: var(--font-en); font-style: italic; }
+    <script src="main.js"></script>
+</body>
+</html>
