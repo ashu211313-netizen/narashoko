@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startBtn) {
         startBtn.onclick = () => {
-            // フェードアウト開始
+            // ローダーをフェードアウト
             loader.classList.add('is-fadeout');
 
-            // 音声再生
+            // BGM再生（ボリュームフェードイン）
             if (bgm) {
                 bgm.volume = 0;
                 bgm.play().then(() => {
@@ -18,33 +18,36 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (vol < 0.4) { 
                             vol += 0.05; 
                             bgm.volume = Math.min(vol, 0.4); 
+                        } else { 
+                            clearInterval(fade); 
                         }
-                        else { clearInterval(fade); }
                     }, 200);
                     audioToggle.textContent = 'MUSIC: ON';
-                }).catch(err => console.log("Audio play blocked"));
+                }).catch(err => console.log("Audio interaction required"));
             }
 
-            // 本編の表示
-            setTimeout(() => {
-                document.body.classList.add('is-started');
-                setTimeout(() => { 
-                    loader.style.display = 'none'; 
-                }, 1000);
-            }, 600);
+            // 本編表示のクラスを付与
+            document.body.classList.add('is-started');
+
+            // アニメーション完了後にDOMから削除
+            setTimeout(() => { 
+                loader.style.display = 'none'; 
+            }, 1500);
         };
     }
 
-    // スクロール監視
+    // スクロール時に画像をふわっと表示（Intersection Observer）
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
-            if (e.isIntersecting) e.target.classList.add('is-visible');
+            if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+            }
         });
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    
-    // 音楽トグル
+
+    // 音声トグル
     if (audioToggle && bgm) {
         audioToggle.onclick = () => {
             if (bgm.paused) {
