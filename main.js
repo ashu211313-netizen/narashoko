@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    // スクロール監視
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) e.target.classList.add('is-visible');
