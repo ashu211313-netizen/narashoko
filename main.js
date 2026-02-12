@@ -3,11 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('start-btn');
     const bgm = document.getElementById('bgm');
 
+    // STARTボタンをクリック時の処理
     if (startBtn) {
         startBtn.onclick = () => {
-            loader.classList.add('is-fadeout');
-            document.body.classList.add('is-started');
-
+            loader.classList.add('is-fadeout'); // フェードアウト
+            
+            // BGM再生（ボリュームフェードイン）
             if (bgm) {
                 bgm.volume = 0;
                 bgm.play().then(() => {
@@ -18,17 +19,23 @@ document.addEventListener('DOMContentLoaded', () => {
                             bgm.volume = Math.min(vol, 0.3); 
                         } else { clearInterval(fade); }
                     }, 200);
-                }).catch(() => {});
+                }).catch(err => console.log("Safari auto-play restriction"));
             }
 
-            setTimeout(() => { loader.style.display = 'none'; }, 1100);
+            document.body.classList.add('is-started'); // 本編表示
+
+            setTimeout(() => { 
+                loader.style.display = 'none'; 
+            }, 1100);
         };
     }
 
-    // スクロール監視
+    // スクロール時に画像をふわっと表示
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
-            if (e.isIntersecting) e.target.classList.add('is-visible');
+            if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+            }
         });
     }, { threshold: 0.1 });
 
