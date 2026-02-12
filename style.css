@@ -1,27 +1,24 @@
-/* iPhone/Safari 対策 */
+/* 基本設定 */
 * { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
+    margin: 0; padding: 0; box-sizing: border-box; 
     -webkit-text-size-adjust: 100%;
     font-style: normal !important;
 }
 
 :root {
     --bg-color: #fdfdfd;
-    --text-color: #2c2c2c;
     --accent-color: #8c7b65; 
     --main-font: 'Noto Serif JP', serif;
 }
 
 body { 
-    color: var(--text-color); 
+    color: #2c2c2c; 
     font-family: var(--main-font); 
     overflow-x: hidden; 
     background: var(--bg-color);
 }
 
-/* --- スタート画面（ローダー） --- */
+/* --- ローダー画面 --- */
 #loader {
     position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
     background-color: var(--bg-color);
@@ -31,87 +28,74 @@ body {
 }
 #loader.is-fadeout { opacity: 0; visibility: hidden; pointer-events: none; }
 
+/* 背景文字コンテナ */
 .loader-bg-container { 
     position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
     overflow: hidden; 
-    z-index: 1;
+    z-index: 1; /* 背景 */
 }
 
-.layer-group {
-    position: absolute;
-    width: 100%;
-    height: 30vh;
-}
-.top-area { top: 5vh; }
-.bottom-area { bottom: 5vh; }
+.layer-group { position: absolute; width: 100%; height: 35vh; }
+.top-area { top: 0; }
+.bottom-area { bottom: 0; }
 
 .moving-text {
     position: absolute;
     white-space: nowrap;
-    font-family: var(--main-font);
     font-weight: 900;
-    /* 修正：デカすぎないサイズ（画面横幅の約18%） */
     font-size: 18vw; 
     text-transform: uppercase;
-    pointer-events: none;
-    line-height: 1;
+    color: #888;
     left: 0;
-    /* 最初からきっちり重ねる */
-    -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
 }
 
-/* アニメーション：0から開始 */
+/* アニメーション：最初から重なった状態で開始 */
 @keyframes scrollLeft {
     0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(-30%, 0, 0); } /* 移動量も調整 */
+    100% { transform: translate3d(-30%, 0, 0); }
 }
 
-.speed-fast { 
-    animation: scrollLeft 120s linear infinite; 
-    opacity: 0.12; color: #888; z-index: 3;
-}
-.speed-mid { 
-    animation: scrollLeft 180s linear infinite; 
-    opacity: 0.08; color: var(--accent-color); z-index: 2;
-    filter: blur(2px); -webkit-filter: blur(2px);
-}
-.speed-slow { 
-    animation: scrollLeft 240s linear infinite; 
-    opacity: 0.04; color: #aaa; z-index: 1;
-    filter: blur(4px); -webkit-filter: blur(4px);
-}
+.speed-fast { animation: scrollLeft 150s linear infinite; opacity: 0.12; z-index: 3; }
+.speed-mid  { animation: scrollLeft 200s linear infinite; opacity: 0.08; z-index: 2; filter: blur(2px); -webkit-filter: blur(2px); }
+.speed-slow { animation: scrollLeft 250s linear infinite; opacity: 0.04; z-index: 1; filter: blur(4px); -webkit-filter: blur(4px); }
 
+/* スポットライト：ここを強化して文字の被りを防ぐ */
 .spotlight {
     position: absolute; top: 50%; left: 50%; 
     transform: translate(-50%, -50%);
-    width: 120vw; height: 120vh;
+    width: 140vw; height: 140vh;
+    /* 中央を真っ白(100%)にし、範囲を広げることで背景文字を隠す */
     background: radial-gradient(circle at center, 
         rgba(253,253,253,1) 0%, 
-        rgba(253,253,253,0.95) 20%, 
-        rgba(253,253,253,0) 50%);
-    z-index: 5;
+        rgba(253,253,253,1) 35%, 
+        rgba(253,253,253,0) 65%);
+    z-index: 5; /* 文字と背景の間 */
     pointer-events: none;
 }
 
-.loader-content { 
-    position: relative; 
-    z-index: 10; 
-    text-align: center; 
-}
-
-/* 文字サイズをiPhone向けに最適化 */
-.txt-nara, .txt-tech { font-size: 1.5rem; letter-spacing: 0.15em; color: var(--accent-color); margin: 0; font-weight: 500; }
-.ampersand { font-size: 1.4rem; color: var(--accent-color); margin: 2px 0; }
-.warning-txt { font-size: 0.65rem; color: var(--accent-color); opacity: 0.6; margin-top: 2rem; }
+/* メインコンテンツ */
+.loader-content { position: relative; z-index: 10; text-align: center; }
+.txt-nara, .txt-tech { font-size: 1.6rem; letter-spacing: 0.2em; color: var(--accent-color); font-weight: 500; margin: 0; }
+.ampersand { font-size: 1.5rem; color: var(--accent-color); margin: 5px 0; }
+.warning-txt { font-size: 0.65rem; color: var(--accent-color); opacity: 0.5; margin-top: 2rem; }
 
 #start-btn {
-    background: transparent; border: 1px solid var(--accent-color);
-    color: var(--accent-color); padding: 10px 35px; cursor: pointer;
+    background: #fff; border: 1px solid var(--accent-color);
+    color: var(--accent-color); padding: 12px 40px; 
     font-family: var(--main-font); letter-spacing: 0.2em; margin-top: 20px; 
-    font-size: 0.85rem;
+    font-size: 0.9rem; cursor: pointer;
 }
 
-/* 本編フェードイン設定 */
-.hero, #main-content { opacity: 0; transition: opacity 1.5s ease; }
+/* --- 本編（START後） --- */
+.hero, #main-content { opacity: 0; transition: opacity 2s ease; }
 body.is-started .hero, body.is-started #main-content { opacity: 1; }
+
+.hero { height: 100dvh; display: flex; align-items: center; justify-content: center; text-align: center; }
+.main-title { font-size: 2.2rem; letter-spacing: 0.15em; font-weight: 500; }
+.sub-line { font-size: 0.8rem; letter-spacing: 0.3em; color: var(--accent-color); display: block; margin-bottom: 8px; }
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: 1s ease-out; }
+.fade-in.is-visible { opacity: 1; transform: translateY(0); }
+
+#audio-toggle { position: fixed; bottom: 20px; right: 20px; font-size: 0.7rem; color: var(--accent-color); z-index: 100; }
