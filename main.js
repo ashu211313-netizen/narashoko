@@ -6,48 +6,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startBtn) {
         startBtn.onclick = () => {
-            // ローダーのフェードアウト
+            // フェードアウト開始
             loader.classList.add('is-fadeout');
 
-            // BGMのフェードイン再生
+            // 音声再生
             if (bgm) {
                 bgm.volume = 0;
                 bgm.play().then(() => {
                     let vol = 0;
                     const fade = setInterval(() => {
-                        if (vol < 0.35) { 
-                            vol += 0.02; 
-                            bgm.volume = Math.min(vol, 0.35); 
-                        } else { 
-                            clearInterval(fade); 
+                        if (vol < 0.4) { 
+                            vol += 0.05; 
+                            bgm.volume = Math.min(vol, 0.4); 
                         }
-                    }, 150);
+                        else { clearInterval(fade); }
+                    }, 200);
                     audioToggle.textContent = 'MUSIC: ON';
-                }).catch(err => console.log("Audio interaction required."));
+                }).catch(err => console.log("Audio play blocked"));
             }
 
-            // 本編のフェードイン
+            // 本編の表示
             setTimeout(() => {
                 document.body.classList.add('is-started');
                 setTimeout(() => { 
                     loader.style.display = 'none'; 
-                }, 1500);
-            }, 800);
+                }, 1000);
+            }, 600);
         };
     }
 
-    // スクロール検知（画像ふわっと表示）
+    // スクロール監視
     const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-            }
+        entries.forEach(e => {
+            if (e.isIntersecting) e.target.classList.add('is-visible');
         });
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-    // 音声制御
+    
+    // 音楽トグル
     if (audioToggle && bgm) {
         audioToggle.onclick = () => {
             if (bgm.paused) {
