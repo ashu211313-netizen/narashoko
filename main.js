@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (startBtn) {
         startBtn.onclick = () => {
-            // ローダーをフェードアウト
+            // ローダーのフェードアウト
             loader.classList.add('is-fadeout');
 
-            // BGM再生（ボリュームフェードイン）
+            // BGMの音量を0から上げて再生
             if (bgm) {
                 bgm.volume = 0;
                 bgm.play().then(() => {
@@ -23,20 +23,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }, 200);
                     audioToggle.textContent = 'MUSIC: ON';
-                }).catch(err => console.log("Audio interaction required"));
+                }).catch(err => console.log("User interaction required for audio"));
             }
 
-            // 本編表示のクラスを付与
+            // 本編のフェードイン開始
             document.body.classList.add('is-started');
 
-            // アニメーション完了後にDOMから削除
+            // フェードアウト完了後にDOMから削除
             setTimeout(() => { 
                 loader.style.display = 'none'; 
             }, 1500);
         };
     }
 
-    // スクロール時に画像をふわっと表示（Intersection Observer）
+    // スクロール時のふわっと表示
     const observer = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) {
