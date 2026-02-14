@@ -3,130 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
-    <title>2023-2025 Trajectory | 奈良商工高等学校</title>
-    
+    <title>2023-2025 Trajectory | 奈良商工高等学校 情報工学科</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;900&family=Playfair+Display:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-
-    <style>
-        /* --- [CSS] 既存・基本設計 --- */
-        * { 
-            margin: 0; padding: 0; box-sizing: border-box; 
-            -webkit-text-size-adjust: 100%;
-            font-style: normal !important;
-        }
-
-        :root {
-            --bg-color: #fdfdfd;
-            --accent-color: #8c7b65; 
-            --main-font: 'Noto Serif JP', serif;
-            --en-font: 'Playfair Display', serif;
-        }
-
-        /* 背景演出：呼吸する背景 */
-        @keyframes breathingBg {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        body { 
-            color: #2c2c2c; 
-            font-family: var(--main-font); 
-            background: linear-gradient(-45deg, #fdfdfd, #f5f5f5, #efefef, #fdfdfd);
-            background-size: 400% 400%;
-            overflow-x: hidden;
-            overflow-y: hidden; /* Start前は固定 */
-        }
-        body.is-started { 
-            animation: breathingBg 15s ease infinite;
-            overflow-y: auto; 
-        }
-
-        /* --- [CSS] ローダー・スタート画面 --- */
-        #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
-            background-color: var(--bg-color); z-index: 9999; 
-            display: flex; align-items: center; justify-content: center;
-            transition: opacity 1.2s ease;
-        }
-        #loader.is-fadeout { opacity: 0; visibility: hidden; pointer-events: none; }
-
-        .loader-bg-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
-        .layer-group { position: absolute; width: 100%; height: 15vh; }
-        .top-area { top: 2vh; }
-        .bottom-area { bottom: -2vh; }
-        .moving-text {
-            position: absolute; white-space: nowrap; font-weight: 900; font-size: 14vw; 
-            text-transform: uppercase; color: #e0e0e0; line-height: 1; letter-spacing: -0.02em;
-        }
-        @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        @keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-        .top-area .speed-fast { animation: scrollLeft 180s linear infinite; opacity: 0.4; }
-        .top-area .speed-mid  { animation: scrollLeft 240s linear infinite; opacity: 0.25; filter: blur(2px); }
-        .top-area .speed-slow { animation: scrollLeft 360s linear infinite; opacity: 0.15; filter: blur(4px); }
-        .bottom-area .speed-fast { animation: scrollRight 180s linear infinite; opacity: 0.4; }
-        .bottom-area .speed-mid  { animation: scrollRight 240s linear infinite; opacity: 0.25; filter: blur(2px); }
-        .bottom-area .speed-slow { animation: scrollRight 360s linear infinite; opacity: 0.15; filter: blur(4px); }
-
-        .loader-content { position: relative; z-index: 10; text-align: center; }
-        .warning-txt { font-size: 0.8rem; color: #aaa; margin: 1.5rem 0; }
-        #start-btn {
-            font-family: var(--en-font); background: transparent; border: 1px solid var(--accent-color);
-            color: var(--accent-color); padding: 15px 60px; font-size: 0.7rem; letter-spacing: 0.4em; cursor: pointer;
-        }
-
-        /* スタート画面中央フォント上書き */
-        .txt-nara, .txt-tech, .ampersand {
-            font-family: var(--en-font); font-weight: 300;
-        }
-        .txt-nara, .txt-tech { font-size: 2.2rem; color: var(--accent-color); letter-spacing: 0.15em; margin: 0.5rem 0; }
-        .ampersand { font-size: 1.8rem; color: var(--accent-color); font-weight: 400; }
-
-        /* --- [CSS] 写真画面レイアウト仕様 --- */
-        header.hero { opacity: 0; transition: opacity 2s; text-align: center; padding: 25vh 0 15vh; }
-        body.is-started header.hero, body.is-started main, body.is-started footer { opacity: 1; }
-
-        main { opacity: 0; transition: opacity 2s; width: 95%; max-width: 1200px; margin: 0 auto; }
-        
-        .grade-section { margin-bottom: 120px; }
-        .grade-header { margin-bottom: 60px; text-align: center; }
-        .grade-label { 
-            font-family: var(--en-font); font-style: italic !important; 
-            font-size: clamp(2.5rem, 8vw, 4.5rem); color: var(--accent-color); font-weight: 300; 
-        }
-
-        .event { margin-bottom: 100px; }
-        .event-title-box h3 { 
-            font-family: var(--main-font); font-size: clamp(1rem, 3vw, 1.2rem); 
-            margin-bottom: 40px; color: #555; text-align: center; letter-spacing: 0.1em;
-        }
-
-        /* 非対称配置ルール */
-        .photo-grid { 
-            display: flex; flex-direction: column; gap: 40px; position: relative;
-        }
-
-        /* アルバム演出：.img-wrapper */
-        .img-wrapper { 
-            position: relative; background: #fff; padding: 12px 12px 40px 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); width: 85%; max-width: 500px;
-            opacity: 0; transform: translateY(30px); transition: all 1s ease-out;
-        }
-        .img-wrapper.is-visible { opacity: 1; transform: translateY(0) rotate(var(--rot)); }
-        
-        .img-wrapper img { width: 100%; height: auto; display: block; filter: sepia(10%) contrast(105%); }
-
-        /* 配置指定 */
-        .left { align-self: flex-start; --rot: -1.2deg; }
-        .right { align-self: flex-end; --rot: 1.5deg; }
-        .center { align-self: center; --rot: 0.5deg; }
-
-        footer { text-align: center; padding: 100px 0; border-top: 1px solid #eee; margin-top: 100px; }
-        .italic { font-family: var(--en-font); font-style: italic !important; color: var(--accent-color); font-size: 1.2rem; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;900&family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -157,32 +38,35 @@
     <audio id="bgm" loop preload="auto"><source src="bgm.mp4" type="audio/mp4"></audio>
 
     <header class="hero">
-        <h1 style="font-size: clamp(1.5rem, 5vw, 2rem); color: var(--accent-color);">情報工学科</h1>
-        <p style="font-family: var(--en-font); margin-top: 15px; letter-spacing: 0.3em; font-size: 0.9rem;">2023 — 2025 TRAJECTORY</p>
+        <h1>情報工学科</h1>
+        <p class="trajectory-title">2023 — 2025 TRAJECTORY</p>
     </header>
 
     <main id="main-content">
         <div class="grade-section">
-            <div class="grade-header"><div class="grade-label">1st year</div></div>
+            <div class="grade-header"><h2 class="grade-label">1st year</h2></div>
+            
             <section class="event">
-                <div class="event-title-box"><h3>校外学習</h3></div>
-                <div class="photo-grid">
+                <h3 class="event-name">校外学習</h3>
+                <div class="photo-structure">
                     <div class="img-wrapper left"><img src="1-1-1.jpg.jpg"></div>
                     <div class="img-wrapper right"><img src="1-1-2.jpg.jpg"></div>
                     <div class="img-wrapper center"><img src="1-1-3.jpg.JPG"></div>
                     <div class="img-wrapper left"><img src="1-1-4.jpg.jpg"></div>
                 </div>
             </section>
+
             <section class="event">
-                <div class="event-title-box"><h3>体育祭</h3></div>
-                <div class="photo-grid">
+                <h3 class="event-name">体育祭</h3>
+                <div class="photo-structure">
                     <div class="img-wrapper right"><img src="1-2-1.jpg.JPG"></div>
                     <div class="img-wrapper left"><img src="1-2-2.jpg.JPG"></div>
                 </div>
             </section>
+
             <section class="event">
-                <div class="event-title-box"><h3>文化祭</h3></div>
-                <div class="photo-grid">
+                <h3 class="event-name">文化祭</h3>
+                <div class="photo-structure">
                     <div class="img-wrapper center"><img src="1-3-1.jpg.JPG"></div>
                     <div class="img-wrapper right"><img src="1年文化祭.jpg"></div>
                 </div>
@@ -190,59 +74,66 @@
         </div>
 
         <div class="grade-section">
-            <div class="grade-header"><div class="grade-label">2nd year</div></div>
+            <div class="grade-header"><h2 class="grade-label">2nd year</h2></div>
+
             <section class="event">
-                <div class="event-title-box"><h3>修学旅行</h3></div>
-                <div class="photo-grid">
+                <h3 class="event-name">修学旅行</h3>
+                <div class="photo-structure">
                     <div class="img-wrapper left"><img src="2-4-1.jpg.JPG"></div>
                     <div class="img-wrapper right"><img src="2-4-2.jpg.JPEG"></div>
                     <div class="img-wrapper center"><img src="2-4-3.jpg.JPEG"></div>
                 </div>
             </section>
+
             <section class="event">
-                <div class="event-title-box"><h3>体育祭</h3></div>
-                <div class="photo-grid">
+                <h3 class="event-name">体育祭</h3>
+                <div class="photo-structure">
                     <div class="img-wrapper right"><img src="2-5-1.jpg.jpg"></div>
                     <div class="img-wrapper left"><img src="2-5-2.jpg.jpg"></div>
                 </div>
             </section>
+
             <section class="event">
-                <div class="event-title-box"><h3>文化祭</h3></div>
-                <div class="photo-grid">
+                <h3 class="event-name">文化祭</h3>
+                <div class="photo-structure">
                     <div class="img-wrapper center"><img src="2-6-1.jpg.JPG"></div>
                 </div>
             </section>
         </div>
 
         <div class="grade-section">
-            <div class="grade-header"><div class="grade-label">3rd year</div></div>
+            <div class="grade-header"><h2 class="grade-label">3rd year</h2></div>
+
             <section class="event">
-                <div class="event-title-box"><h3>球技大会</h3></div>
-                <div class="photo-grid">
+                <h3 class="event-name">球技大会</h3>
+                <div class="photo-structure">
                     <div class="img-wrapper left"><img src="3-7-1.jpg.JPG"></div>
                     <div class="img-wrapper right"><img src="3-7-2.jpg.JPG"></div>
                     <div class="img-wrapper center"><img src="3-7-3.jpg.JPG"></div>
                 </div>
             </section>
+
             <section class="event">
-                <div class="event-title-box"><h3>校外学習</h3></div>
-                <div class="photo-grid">
+                <h3 class="event-name">校外学習</h3>
+                <div class="photo-structure">
                     <div class="img-wrapper left"><img src="3-8-1.jpg.JPG"></div>
                     <div class="img-wrapper right"><img src="3-8-2.jpg.JPG"></div>
                 </div>
             </section>
+
             <section class="event">
-                <div class="event-title-box"><h3>体育祭</h3></div>
-                <div class="photo-grid">
+                <h3 class="event-name">体育祭</h3>
+                <div class="photo-structure">
                     <div class="img-wrapper right"><img src="3-9-1.jpg.JPG"></div>
                     <div class="img-wrapper left"><img src="3-9-2.jpg.JPG"></div>
                     <div class="img-wrapper right"><img src="3-9-3.jpg.JPG"></div>
                     <div class="img-wrapper left"><img src="3-9-4.jpg.JPG"></div>
                 </div>
             </section>
+
             <section class="event">
-                <div class="event-title-box"><h3>文化祭</h3></div>
-                <div class="photo-grid">
+                <h3 class="event-name">文化祭</h3>
+                <div class="photo-structure">
                     <div class="img-wrapper left"><img src="3-10-1.jpg.JPG"></div>
                     <div class="img-wrapper right"><img src="3-10-2.jpg.JPG"></div>
                     <div class="img-wrapper left"><img src="3-10-3.jpg.JPG"></div>
@@ -256,67 +147,10 @@
     </main>
 
     <footer>
-        <p class="italic">Thank you for 3 wonderful years.</p>
-        <p>© 2026 情報工学科</p>
+        <p class="final-message">Thank you for 3 wonderful years.</p>
+        <p class="copyright">© 2026 情報工学科</p>
     </footer>
 
-    <script>
-        /* --- [JS] 既存スタート制御 ＋ 写真浮上アクション --- */
-        document.addEventListener('DOMContentLoaded', () => {
-            const loader = document.getElementById('loader');
-            const startBtn = document.getElementById('start-btn');
-            const bgm = document.getElementById('bgm');
-            
-            // 1. スタート制御
-            if (startBtn) {
-                startBtn.onclick = () => {
-                    loader.classList.add('is-fadeout');
-                    document.body.classList.add('is-started');
-                    if (bgm) {
-                        bgm.volume = 0;
-                        bgm.play().then(() => {
-                            let vol = 0;
-                            const fade = setInterval(() => {
-                                if (vol < 0.3) { vol += 0.05; bgm.volume = Math.min(vol, 0.3); } 
-                                else { clearInterval(fade); }
-                            }, 200);
-                        }).catch(() => {});
-                    }
-                    // Intersection Observerの起動
-                    initScrollObserver();
-                };
-            }
-
-            // 2. Intersection Observer (浮き上がる演出)
-            function initScrollObserver() {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('is-visible');
-                        }
-                    });
-                }, { threshold: 0.1 });
-
-                document.querySelectorAll('.img-wrapper').forEach(img => {
-                    observer.observe(img);
-                });
-            }
-        });
-
-        /* --- [JS] 独立任務：画像リソース完全利用スクリプト --- */
-        (function() {
-            'use strict';
-            const initializeImageResources = () => {
-                const allImgs = document.querySelectorAll('img');
-                allImgs.forEach(img => {
-                    if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
-                    img.onerror = function() { this.parentNode.style.display = 'none'; };
-                    if (img.complete) { img.classList.add('is-loaded'); } 
-                    else { img.onload = () => img.classList.add('is-loaded'); }
-                });
-            };
-            initializeImageResources();
-        })();
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
