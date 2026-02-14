@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;900&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CSS直接記述：最新の修正を確実に反映 --- */
+        /* --- キャッシュに左右されないインラインCSS --- */
         * { 
             margin: 0; padding: 0; box-sizing: border-box; 
             -webkit-text-size-adjust: 100%;
@@ -28,7 +28,7 @@
             color: #2c2c2c; 
             font-family: var(--main-font); 
             background: var(--bg-color);
-            overflow: hidden; /* ローダー中はスクロール禁止 */
+            overflow: hidden;
         }
 
         #loader {
@@ -46,19 +46,19 @@
             z-index: 1; pointer-events: none;
         }
 
-        /* --- 配置の微調整 --- */
+        /* --- 配置の最終調整（より外側へ） --- */
         .layer-group { 
             position: absolute; width: 100%; height: 15vh; 
         }
 
-        /* 上部の位置 */
+        /* 上部をさらに上へ */
         .top-area { 
-            top: 5vh; 
+            top: 3vh; 
         }
 
-        /* 下部の位置：上にズレるのを防ぐため、より外側(下)へ数値を下げました */
+        /* 下部をさらに下（限界付近）へ */
         .bottom-area { 
-            bottom: 3vh; /* 8vhから3vhに変更し、iPhoneのメニューバー付近まで下げました */
+            bottom: 0.5vh; 
         }
 
         .moving-text {
@@ -72,7 +72,7 @@
             letter-spacing: -0.02em;
         }
 
-        /* --- アニメーション --- */
+        /* --- アニメーション：方向の分離 --- */
         @keyframes scrollLeft {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -83,28 +83,29 @@
             100% { transform: translateX(0); }
         }
 
-        /* 上部：左へ流れる */
+        /* 上部：左へ移動 */
         .top-area .speed-fast { animation: scrollLeft 180s linear infinite; opacity: 0.4; }
         .top-area .speed-mid  { animation: scrollLeft 240s linear infinite; opacity: 0.25; filter: blur(2px); }
         .top-area .speed-slow { animation: scrollLeft 360s linear infinite; opacity: 0.15; filter: blur(4px); }
 
-        /* 下部：右へ流れる */
+        /* 下部：右へ移動 */
         .bottom-area .speed-fast { animation: scrollRight 180s linear infinite; opacity: 0.4; }
         .bottom-area .speed-mid  { animation: scrollRight 240s linear infinite; opacity: 0.25; filter: blur(2px); }
         .bottom-area .speed-slow { animation: scrollRight 360s linear infinite; opacity: 0.15; filter: blur(4px); }
 
-        /* 中央コンテンツ */
+        /* 中央の文字・ボタン */
         .loader-content { position: relative; z-index: 10; text-align: center; }
         .txt-nara, .txt-tech { font-size: 2.2rem; color: var(--accent-color); font-weight: 500; margin: 0.5rem 0; }
         .ampersand { font-size: 1.8rem; color: var(--accent-color); }
         .warning-txt { font-size: 0.8rem; color: #aaa; margin: 1.5rem 0; }
+        
         #start-btn {
             background: transparent; border: 1px solid var(--accent-color);
             color: var(--accent-color); padding: 15px 60px; 
             font-size: 0.7rem; letter-spacing: 0.4em; cursor: pointer;
         }
 
-        /* 本編用スタイル */
+        /* 本編 */
         .hero { opacity: 0; transition: opacity 2s; text-align: center; padding-top: 40vh; }
         body.is-started .hero { opacity: 1; }
         body.is-started { overflow: visible; }
