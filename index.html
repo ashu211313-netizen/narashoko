@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
         /* --- [CSS] 既存デザイン・レイアウト --- */
@@ -120,9 +121,16 @@
         footer { opacity: 0; transition: opacity 2s; text-align: center; padding: 50px 0; border-top: 1px solid #eee; margin-top: 50px; }
         .italic { font-style: italic !important; margin-bottom: 10px; color: var(--accent-color); }
 
-        /* === iOS安定表示用フォント上書き（スタート画面中央のみ） === */
+        /* === スタート画面中央フォント変更（Playfair Display） === */
         .txt-nara, .txt-tech, .ampersand {
-            font-family: "Georgia", "Times New Roman", serif;
+            font-family: "Playfair Display", serif;
+            font-weight: 300;
+        }
+        .txt-nara, .txt-tech {
+            letter-spacing: 0.15em;
+        }
+        .ampersand {
+            font-weight: 400;
         }
     </style>
 </head>
@@ -182,7 +190,7 @@
                 <div class="event-title-box"><h3>文化祭</h3></div>
                 <div class="photo-grid">
                     <div class="img-wrapper"><img src="1-3-1.jpg.JPG"></div>
-                    <div class="img-wrapper"><img src="1年文化祭.jpg"></div>
+                    <div class="img-文化祭"><img src="1年文化祭.jpg"></div>
                 </div>
             </section>
         </div>
