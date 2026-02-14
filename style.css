@@ -1,91 +1,203 @@
-/* 基本設定 */
-* { 
-    margin: 0; padding: 0; box-sizing: border-box; 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     -webkit-text-size-adjust: 100%;
-    font-style: normal !important;
 }
 
 :root {
     --bg-color: #fdfdfd;
-    --accent-color: #8c7b65; 
-    --main-font: 'Noto Serif JP', serif;
+    --accent-color: #8c7b65;
+    --jp-font: 'Noto Serif JP', serif;
+    --en-font: 'Playfair Display', serif;
 }
 
-body { 
-    color: #2c2c2c; 
-    font-family: var(--main-font); 
-    background: var(--bg-color);
-    overflow: hidden; /* ローダー中はスクロール禁止 */
+body {
+    background: linear-gradient(-45deg, #fdfdfd, #f9f7f5, #f5f5f5, #fdfdfd);
+    background-size: 400% 400%;
+    color: #2c2c2c;
+    font-family: var(--jp-font);
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
+body.is-started {
+    overflow-y: auto;
+    animation: breathing 15s ease infinite;
+}
+
+@keyframes breathing {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- Loader & Start Screen --- */
 #loader {
-    position: fixed; top: 0; left: 0; 
-    width: 100%; height: 100dvh;
-    background-color: var(--bg-color);
-    z-index: 9999; 
-    display: flex; align-items: center; justify-content: center;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1.2s ease;
 }
 
-.loader-bg-container { 
-    position: absolute; top: 0; left: 0; 
-    width: 100%; height: 100%; 
+#loader.is-fadeout { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.loader-bg-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
     z-index: 1;
 }
 
-/* --- 上下均等配置のコア設定 --- */
-.layer-group { 
-    position: absolute; 
-    width: 100%; 
-    height: 15vh; /* 背景文字の高さ範囲を制限 */
-}
-
-.top-area { 
-    top: 7vh; /* 上から7% */
-}
-
-.bottom-area { 
-    bottom: 7vh; /* 下から7% */
-}
+.layer-group { position: absolute; width: 100%; height: 15vh; }
+.top-area { top: 2vh; }
+.bottom-area { bottom: -2vh; }
 
 .moving-text {
     position: absolute;
     white-space: nowrap;
     font-weight: 900;
-    font-size: 14vw; 
+    font-size: 14vw;
     text-transform: uppercase;
-    color: #e0e0e0; 
+    color: #e0e0e0;
     line-height: 1;
+    letter-spacing: -0.02em;
 }
 
-/* --- アニメーション --- */
-@keyframes scrollLeft {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
+@keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
 
-@keyframes scrollRight {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
-}
-
-/* 上部：左移動 */
 .top-area .speed-fast { animation: scrollLeft 180s linear infinite; opacity: 0.4; }
 .top-area .speed-mid  { animation: scrollLeft 240s linear infinite; opacity: 0.25; filter: blur(2px); }
 .top-area .speed-slow { animation: scrollLeft 360s linear infinite; opacity: 0.15; filter: blur(4px); }
+.bottom-area .speed-fast { animation: scrollRight 180s linear infinite; opacity: 0.4; }
+.bottom-area .speed-mid  { animation: scrollRight 240s linear infinite; opacity: 0.25; filter: blur(2px); }
+.bottom-area .speed-slow { animation: scrollRight 360s linear infinite; opacity: 0.15; filter: blur(4px); }
 
-/* 下部：右移動 */
-.bottom-area .rev.speed-fast { animation: scrollRight 180s linear infinite; opacity: 0.4; }
-.bottom-area .rev.speed-mid  { animation: scrollRight 240s linear infinite; opacity: 0.25; filter: blur(2px); }
-.bottom-area .rev.speed-slow { animation: scrollRight 360s linear infinite; opacity: 0.15; filter: blur(4px); }
-
-/* --- 中央コンテンツ --- */
 .loader-content { position: relative; z-index: 10; text-align: center; }
-.txt-nara, .txt-tech { font-size: 2.2rem; color: var(--accent-color); font-weight: 500; }
-.ampersand { font-size: 1.8rem; color: var(--accent-color); margin: 5px 0; }
-.warning-txt { font-size: 0.8rem; color: #aaa; margin: 2rem 0; }
+
+.txt-nara, .txt-tech, .ampersand {
+    font-family: var(--en-font);
+    font-weight: 300;
+    color: var(--accent-color);
+}
+
+.txt-nara, .txt-tech { font-size: 2.2rem; letter-spacing: 0.15em; margin: 0.5rem 0; }
+.ampersand { font-size: 1.8rem; font-weight: 400; }
+.warning-txt { font-size: 0.7rem; color: #aaa; margin: 1.5rem 0; letter-spacing: 0.05em; }
 
 #start-btn {
-    background: transparent; border: 1px solid var(--accent-color);
-    color: var(--accent-color); padding: 15px 60px; 
-    font-size: 0.7rem; letter-spacing: 0.4em; cursor: pointer;
+    font-family: var(--en-font);
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 15px 60px;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    cursor: pointer;
+    transition: all 0.5s;
 }
+
+/* --- Main Typography --- */
+header.hero {
+    opacity: 0;
+    transition: opacity 2s;
+    text-align: center;
+    padding: 25vh 0 15vh;
+}
+
+body.is-started header.hero, 
+body.is-started main, 
+body.is-started footer { opacity: 1; }
+
+header h1 {
+    font-size: clamp(1.8rem, 5vw, 2.2rem);
+    font-weight: 900;
+    color: var(--accent-color);
+}
+
+.trajectory-title {
+    font-family: var(--en-font);
+    margin-top: 15px;
+    letter-spacing: 0.3em;
+    font-size: 0.9rem;
+}
+
+.grade-label {
+    font-family: var(--en-font);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(2.8rem, 10vw, 5rem);
+    color: var(--accent-color);
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.event-name {
+    font-size: clamp(1rem, 3vw, 1.1rem);
+    color: #555;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 0.15em;
+}
+
+/* --- Fixed Photo Structure --- */
+.photo-structure {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.img-wrapper {
+    position: relative;
+    background: #fff;
+    padding: 12px 12px 40px 12px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+    width: 88%;
+    max-width: 520px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), 
+                transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.img-wrapper.is-visible {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--rot));
+}
+
+.img-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: sepia(5%) contrast(102%);
+}
+
+/* Position Fixed Rules */
+.left { align-self: flex-start; --rot: -1.2deg; }
+.right { align-self: flex-end; --rot: 1.5deg; }
+.center { align-self: center; --rot: 0.5deg; }
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 120px 0 60px;
+    margin-top: 100px;
+}
+
+.final-message {
+    font-family: var(--en-font);
+    font-style: italic;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.copyright { font-size: 0.7rem; color: #aaa; }
