@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;900&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CSSをここに直接書くことでキャッシュを無効化します --- */
+        /* --- CSS直接記述：最新の修正を確実に反映 --- */
         * { 
             margin: 0; padding: 0; box-sizing: border-box; 
             -webkit-text-size-adjust: 100%;
@@ -28,10 +28,9 @@
             color: #2c2c2c; 
             font-family: var(--main-font); 
             background: var(--bg-color);
-            overflow: hidden;
+            overflow: hidden; /* ローダー中はスクロール禁止 */
         }
 
-        /* ローダー外枠 */
         #loader {
             position: fixed; top: 0; left: 0; 
             width: 100%; height: 100dvh;
@@ -47,15 +46,19 @@
             z-index: 1; pointer-events: none;
         }
 
-        /* --- 上下均等の配置設定 --- */
+        /* --- 配置の微調整 --- */
         .layer-group { 
             position: absolute; width: 100%; height: 15vh; 
         }
+
+        /* 上部の位置 */
         .top-area { 
-            top: 8vh; /* 上から8% */
+            top: 5vh; 
         }
+
+        /* 下部の位置：上にズレるのを防ぐため、より外側(下)へ数値を下げました */
         .bottom-area { 
-            bottom: 8vh; /* 下から8% */
+            bottom: 3vh; /* 8vhから3vhに変更し、iPhoneのメニューバー付近まで下げました */
         }
 
         .moving-text {
@@ -69,7 +72,7 @@
             letter-spacing: -0.02em;
         }
 
-        /* --- アニメーション：上下で方向を変える --- */
+        /* --- アニメーション --- */
         @keyframes scrollLeft {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -80,28 +83,28 @@
             100% { transform: translateX(0); }
         }
 
-        /* 上部：左へ流れる「ぼやーん」 */
+        /* 上部：左へ流れる */
         .top-area .speed-fast { animation: scrollLeft 180s linear infinite; opacity: 0.4; }
         .top-area .speed-mid  { animation: scrollLeft 240s linear infinite; opacity: 0.25; filter: blur(2px); }
         .top-area .speed-slow { animation: scrollLeft 360s linear infinite; opacity: 0.15; filter: blur(4px); }
 
-        /* 下部：右へ流れる「ぼやーん」 */
+        /* 下部：右へ流れる */
         .bottom-area .speed-fast { animation: scrollRight 180s linear infinite; opacity: 0.4; }
         .bottom-area .speed-mid  { animation: scrollRight 240s linear infinite; opacity: 0.25; filter: blur(2px); }
         .bottom-area .speed-slow { animation: scrollRight 360s linear infinite; opacity: 0.15; filter: blur(4px); }
 
-        /* 中央の文字・ボタン */
+        /* 中央コンテンツ */
         .loader-content { position: relative; z-index: 10; text-align: center; }
         .txt-nara, .txt-tech { font-size: 2.2rem; color: var(--accent-color); font-weight: 500; margin: 0.5rem 0; }
         .ampersand { font-size: 1.8rem; color: var(--accent-color); }
-        .warning-txt { font-size: 0.8rem; color: #aaa; margin: 2rem 0; }
+        .warning-txt { font-size: 0.8rem; color: #aaa; margin: 1.5rem 0; }
         #start-btn {
             background: transparent; border: 1px solid var(--accent-color);
             color: var(--accent-color); padding: 15px 60px; 
             font-size: 0.7rem; letter-spacing: 0.4em; cursor: pointer;
         }
 
-        /* 本編 */
+        /* 本編用スタイル */
         .hero { opacity: 0; transition: opacity 2s; text-align: center; padding-top: 40vh; }
         body.is-started .hero { opacity: 1; }
         body.is-started { overflow: visible; }
