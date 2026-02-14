@@ -1,28 +1,4 @@
-/* --- アニメーション設定 --- */
-
-/* 上部用：左へ流れる (これまでの完璧な動き) */
-@keyframes scrollRight {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-50%); }
-}
-
-/* 下部用：右へ流れる (新しく追加) */
-@keyframes scrollLeft {
-    0% { transform: translateX(-50%); } /* ループを滑らかにするため-50%から開始 */
-    100% { transform: translateX(0%); }
-}
-
-/* 上部の設定 */
-.top-area .speed-fast { animation: scrollRight 180s linear infinite; opacity: 0.4; }
-.top-area .speed-mid  { animation: scrollRight 240s linear infinite; opacity: 0.25; filter: blur(2px); }
-.top-area .speed-slow { animation: scrollRight 360s linear infinite; opacity: 0.15; filter: blur(4px); }
-
-/* 下部の設定 (右方向へ) */
-.bottom-area .speed-fast { animation: scrollLeft 180s linear infinite; opacity: 0.4; }
-.bottom-area .speed-mid  { animation: scrollLeft 240s linear infinite; opacity: 0.25; filter: blur(2px); }
-.bottom-area .speed-slow { animation: scrollLeft 360s linear infinite; opacity: 0.15; filter: blur(4px); }
-
-/* --- 共通スタイル (変更なし) --- */
+/* リセットと基本設定 */
 * { 
     margin: 0; padding: 0; box-sizing: border-box; 
     -webkit-text-size-adjust: 100%;
@@ -38,23 +14,31 @@
 body { 
     color: #2c2c2c; 
     font-family: var(--main-font); 
-    overflow-x: hidden; 
     background: var(--bg-color);
+    overflow-x: hidden;
 }
 
+/* --- ローダー外枠 --- */
 #loader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+    position: fixed; top: 0; left: 0; 
+    width: 100%; height: 100dvh;
     background-color: var(--bg-color);
+    z-index: 9999; 
     display: flex; align-items: center; justify-content: center;
-    z-index: 9999; transition: opacity 1.2s ease;
+    transition: opacity 1.2s ease;
 }
+#loader.is-fadeout { opacity: 0; visibility: hidden; pointer-events: none; }
 
+/* 背景コンテナ */
 .loader-bg-container { 
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-    overflow: hidden; pointer-events: none;
+    position: absolute; top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    z-index: 1;
 }
 
-.layer-group { position: absolute; width: 100%; height: 20vh; }
+.layer-group { 
+    position: absolute; width: 100%; height: 20vh; 
+}
 .top-area { top: 2vh; }
 .bottom-area { bottom: 2vh; }
 
@@ -65,13 +49,41 @@ body {
     font-size: 14vw; 
     text-transform: uppercase;
     color: #e0e0e0; 
-    left: 0;
     line-height: 1;
 }
 
-.loader-content { position: relative; z-index: 10; text-align: center; }
-.txt-nara, .txt-tech { font-size: 2.2rem; letter-spacing: 0.1em; color: var(--accent-color); font-weight: 500; }
-.ampersand { font-size: 1.8rem; color: var(--accent-color); margin: 5px 0; }
+/* --- アニメーション --- */
+
+/* 左へスライド (上部) */
+@keyframes scrollLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* 右へスライド (下部) */
+@keyframes scrollRight {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+}
+
+/* 上部の設定 */
+.top-area .speed-fast { animation: scrollLeft 180s linear infinite; opacity: 0.4; }
+.top-area .speed-mid  { animation: scrollLeft 240s linear infinite; opacity: 0.25; filter: blur(2px); }
+.top-area .speed-slow { animation: scrollLeft 360s linear infinite; opacity: 0.15; filter: blur(4px); }
+
+/* 下部の設定 (revがついているもの) */
+.bottom-area .rev.speed-fast { animation: scrollRight 180s linear infinite; opacity: 0.4; }
+.bottom-area .rev.speed-mid  { animation: scrollRight 240s linear infinite; opacity: 0.25; filter: blur(2px); }
+.bottom-area .rev.speed-slow { animation: scrollRight 360s linear infinite; opacity: 0.15; filter: blur(4px); }
+
+/* --- 中央コンテンツ --- */
+.loader-content { 
+    position: relative; z-index: 10; 
+    text-align: center;
+}
+
+.txt-nara, .txt-tech { font-size: 2.2rem; color: var(--accent-color); font-weight: 500; margin: 0.5rem 0; }
+.ampersand { font-size: 1.8rem; color: var(--accent-color); }
 .warning-txt { font-size: 0.8rem; color: #aaa; margin: 2rem 0; }
 
 #start-btn {
@@ -79,3 +91,7 @@ body {
     color: var(--accent-color); padding: 15px 60px; 
     font-size: 0.7rem; letter-spacing: 0.4em; cursor: pointer;
 }
+
+/* 本編 */
+.hero { opacity: 0; transition: opacity 2s; }
+body.is-started .hero { opacity: 1; }
