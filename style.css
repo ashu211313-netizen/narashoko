@@ -1,8 +1,8 @@
-/* リセットと基本設定 */
+/* --- iPhone・基本設定 --- */
 * { 
     margin: 0; padding: 0; box-sizing: border-box; 
     -webkit-text-size-adjust: 100%;
-    font-style: normal !important;
+    font-style: normal !important; /* 斜体を完全に排除 */
 }
 
 :root {
@@ -14,33 +14,34 @@
 body { 
     color: #2c2c2c; 
     font-family: var(--main-font); 
+    overflow-x: hidden; 
     background: var(--bg-color);
-    overflow-x: hidden;
 }
 
-/* --- ローダー外枠 --- */
+/* --- ローダー画面 --- */
 #loader {
-    position: fixed; top: 0; left: 0; 
-    width: 100%; height: 100dvh;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
     background-color: var(--bg-color);
-    z-index: 9999; 
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 1.2s ease;
+    z-index: 9999; transition: opacity 1.2s ease;
 }
 #loader.is-fadeout { opacity: 0; visibility: hidden; pointer-events: none; }
 
-/* 背景コンテナ */
 .loader-bg-container { 
-    position: absolute; top: 0; left: 0; 
-    width: 100%; height: 100%; 
-    z-index: 1;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+    overflow: hidden; pointer-events: none;
 }
 
+/* --- 背景レイヤー配置（上下均等） --- */
 .layer-group { 
-    position: absolute; width: 100%; height: 20vh; 
+    position: absolute; width: 100%; height: 15vh; /* 被らないよう高さを最適化 */
 }
-.top-area { top: 2vh; }
-.bottom-area { bottom: -5vh; }
+.top-area { 
+    top: 6vh; /* 上から6%の位置 */
+}
+.bottom-area { 
+    bottom: 6vh; /* 下から6%の位置 */
+}
 
 .moving-text {
     position: absolute;
@@ -52,37 +53,33 @@ body {
     line-height: 1;
 }
 
-/* --- アニメーション --- */
+/* --- アニメーション設定 --- */
 
-/* 左へスライド (上部) */
+/* 左へ移動 (上部) */
 @keyframes scrollLeft {
-    0% { transform: translateX(0); }
+    0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
 }
 
-/* 右へスライド (下部) */
+/* 右へ移動 (下部) */
 @keyframes scrollRight {
     0% { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
+    100% { transform: translateX(0%); }
 }
 
-/* 上部の設定 */
+/* 上部の「ぼやーん」設定 */
 .top-area .speed-fast { animation: scrollLeft 180s linear infinite; opacity: 0.4; }
 .top-area .speed-mid  { animation: scrollLeft 240s linear infinite; opacity: 0.25; filter: blur(2px); }
 .top-area .speed-slow { animation: scrollLeft 360s linear infinite; opacity: 0.15; filter: blur(4px); }
 
-/* 下部の設定 (revがついているもの) */
+/* 下部の「ぼやーん」設定 (逆方向) */
 .bottom-area .rev.speed-fast { animation: scrollRight 180s linear infinite; opacity: 0.4; }
 .bottom-area .rev.speed-mid  { animation: scrollRight 240s linear infinite; opacity: 0.25; filter: blur(2px); }
 .bottom-area .rev.speed-slow { animation: scrollRight 360s linear infinite; opacity: 0.15; filter: blur(4px); }
 
-/* --- 中央コンテンツ --- */
-.loader-content { 
-    position: relative; z-index: 10; 
-    text-align: center;
-}
-
-.txt-nara, .txt-tech { font-size: 2.2rem; color: var(--accent-color); font-weight: 500; margin: 0.5rem 0; }
+/* --- 中央の文章 --- */
+.loader-content { position: relative; z-index: 10; text-align: center; }
+.txt-nara, .txt-tech { font-size: 2.2rem; letter-spacing: 0.1em; color: var(--accent-color); font-weight: 500; margin: 0.5rem 0; }
 .ampersand { font-size: 1.8rem; color: var(--accent-color); }
 .warning-txt { font-size: 0.8rem; color: #aaa; margin: 2rem 0; }
 
@@ -92,6 +89,6 @@ body {
     font-size: 0.7rem; letter-spacing: 0.4em; cursor: pointer;
 }
 
-/* 本編 */
-.hero { opacity: 0; transition: opacity 2s; }
+/* --- 本編演出 --- */
+.hero { opacity: 0; transition: opacity 2s ease; }
 body.is-started .hero { opacity: 1; }
