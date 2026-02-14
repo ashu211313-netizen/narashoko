@@ -84,20 +84,17 @@
         .bottom-area .speed-mid  { animation: scrollRight 240s linear infinite; opacity: 0.25; filter: blur(2px); }
         .bottom-area .speed-slow { animation: scrollRight 360s linear infinite; opacity: 0.15; filter: blur(4px); }
 
-        /* 中央コンテンツ：フォント指定の明示的復元 */
+        /* 中央コンテンツ */
         .loader-content { position: relative; z-index: 10; text-align: center; }
         .txt-nara, .txt-tech { 
-            font-family: 'Noto Serif JP', serif; 
             font-size: 2.2rem; color: var(--accent-color); font-weight: 500; margin: 0.5rem 0; 
         }
         .ampersand { 
-            font-family: 'Noto Serif JP', serif; 
             font-size: 1.8rem; color: var(--accent-color); 
         }
         .warning-txt { font-size: 0.8rem; color: #aaa; margin: 1.5rem 0; }
         
         #start-btn {
-            font-family: 'Noto Serif JP', serif;
             background: transparent; border: 1px solid var(--accent-color);
             color: var(--accent-color); padding: 15px 60px; 
             font-size: 0.7rem; letter-spacing: 0.4em; cursor: pointer;
@@ -122,6 +119,11 @@
 
         footer { opacity: 0; transition: opacity 2s; text-align: center; padding: 50px 0; border-top: 1px solid #eee; margin-top: 50px; }
         .italic { font-style: italic !important; margin-bottom: 10px; color: var(--accent-color); }
+
+        /* === iOS安定表示用フォント上書き（スタート画面中央のみ） === */
+        .txt-nara, .txt-tech, .ampersand {
+            font-family: "Georgia", "Times New Roman", serif;
+        }
     </style>
 </head>
 <body>
