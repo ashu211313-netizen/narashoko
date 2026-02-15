@@ -37,18 +37,19 @@
             background: linear-gradient(-45deg, #fdfdfd, #f5f5f5, #efefef, #fdfdfd);
             background-size: 400% 400%;
             overflow-x: hidden;
-            overflow-y: hidden;
+            overflow-y: hidden; /* 初期状態はスクロール禁止 */
         }
         body.is-started { 
             animation: breathingBg 15s ease infinite;
         }
 
-        /* --- [CSS] ローダー & 加速演出 --- */
+        /* --- [CSS] 改良版ローダー演出 --- */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
             background-color: var(--bg-color); z-index: 9999; 
             display: flex; align-items: center; justify-content: center;
-            transition: opacity 1.2s ease, filter 0.6s ease, transform 0.6s ease;
+            /* 演出のためのトランジション */
+            transition: opacity 1.6s ease, filter 0.8s ease, transform 0.8s ease;
         }
         
         #loader.is-accelerating {
@@ -56,7 +57,10 @@
             transform: scale(1.02);
         }
 
-        #loader.is-fadeout { opacity: 0; visibility: hidden; pointer-events: none; }
+        #loader.is-fadeout {
+            opacity: 0;
+            pointer-events: none;
+        }
 
         .loader-bg-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
         .layer-group { position: absolute; width: 100%; height: 15vh; }
@@ -65,12 +69,13 @@
         .moving-text {
             position: absolute; white-space: nowrap; font-weight: 900; font-size: 14vw; 
             text-transform: uppercase; color: #e0e0e0; line-height: 1; letter-spacing: -0.02em;
-            transition: animation-duration 0.6s ease;
+            transition: animation-duration 0.8s ease;
         }
+        
         @keyframes scrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         @keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
         
-        /* 通常速度 */
+        /* 通常速度（既存維持） */
         .speed-fast { animation: scrollLeft 180s linear infinite; opacity: 0.4; }
         .speed-mid  { animation: scrollLeft 240s linear infinite; opacity: 0.25; filter: blur(2px); }
         .speed-slow { animation: scrollLeft 360s linear infinite; opacity: 0.15; filter: blur(4px); }
@@ -78,7 +83,7 @@
         .bottom-area .speed-mid  { animation: scrollRight 240s linear infinite; }
         .bottom-area .speed-slow { animation: scrollRight 360s linear infinite; }
 
-        /* 加速状態 */
+        /* 加速状態（厳命仕様） */
         #loader.is-accelerating .speed-fast { animation-duration: 10s !important; }
         #loader.is-accelerating .speed-mid  { animation-duration: 14s !important; }
         #loader.is-accelerating .speed-slow { animation-duration: 20s !important; }
@@ -94,24 +99,22 @@
         .txt-nara, .txt-tech { font-size: 2.2rem; color: var(--accent-color); letter-spacing: 0.15em; margin: 0.5rem 0; }
         .ampersand { font-size: 1.8rem; color: var(--accent-color); font-weight: 400; }
 
-        /* --- [CSS] ヒーロー演出 & コンテンツ表示 --- */
-        header.hero, main, footer {
+        /* --- [CSS] 写真画面フェードイン（層の入れ替え演出） --- */
+        header.hero, 
+        main, 
+        footer {
             opacity: 0;
+            transform: translateY(12px);
+            transition: 
+                opacity 2.0s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 2.0s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        body.is-started header.hero {
-            opacity: 1;
-            transition: opacity 1.5s ease;
-        }
-
-        body.is-started main {
-            opacity: 1;
-            transition: opacity 2.0s ease 0.5s;
-        }
-
+        body.is-started header.hero,
+        body.is-started main,
         body.is-started footer {
             opacity: 1;
-            transition: opacity 2.0s ease 1.0s;
+            transform: translateY(0);
         }
 
         header.hero {
@@ -125,7 +128,7 @@
 
         main { width: 95%; max-width: 1200px; margin: 0 auto; }
         
-        /* --- [CSS] 余白・レイアウト --- */
+        /* --- [CSS] レイアウト・写真構造 --- */
         .grade-section { margin-bottom: 180px; }
         .grade-header { margin-bottom: 60px; text-align: center; }
         .grade-label { 
@@ -302,10 +305,10 @@
             
             if (startBtn) {
                 startBtn.onclick = () => {
-                    // Phase 1 & 2: 加速開始
+                    // Phase 1: 加速開始 (0.0s)
                     loader.classList.add('is-accelerating');
 
-                    // BGMフェードイン (150ms間隔 / 0.02上昇 / Max 0.3)
+                    // BGMフェードイン (既存仕様維持)
                     if (bgm) {
                         bgm.volume = 0;
                         bgm.play().then(() => {
@@ -321,21 +324,22 @@
                         }).catch(() => {});
                     }
 
-                    // Phase 3 & 4: 0.8s後にフェードアウトと開始
+                    // Phase 2 & 3: 3.2秒後に消失開始 ＋ 層の入れ替え開始
                     setTimeout(() => {
                         loader.classList.add('is-fadeout');
                         document.body.classList.add('is-started');
                         
+                        // スクロール解放のタイミング
                         setTimeout(() => {
                             document.body.style.overflowY = 'auto';
-                        }, 500);
-                    }, 800);
+                        }, 800);
+                    }, 3200);
 
-                    // Phase 5: 2.0s後にDOMから除外
+                    // Phase 4: 4.8秒後にDOMから完全除外
                     setTimeout(() => {
                         loader.style.display = 'none';
                         initScrollObserver();
-                    }, 2000);
+                    }, 4800);
                 };
             }
 
