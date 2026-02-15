@@ -80,7 +80,6 @@
         .txt-nara, .txt-tech { font-size: 2.2rem; color: var(--accent-color); letter-spacing: 0.15em; margin: 0.5rem 0; }
         .ampersand { font-size: 1.8rem; color: var(--accent-color); font-weight: 400; }
 
-        /* --- [CSS] ① ヒーローセクション修正（中央配置フェードイン） --- */
         header.hero {
             min-height: 100vh;
             display: flex;
@@ -98,7 +97,6 @@
         main { opacity: 0; transition: opacity 2s; width: 95%; max-width: 1200px; margin: 0 auto; }
         body.is-started main, body.is-started footer { opacity: 1; }
         
-        /* --- [CSS] ③ カテゴリ間隔修正 --- */
         .grade-section { margin-bottom: 180px; }
         .grade-header { margin-bottom: 60px; text-align: center; }
         .grade-label { 
@@ -112,12 +110,10 @@
             margin-bottom: 40px; color: #555; text-align: center; letter-spacing: 0.1em;
         }
 
-        /* --- [CSS] ② 写真間隔修正 --- */
         .photo-grid { 
             display: flex; flex-direction: column; gap: 80px; position: relative;
         }
 
-        /* --- [CSS] ④ 額縁padding修正 --- */
         .img-wrapper { 
             position: relative; background: #fff; padding: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15); width: 85%; max-width: 500px;
@@ -185,12 +181,16 @@
                 <div class="photo-grid">
                     <div class="img-wrapper right"><img src="1-2-1.jpg.JPG"></div>
                     <div class="img-wrapper left"><img src="1-2-2.jpg.JPG"></div>
+                    <div class="img-wrapper right"><img src="1-2-3.jpeg"></div>
+                    <div class="img-wrapper left"><img src="1-2-4.jpeg"></div>
                 </div>
             </section>
             <section class="event">
                 <div class="event-title-box"><h3>文化祭</h3></div>
                 <div class="photo-grid">
                     <div class="img-wrapper center"><img src="1-3-1.jpg.JPG"></div>
+                    <div class="img-wrapper right"><img src="1-3-2.jpg"></div>
+                    <div class="img-wrapper left"><img src="1-3-3.jpeg"></div>
                     <div class="img-wrapper right"><img src="1年文化祭.jpg"></div>
                 </div>
             </section>
@@ -255,19 +255,16 @@
                     <div class="img-wrapper left"><img src="3-10-3.jpg.JPG"></div>
                     <div class="img-wrapper right"><img src="3-10-4.jpg.JPG"></div>
                     <div class="img-wrapper center"><img src="3-10-5.jpg.JPG"></div>
-                    <div class="img-wrapper left"><img src="3-10-6.jpg.JPG"></div>
-                    <div class="img-wrapper right"><img src="3-10-7.jpg.JPG"></div>
-                </div>
+                    </div>
             </section>
         </div>
     </main>
 
     <footer>
         <p class="italic">Thank you for 3 wonderful years.</p>
-        </footer>
+    </footer>
 
     <script>
-        /* --- [JS] 既存スタート制御 ＋ 修正ロジック --- */
         document.addEventListener('DOMContentLoaded', () => {
             const loader = document.getElementById('loader');
             const startBtn = document.getElementById('start-btn');
@@ -275,15 +272,11 @@
             
             if (startBtn) {
                 startBtn.onclick = () => {
-                    // ① 画面遷移修正
                     loader.classList.add('is-fadeout');
                     document.body.classList.add('is-started');
-
-                    // 500ms後にスクロール解放
                     setTimeout(() => {
                         document.body.style.overflowY = 'auto';
                     }, 500);
-
                     if (bgm) {
                         bgm.volume = 0;
                         bgm.play().then(() => {
