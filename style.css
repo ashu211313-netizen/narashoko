@@ -32,7 +32,6 @@ body.is-started {
     100% { background-position: 0% 50%; }
 }
 
-/* --- Loader & Start Screen --- */
 #loader {
     position: fixed;
     inset: 0;
@@ -102,7 +101,6 @@ body.is-started {
     transition: all 0.5s;
 }
 
-/* --- Main Typography --- */
 header.hero {
     opacity: 0;
     transition: opacity 2s;
@@ -145,7 +143,6 @@ header h1 {
     letter-spacing: 0.15em;
 }
 
-/* --- Fixed Photo Structure --- */
 .photo-structure {
     display: flex;
     flex-direction: column;
@@ -185,7 +182,6 @@ header h1 {
 .right { align-self: flex-end; --rot: 1.5deg; }
 .center { align-self: center; --rot: 0.5deg; }
 
-/* --- Footer --- */
 footer {
     text-align: center;
     padding: 120px 0 60px;
