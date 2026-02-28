@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgm = document.getElementById('bgm');
     const body = document.body;
 
-    // 1. Start Control Logic
     if (startBtn) {
         startBtn.onclick = () => {
             loader.classList.add('is-fadeout');
@@ -25,8 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             initObserver();
         };
     }
-
-    // 2. Intersection Observer (The Memory Reveal)
     function initObserver() {
         const observerOptions = {
             threshold: 0.1,
@@ -37,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Once memory is revealed, stop observing it
                     observer.unobserve(entry.target);
                 }
             });
@@ -48,12 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Image Error Handling & Lazy Loading
     const allImages = document.querySelectorAll('img');
     allImages.forEach(img => {
         img.setAttribute('loading', 'lazy');
-        img.onerror = function() {
-            // If historical image is missing, hide the frame to prevent broken UI
+        img.onerror = function() {UI
             this.parentNode.style.display = 'none';
         };
     });
